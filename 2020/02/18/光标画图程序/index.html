@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写这个程序的缘由是现在疫情我们学生在家用在线办公软件上网络课，老师在投屏时学生可以在老师屏幕上“注释”（做记号，写字，画画等），这样可以很好的与老师互动。但是“注释”并不能显示图片，为了达成我的这个骚主意，在老师屏幕上画一个卢本伟，我面向百度编程写了这个Python程序。  视频水了两个视频：  当你在老师网络课的屏幕上画画  我竟然用windows自带画图工具画了一个炮姐！   以后决定干啥都水">
+<meta name="keywords" content="Python,视频,软件,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光标画图程序">
+<meta property="og:url" content="https://hk-shao.github.io/2020/02/18/光标画图程序/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="写这个程序的缘由是现在疫情我们学生在家用在线办公软件上网络课，老师在投屏时学生可以在老师屏幕上“注释”（做记号，写字，画画等），这样可以很好的与老师互动。但是“注释”并不能显示图片，为了达成我的这个骚主意，在老师屏幕上画一个卢本伟，我面向百度编程写了这个Python程序。  视频水了两个视频：  当你在老师网络课的屏幕上画画  我竟然用windows自带画图工具画了一个炮姐！   以后决定干啥都水">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/46.PNG">
+<meta property="og:updated_time" content="2020-02-18T11:41:49.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="光标画图程序">
+<meta name="twitter:description" content="写这个程序的缘由是现在疫情我们学生在家用在线办公软件上网络课，老师在投屏时学生可以在老师屏幕上“注释”（做记号，写字，画画等），这样可以很好的与老师互动。但是“注释”并不能显示图片，为了达成我的这个骚主意，在老师屏幕上画一个卢本伟，我面向百度编程写了这个Python程序。  视频水了两个视频：  当你在老师网络课的屏幕上画画  我竟然用windows自带画图工具画了一个炮姐！   以后决定干啥都水">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/blog/46.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2020/02/18/光标画图程序/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>光标画图程序 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2020/02/18/光标画图程序/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">光标画图程序
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-18 19:24:49 / 修改时间：19:41:49" itemprop="dateCreated datePublished" datetime="2020-02-18T19:24:49+08:00">2020-02-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写这个程序的缘由是现在疫情我们学生在家用在线办公软件上网络课，老师在投屏时学生可以在老师屏幕上“注释”（做记号，写字，画画等），这样可以很好的与老师互动。但是“注释”并不能显示图片，为了达成我的这个骚主意，在老师屏幕上画一个卢本伟，我面向百度编程写了这个Python程序。</p>
+<p><img src="/images/blog/46.PNG" alt=""></p>
+<h2 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h2><p>水了两个视频：</p>
+<ol>
+<li><p><a href="https://www.bilibili.com/video/av89876374/" target="_blank" rel="noopener">当你在老师网络课的屏幕上画画</a></p>
+</li>
+<li><p><a href="https://www.bilibili.com/video/av89927221/" target="_blank" rel="noopener">我竟然用windows自带画图工具画了一个炮姐！</a></p>
+</li>
+</ol>
+<p>以后决定干啥都水个视频</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>项目地址：<a href="https://github.com/HK-SHAO/cursor_painter" target="_blank" rel="noopener">https://github.com/HK-SHAO/cursor_painter</a></p>
+<p>其中dist文件夹有exe程序可以直接运行，不需要安装python等环境。</p>
+<p>其实代码很简单，这也多亏了python超简单的语法和强大的库（自从用了python以后编程能力节节败退，Lua，Java，C已经忘完了）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pynput.mouse <span class="keyword">import</span> Button, Controller</span><br><span class="line"><span class="keyword">from</span> pynput <span class="keyword">import</span> keyboard</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageFilter, ImageGrab</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">mouse = Controller()</span><br><span class="line">p = <span class="keyword">None</span></span><br><span class="line">img = <span class="keyword">None</span></span><br><span class="line">isB = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">click</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    mouse.position = (x, y)</span><br><span class="line">    mouse.click(Button.left, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw</span><span class="params">(s, pt = p, n = <span class="number">1</span>, m = <span class="string">'00'</span>, r = <span class="number">1</span>, t = <span class="number">220</span>, st = <span class="number">0.01</span>)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> img</span><br><span class="line">    img = Image.open(s)</span><br><span class="line">    img = img.resize((int(img.width*n), int(img.height*n)))</span><br><span class="line">    pt = p</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> m[<span class="number">0</span>] == <span class="string">'0'</span>:</span><br><span class="line">        img = img.filter(ImageFilter.SMOOTH).filter(ImageFilter.CONTOUR).convert(<span class="string">'L'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        img = img.convert(<span class="string">'L'</span>)</span><br><span class="line"></span><br><span class="line">    pixels = img.load()</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(img.width):</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> range(img.height):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> isB:</span><br><span class="line">                print(<span class="string">'已中止'</span>)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">            pix = pixels[x, y]</span><br><span class="line">            <span class="keyword">if</span> r*pix &lt; r*t:</span><br><span class="line">                <span class="keyword">if</span> m[<span class="number">1</span>] == <span class="string">'0'</span> <span class="keyword">or</span> (x%<span class="number">2</span>==<span class="number">0</span> <span class="keyword">and</span> y%<span class="number">2</span>==<span class="number">0</span>):</span><br><span class="line">                    click(pt[<span class="number">0</span>]+x, pt[<span class="number">1</span>]+y)</span><br><span class="line">                    time.sleep(st)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">color</span><span class="params">(s, n = <span class="number">1</span>, st = <span class="number">0.01</span>)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> img</span><br><span class="line">    img = Image.open(s)</span><br><span class="line">    img = img.resize((int(img.width*n), int(img.height*n))).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">    colors, pos = [], []</span><br><span class="line">    print(<span class="string">"将光标移动到颜色按钮，回车添加，输入s并回车从当前光标位置开始绘制，输入q并回车退出"</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        input_str = input()</span><br><span class="line">        <span class="keyword">if</span> input_str == <span class="string">'s'</span>:</span><br><span class="line">            mp = mouse.position</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">elif</span> input_str == <span class="string">'q'</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        mp = mouse.position</span><br><span class="line">        c = ImageGrab.grab().getpixel(mp)</span><br><span class="line">        pos.append(mp)</span><br><span class="line">        colors.append(c)</span><br><span class="line">        print(<span class="string">'&#123;&#125; &#123;&#125;'</span>.format(c, mp))</span><br><span class="line"></span><br><span class="line">    pixels = img.load()</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(img.width):</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> range(img.height):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> isB:</span><br><span class="line">                print(<span class="string">'已中止'</span>)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">            pix = pixels[x, y]</span><br><span class="line">            <span class="keyword">if</span> (pix[<span class="number">0</span>]+pix[<span class="number">1</span>]+pix[<span class="number">2</span>])/<span class="number">3</span> &lt; <span class="number">240</span>:</span><br><span class="line">                ds = []</span><br><span class="line">                <span class="keyword">for</span> c <span class="keyword">in</span> colors:</span><br><span class="line">                    d = ((pix[<span class="number">0</span>]-c[<span class="number">0</span>])**<span class="number">2</span>+(pix[<span class="number">1</span>]-c[<span class="number">1</span>])**<span class="number">2</span>+(pix[<span class="number">2</span>]-c[<span class="number">2</span>])**<span class="number">2</span>)**<span class="number">0.5</span></span><br><span class="line">                    ds.append(d)</span><br><span class="line">                index = ds.index(min(ds))</span><br><span class="line"></span><br><span class="line">                click(pos[index][<span class="number">0</span>], pos[index][<span class="number">1</span>])</span><br><span class="line">                click(mp[<span class="number">0</span>]+x, mp[<span class="number">1</span>]+y)</span><br><span class="line">                time.sleep(st)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_release</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> key == keyboard.Key.esc:</span><br><span class="line">        <span class="keyword">global</span> isB</span><br><span class="line">        isB = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">listener = keyboard.Listener(on_release=on_release)</span><br><span class="line">listener.start()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"""对象：</span></span><br><span class="line"><span class="string">    p：光标所在位置             mouse：鼠标</span></span><br><span class="line"><span class="string">    time：时间                 img：图像</span></span><br><span class="line"><span class="string">命令：</span></span><br><span class="line"><span class="string">    draw(s图片地址，pt点坐标，n缩放倍数，m模式，r是否反转，t下笔阈值，st延迟时间)：绘制黑白图片</span></span><br><span class="line"><span class="string">        例如 draw('img.png') 或 draw('img.png', pt=[200, 300], n=1, m='00', r=-1, t=220, st=0)</span></span><br><span class="line"><span class="string">    color(s图片地址，n缩放倍数，st延迟时间)：绘制彩色图片</span></span><br><span class="line"><span class="string">        例如 color('img.png', n=0.1)</span></span><br><span class="line"><span class="string">    click(横坐标，纵坐标)：点击某位置</span></span><br><span class="line"><span class="string">        例如 click(200, 300)</span></span><br><span class="line"><span class="string">模式：</span></span><br><span class="line"><span class="string">    第1个数字：             第2个数字：</span></span><br><span class="line"><span class="string">        0：去噪边缘灰度化        0：正常</span></span><br><span class="line"><span class="string">        1：只进行灰度化          1：稀疏</span></span><br><span class="line"><span class="string">注意：</span></span><br><span class="line"><span class="string">    1.使用 CTRL+C 退出程序，绘制中按下ESC键中止</span></span><br><span class="line"><span class="string">    2.还可执行其它的python命令，如 img.show() 显示图片</span></span><br><span class="line"><span class="string">"""</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    isB = <span class="keyword">False</span></span><br><span class="line">    i = input(<span class="string">'&gt;&gt;&gt; '</span>)</span><br><span class="line">    p = mouse.position</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        o = eval(i)</span><br><span class="line">        <span class="keyword">if</span> o != <span class="keyword">None</span>:</span><br><span class="line">            print(o)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'error'</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/视频/" rel="tag"># 视频</a>
+          
+            <a href="/tags/软件/" rel="tag"># 软件</a>
+          
+            <a href="/tags/编程/" rel="tag"># 编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/04/第一次剪视频（动漫AMV）/" rel="next" title="第一次剪视频（动漫AMV）">
+                <i class="fa fa-chevron-left"></i> 第一次剪视频（动漫AMV）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#视频"><span class="nav-number">1.</span> <span class="nav-text">视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源代码"><span class="nav-number">2.</span> <span class="nav-text">源代码</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

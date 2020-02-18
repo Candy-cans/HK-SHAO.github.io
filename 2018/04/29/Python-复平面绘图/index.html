@@ -110,7 +110,7 @@
 <meta property="og:description" content="前言在学校太闲，就写了这个程序，可以在复平面绘制曲线，画圆什么的很轻松，f(z) = e^(1j * z)，螺旋线，函数图象等都可以。   效果图">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://img-blog.csdn.net/20180429135325750?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hrX3NoYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-01-25T11:59:35.029Z">
+<meta property="og:updated_time" content="2020-02-06T13:42:21.606Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python-复平面绘图">
 <meta name="twitter:description" content="前言在学校太闲，就写了这个程序，可以在复平面绘制曲线，画圆什么的很轻松，f(z) = e^(1j * z)，螺旋线，函数图象等都可以。   效果图">
@@ -396,7 +396,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-25 19:59:35" itemprop="dateModified" datetime="2019-01-25T19:59:35+08:00">2019-01-25</time>
+                <time title="修改时间：2020-02-06 21:42:21" itemprop="dateModified" datetime="2020-02-06T21:42:21+08:00">2020-02-06</time>
               
             
           </span>
@@ -434,6 +434,7 @@
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此程序使用turtle绘图，可以用作画函数图像，假设你想画函数g(x)的图像，那么就输入f(z) = z + 1j * g(z)，g(z)是含z的表达式。<br>表达式可支持Python math库，random库，time库的所有函数，具体使用方法请自行探索。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># Python <span class="number">2.</span>x</span><br><span class="line"></span><br><span class="line">import turtle</span><br><span class="line">from <span class="built_in">random</span> import *</span><br><span class="line">from <span class="built_in">math</span> import *</span><br><span class="line">from <span class="built_in">time</span> import *</span><br><span class="line"></span><br><span class="line">def printf(f):</span><br><span class="line">    global z</span><br><span class="line">    turtle.<span class="keyword">goto</span>(f.real * <span class="number">20</span>, f.imag * <span class="number">20</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"f("</span> + str(z) + <span class="string">") = "</span> + str(f))</span><br><span class="line">    z += d</span><br><span class="line"></span><br><span class="line">def <span class="built_in">format</span>(s):</span><br><span class="line">    s = s.replace(<span class="string">"^"</span>,<span class="string">"**"</span>)</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line">def evale(s):</span><br><span class="line">    n = eval(s)</span><br><span class="line">    <span class="keyword">return</span> n</span><br><span class="line"></span><br><span class="line">delay = <span class="built_in">input</span>(<span class="string">"delay = "</span>) * <span class="number">1e-3</span></span><br><span class="line">turtle.setup(<span class="number">1280</span>, <span class="number">720</span>)</span><br><span class="line">turtle.speed(<span class="number">10</span>)</span><br><span class="line">turtle.pensize(<span class="number">2</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">-640</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">640</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">360</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">-360</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> True:</span><br><span class="line">    express = <span class="built_in">format</span>(raw_input(<span class="string">"f(z) = "</span>))</span><br><span class="line">    d = <span class="built_in">input</span>(<span class="string">"d = "</span>)</span><br><span class="line">    <span class="built_in">min</span> = <span class="built_in">input</span>(<span class="string">"min = "</span>)</span><br><span class="line">    <span class="built_in">max</span> = <span class="built_in">input</span>(<span class="string">"max = "</span>)</span><br><span class="line">    z = <span class="built_in">min</span></span><br><span class="line">    f = evale(express)</span><br><span class="line">    turtle.pencolor(<span class="built_in">random</span>(), <span class="built_in">random</span>(), <span class="built_in">random</span>())</span><br><span class="line">    turtle.penup()</span><br><span class="line">    printf(f)</span><br><span class="line">    turtle.pendown()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>  z &lt; <span class="built_in">max</span>:</span><br><span class="line">        f = evale(express)</span><br><span class="line">        printf(f)</span><br></pre></td></tr></table></figure>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这个程序使用Python 2.x，若需要Python 3.x的程序，请自行修改。</p>
+<h1 id="图片看不到？"><a href="#图片看不到？" class="headerlink" title="图片看不到？"></a>图片看不到？</h1><p><a href="https://blog.csdn.net/hk_shao/article/details/80142733" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/80142733</a></p>
 
       
     </div>
@@ -560,7 +561,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -669,7 +670,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">47</span>
+                      
+                    
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -756,7 +759,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">2.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">3.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">5.</span> <span class="nav-text">注意</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">2.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">3.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">5.</span> <span class="nav-text">注意</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#图片看不到？"><span class="nav-number"></span> <span class="nav-text">图片看不到？</span></a></li></div>
             
 
           </div>
