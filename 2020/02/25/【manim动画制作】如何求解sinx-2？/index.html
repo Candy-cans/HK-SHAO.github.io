@@ -101,17 +101,21 @@
 
 
 
-  <meta name="description" content="在黑夜中睁开眼睛">
-<meta name="keywords" content="Hk-Shao&#39;s Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="HK-SHAO">
-<meta property="og:url" content="https://hk-shao.github.io/tags/机器学习/index.html">
+  <meta name="description" content="记得我很早之前就打算做一些科普视频，奈于技术不行，遂放弃。之前看过3Blue1Brown的视频，作者用他自己开发的数学可视化引擎manim制作动画，感觉效果很棒。发现知乎和B站陆陆续续有很多大佬开始使用manim做动画，于是进了一个manim交流群。开始摸索manim，实际上这个引擎的安装和环境的的搭建还挺麻烦，用manim也需要会Python和$\LaTeX$，恰好我都会，于是很快上手了。 我">
+<meta name="keywords" content="Python,数学,视频,剪辑,可视化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【manim动画制作】如何求解sinx=2？">
+<meta property="og:url" content="https://hk-shao.github.io/2020/02/25/【manim动画制作】如何求解sinx-2？/index.html">
 <meta property="og:site_name" content="HK-SHAO">
-<meta property="og:description" content="在黑夜中睁开眼睛">
+<meta property="og:description" content="记得我很早之前就打算做一些科普视频，奈于技术不行，遂放弃。之前看过3Blue1Brown的视频，作者用他自己开发的数学可视化引擎manim制作动画，感觉效果很棒。发现知乎和B站陆陆续续有很多大佬开始使用manim做动画，于是进了一个manim交流群。开始摸索manim，实际上这个引擎的安装和环境的的搭建还挺麻烦，用manim也需要会Python和$\LaTeX$，恰好我都会，于是很快上手了。 我">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/47.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/48.png">
+<meta property="og:updated_time" content="2020-02-25T08:32:57.244Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HK-SHAO">
-<meta name="twitter:description" content="在黑夜中睁开眼睛">
+<meta name="twitter:title" content="【manim动画制作】如何求解sinx=2？">
+<meta name="twitter:description" content="记得我很早之前就打算做一些科普视频，奈于技术不行，遂放弃。之前看过3Blue1Brown的视频，作者用他自己开发的数学可视化引擎manim制作动画，感觉效果很棒。发现知乎和B站陆陆续续有很多大佬开始使用manim做动画，于是进了一个manim交流群。开始摸索manim，实际上这个引擎的安装和环境的的搭建还挺麻烦，用manim也需要会Python和$\LaTeX$，恰好我都会，于是很快上手了。 我">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/blog/47.png">
 
 
 
@@ -120,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="https://hk-shao.github.io/tags/机器学习/">
+  <link rel="canonical" href="https://hk-shao.github.io/2020/02/25/【manim动画制作】如何求解sinx-2？/">
 
 
 
@@ -130,7 +134,7 @@
   };
 </script>
 
-  <title>标签: 机器学习 | HK-SHAO</title>
+  <title>【manim动画制作】如何求解sinx=2？ | HK-SHAO</title>
   
 
 
@@ -178,7 +182,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -254,7 +258,7 @@
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
 
     
     
@@ -293,25 +297,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -336,82 +321,211 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>机器学习<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2020/02/25/【manim动画制作】如何求解sinx-2？/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/02/07/机器学习中的一个尝试——“机器创造”/" itemprop="url">
-            
-              <span itemprop="name">机器学习中的一个尝试——“机器创造”</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">【manim动画制作】如何求解sinx=2？
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-07T09:00:47+08:00" content="2019-02-07">
-          02-07
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-25 15:59:48 / 修改时间：16:32:57" itemprop="dateCreated datePublished" datetime="2020-02-25T15:59:48+08:00">2020-02-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/01/31/用TensorFlow机器学习框架构建学校学科成绩的线性模型/" itemprop="url">
-            
-              <span itemprop="name">用TensorFlow机器学习框架构建学校学科成绩的线性模型</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-31T17:15:59+08:00" content="2019-01-31">
-          01-31
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p><img src="/images/blog/47.png" alt=""></p>
+<p>记得我很早之前就打算做一些科普视频，奈于技术不行，遂放弃。之前看过3Blue1Brown的视频，作者用他自己开发的数学可视化引擎manim制作动画，感觉效果很棒。发现知乎和B站陆陆续续有很多大佬开始使用manim做动画，于是进了一个manim交流群。开始摸索manim，实际上这个引擎的安装和环境的的搭建还挺麻烦，用manim也需要会Python和$\LaTeX$，恰好我都会，于是很快上手了。</p>
+<p>我以为有这个引擎做数学动画很简单，但是出乎我意料，还是要不停地肝，动画的构架想好了，实现起来还是非常麻烦，这个过程及其无聊和痛苦。最后赶了一下进度，视频还是做出来了，但是有些瑕疵让我这个强迫症很不爽。</p>
+<p>有了前面剪AMV的的经验，我很快就把视频剪好，加上动态水印，渲染，发布到B站。</p>
+<p>视频链接：<a href="https://www.bilibili.com/video/av91565323/" target="_blank" rel="noopener">https://www.bilibili.com/video/av91565323/</a></p>
+<h2 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h2><p>我们高中学过 $\sin x$ 的值域是 $[-1,1]$，画作图像的话，波浪线在 $[-1,1]$ 之间往复，但是怎么会与 $2$ 有交点呢？</p>
+<p><img src="/images/blog/48.png" alt=""></p>
+<p>答案是：当然没有。$\sin x=2$ 没有实数解，但是如果看作复变函数，$x\in\mathbb{C}$ 时，将 $\sin x$ 泰勒展开，它有无穷高次冥，按照代数基本定理， $\sin x=2$ 是有无穷多解的！事实确实如此，下面是及其详细的求解过程，高中生都可以看懂，我就不文字叙述了。</p>
+<script type="math/tex; mode=display">
+\sin x=2\\\
+e^{ix}=\cos x+i\sin x\\\
+e^{-ix}=\cos x-i\sin x\\\
+e^{ix}-e^{-ix}=2i\sin x\\\
+\sin x = \frac{e^{ix}-e^{-ix}}{2i}\\\
+\frac{e^{ix}-e^{-ix}}{2i}=2\\\
+e^{ix}-e^{-ix}=4i\\\
+t=e^{ix}\\\
+t-\frac{1}{t}=4i\\\
+t^2-4it-1=0\\\
+t=(2\pm\sqrt3)i\\\
+e^{ix}=(2\pm\sqrt3)i\\\
+{\rm Ln}(e^{ix})={\rm Ln}[(2\pm\sqrt3)i]\\\
+ix=\ln(2\pm\sqrt3)+{\rm Ln}\ i\\\
+i\theta={\rm Ln}\ i\\\
+e^{i\theta}=\cos \theta+i\sin \theta\\\
+\cos \theta+i\sin \theta=e^{\rm{Ln \ i}}=i\\\
+\begin{cases}\cos \theta=0\\\sin \theta=1\end{cases}\\\
+\theta=(\frac{4k+1}{2})\pi,k\in \mathbb{Z}\\\
+{\rm Ln}\ i=i\theta=i\pi(\frac{4k+1}{2})\\\
+ix=\ln(2\pm\sqrt3)+i\pi(\frac{4k+1}{2})\\\
+x=(\frac{4k+1}{2})\pi-i\ln(2\pm\sqrt3),k\in \mathbb{Z}\\\</script><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>笔者将全力迎接高考，屏蔽一切外界讯息。</p>
+<h1 id="所有高考生们，一起加油啊！"><a href="#所有高考生们，一起加油啊！" class="headerlink" title="所有高考生们，一起加油啊！"></a>所有高考生们，一起加油啊！</h1>
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+            <a href="/tags/视频/" rel="tag"># 视频</a>
+          
+            <a href="/tags/剪辑/" rel="tag"># 剪辑</a>
+          
+            <a href="/tags/可视化/" rel="tag"># 可视化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/18/光标画图程序/" rel="next" title="光标画图程序">
+                <i class="fa fa-chevron-left"></i> 光标画图程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -434,8 +548,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -640,6 +763,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进入正题"><span class="nav-number">1.</span> <span class="nav-text">进入正题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">2.</span> <span class="nav-text">最后</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#所有高考生们，一起加油啊！"><span class="nav-number"></span> <span class="nav-text">所有高考生们，一起加油啊！</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -757,6 +897,10 @@
   
 
   
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
 
   
 
@@ -801,6 +945,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
