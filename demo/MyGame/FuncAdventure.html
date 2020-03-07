@@ -1,9 +1,9 @@
-<title>函数大冒险</title>
+<title>函数大冒险（开发中v1.2）</title>
 <style>#gc {border-style:dotted;}</style>
 <body style="text-align: center">
 <canvas id="gc"></canvas>
 <h2>输入表达式</h2>
-<input id="ed" type="text" oninput="inChange()">
+<textarea id="ed" oninput="inChange()" cols="50" rows="5" warp="virtual"></textarea>
 <br><br>
 <button id="bu" onclick="buOnClick()" disabled="true">下一关</button>
 </body>
@@ -20,6 +20,8 @@
     canv.height = size;
 
     reCanvas();
+    ined.value = "pow((pow((2*x),2)+pow((2*y),2)-1),3)<pow((2*x),2)*pow((2*y),3)";//
+    plot(ined.value, "black");//
     function format(s){
         str = s.replace(/abs/g, "Math.abs")
                 .replace(/acos/g, "Math.acos")
@@ -101,9 +103,14 @@
         plot(ined.value, "black");
     }
 </script>
-
-<br><br><br>
-<h2 align="left">Math 对象属性</h2>
+<br><br>
+<p align="left">
+这个程序是用html的canvas和javascript写的，也是我写的第一个javascript程序<br>
+你每改变一次输入框里的内容就会执行一次javascript的eval函数<br>
+所以理论上你可以在输入框输入并运行javascript代码（调用Math库的不用Math.）<br>
+表达式只要返回的是number或者boolean就可以绘制图像，下面是Math库的函数说明
+</p>
+<h3 align="left">Math 对象属性</h3>
 <table class="reference">
     <tbody><tr>
     <th width="20%" align="left">属性</th>
@@ -131,7 +138,7 @@
       </tr>
     </tbody>
 </table>
-<h2 align="left">Math 对象方法</h2>
+<h3 align="left">Math 对象方法</h3>
 <table class="reference">
     <tbody><tr>
     <th width="20%" align="left">属性</th>
