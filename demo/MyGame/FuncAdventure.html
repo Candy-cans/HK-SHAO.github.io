@@ -1,366 +1,413 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>函数大冒险（开发中v1.32）</title>
-<style type="text/css">
-#father{
-    position:relative;
-    margin:0px auto;
-    border:dotted;
-    }
-#father #gc{
-    position:absolute;
-    opacity:0.8;
-    z-index:2;
-    }
-#father #gc2{
-    position:absolute;
-    z-index:1;
-    }
-</style>
+    <meta charset="utf-8">
+    <title>函数大冒险（开发中v1.4）</title>
+    <style type="text/css">
+        #father {
+            position: relative;
+            margin: 0px auto;
+            border: dotted;
+        }
+        #father #gc {
+            position: absolute;
+            opacity: 0.8;
+            z-index: 2;
+        }
+        #father #gc2 {
+            position: absolute;
+            z-index: 1;
+        }
+    </style>
 </head>
 
 <body>
-<h1 align="center">函数大冒险</h1>
-<div id="father">
-    <canvas id="gc"></canvas>
-    <canvas id="gc2"></canvas>
-</div>
-<div style="text-align: center">
-  <h2>输入表达式</h2>
-  <textarea id="ed" oninput="inChange()" rows="1" cols="50" style="font-size: 20px;font-weight:bold"></textarea>
-  <br><br>
-  <button id="bu" onclick="buOnClick()">下一关</button>
-</div>
-<br><br><h3 id="mes"></h3><br>
-<h3>游戏说明</h3>
-<div>
-过关条件：输入函数表达式，并尽可能高的拟合灰色线条，使残差降到0.2以下<br>
-如果你过关了，你还可以尝试挑战将残差降低到0，残差越低得分越高。<br>
-注意：即便是拟合了灰色线条，你也不一定能过关，<br>
-原因在于你看到的灰色线条是“训练集”样本，在区间[-1,1]之间，<br>
-而计算残差的“测试集”样本不一定与“训练集”样本相同。<br>
-  <br><br>
-游戏正在开发中，目前还处于极度不完善状态，很多bug，为保证游戏性请不要卡bug过关。开发者：烧风<br>
-图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果<br>
-绘制图像可以直接输入函数绘制曲线，例如 y=sin(x)或者 sin(x)<br>
-可以绘制分段函数，需要用到程序语句，例如 if(x&lt0) {x} else {x*x}<br>
-也可以输入不等式绘制平面区域，例如 sin(x)&lt;y&&y&lt;-0.2 （&&与，||或）<br>
-你每改变一次输入框里的内容就会执行一次javascript的eval函数<br>
-所以理论上你可以在输入框输入并运行javascript代码（调用Math库的不用Math.）<br>
-表达式只要返回的是number或者boolean就可以绘制图像，所以玩法很多很自由，就等待着你自己探索了<br>
-下面是Math库的函数说明
-</div>
-</p>
-<h3>Math 对象属性</h3>
-<table class="reference">
-    <tbody><tr>
-    <th width="20%" align="left">属性</th>
-        <th width="80%" align="left">描述</th>
-      </tr>
-    <tr>
-    <td><a></a>E</a></td>
-        <td>返回自然对数的底数（约等于2.718）</td>
-      </tr>
-    <tr>
-    <td><a>LN2</a></td>
-        <td>返回 2 的自然对数（约等于0.693）</td>
-      </tr>
-    <tr>
-    <td><a>LN10</a></td>
-        <td>返回 10 的自然对数（约等于2.302）</td>
-      </tr>
-    <tr>
-    <td><a>PI</a></td>
-        <td>返回圆周率（约等于3.14159）</td>
-      </tr>
-    <tr>
-    <td><a>SQRT2</a></td>
-        <td>返回 2 的平方根（约等于 1.414）</td>
-      </tr>
-    </tbody>
-</table>
-<h3>Math 对象方法</h3>
-<table class="reference">
-    <tbody><tr>
-    <th width="20%" align="left">属性</th>
-        <th width="80%" align="left">描述</th>
-      </tr>
-    <tr>
-        <td><a>abs(x)</a></td>
-        <td>返回 x 的绝对值</td>
-      </tr>
-    <tr>
-    <td><a>acos(x)</a></td>
-        <td>返回 x 的反余弦值</td>
-      </tr>
-    <tr>
-    <td><a>asin(x)</a></td>
-        <td>返回 x 的反正弦值</td>
-      </tr>
-    <tr>
-    <td><a>atan(x)</a></td>
-        <td>以介于 -PI/2 与 PI/2 弧度之间的数值来返回 x 的反正切值</td>
-      </tr>
-    <tr>
-    <td><a>atan2(y,x)</a></td>
-        <td>返回从 x 轴到点 (x,y) 的角度（介于 -PI/2 与 PI/2 弧度之间）</td>
-      </tr>
-    <tr>
-    <td><a>ceil(x)</a></td>
-        <td>对数进行上舍入</td>
-      </tr>
-    <tr>
-    <td><a>cos(x)</a></td>
-        <td>返回数的余弦</td>
-      </tr>
-    <tr>
-    <td><a>exp(x)</a></td>
-        <td>返回 E 的 x 次幂
-    </td>
-      </tr>
-    <tr>
-    <td><a>floor(x)</a></td>
-        <td>对 x 进行下舍入</td>
-      </tr>
-    <tr>
-    <td><a>log(x)</a></td>
-        <td>返回数的自然对数（底为e）</td>
-      </tr>
-    <tr>
-    <td><a>max(x,y,z,...,n)</a></td>
-        <td>返回 x,y,z,...,n 中的最高值</td>
-      </tr>
-    <tr>
-    <td><a>min(x,y,z,...,n)</a></td>
-        <td>返回 x,y,z,...,n中的最低值</td>
-      </tr>
-    <tr>
-    <td><a>pow(x,y)</a></td>
-        <td>返回 x 的 y 次幂</td>
-      </tr>
-    <tr>
-    <td><a>random()</a></td>
-        <td>返回 0 ~ 1 之间的随机数</td>
-      </tr>
-    <tr>
-    <td><a>round(x)</a></td>
-        <td>四舍五入</td>
-      </tr>
-    <tr>
-    <td><a>sin(x)</a></td>
-        <td>返回数的正弦</td>
-      </tr>
-    <tr>
-    <td><a>sqrt(x)</a></td>
-        <td>返回数的平方根</td>
-      </tr>
-    <tr>
-    <td><a>tan(x)</a></td>
-        <td>返回角的正切</td>
-      </tr>
-    </tbody>
-</table>
+    <h1 align="center">函数大冒险</h1>
+    <div id="father">
+        <canvas id="gc"></canvas>
+        <canvas id="gc2"></canvas>
+    </div>
+    <div style="text-align: center">
+        <h2>输入表达式</h2>
+        <textarea id="ed" oninput="inChange()" rows="1" cols="50" style="font-size: 20px;font-weight:bold"></textarea>
+        <br>
+        <br>
+        <button id="bu" onclick="buOnClick()" style="width:100px;height:40px">下一关</button>
+    </div>
+    <br>
+    <h3 id="mes"></h3>
+    <br>
+    <h3>游戏说明（目前有23个关卡）</h3>
+    <div>
+        过关条件：输入函数表达式，并尽可能高的拟合灰色线条，使残差降到0.2以下
+        <br>如果你过关了，你还可以尝试挑战将残差降低到0，残差越低得分越高。
+        <br>注意：即便是拟合了灰色线条，你也不一定能过关，
+        <br>原因在于你看到的灰色线条是“训练集”样本，在区间[-1,1]之间，
+        <br>而计算残差的“测试集”样本不一定与“训练集”样本相同。
+        <br>
+        <br>
+        <br>游戏正在开发中，目前还处于极度不完善状态，很多bug，为保证游戏性请不要卡bug过关。开发者：烧风
+        <br>图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果
+        <br>绘制图像可以直接输入函数绘制曲线，例如 sin(x) x^x gamma(x) E^x
+        <br>也可以输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2
+        <br>你每改变一次输入框里的内容就会执行一次math.js的evaluate函数（参考文档：https://mathjs.org/）
+        <br>表达式只要返回的是number或者boolean就可以绘制图像，所以玩法很多，就等待着你自己探索了
+        <br>下面是math库的部分函数说明（实际上支持非常多的函数比如gamma函数，请参考math.js）
+    </div>
+    </p>
+    <h3>math 对象属性</h3>
+    <table class="reference">
+        <tbody>
+            <tr>
+                <th width="20%" align="left">属性</th>
+                <th width="80%" align="left">描述</th>
+            </tr>
+            <tr>
+                <td>
+                    <a></a>E</a>
+                </td>
+                <td>返回自然对数的底数（约等于2.718）</td>
+            </tr>
+            <tr>
+                <td><a>LN2</a>
+                </td>
+                <td>返回 2 的自然对数（约等于0.693）</td>
+            </tr>
+            <tr>
+                <td><a>LN10</a>
+                </td>
+                <td>返回 10 的自然对数（约等于2.302）</td>
+            </tr>
+            <tr>
+                <td><a>PI</a>
+                </td>
+                <td>返回圆周率（约等于3.14159）</td>
+            </tr>
+            <tr>
+                <td><a>SQRT2</a>
+                </td>
+                <td>返回 2 的平方根（约等于 1.414）</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>Math 对象方法</h3>
+    <table class="reference">
+        <tbody>
+            <tr>
+                <th width="20%" align="left">属性</th>
+                <th width="80%" align="left">描述</th>
+            </tr>
+            <tr>
+                <td><a>abs(x)</a>
+                </td>
+                <td>返回 x 的绝对值</td>
+            </tr>
+            <tr>
+                <td><a>acos(x)</a>
+                </td>
+                <td>返回 x 的反余弦值</td>
+            </tr>
+            <tr>
+                <td><a>asin(x)</a>
+                </td>
+                <td>返回 x 的反正弦值</td>
+            </tr>
+            <tr>
+                <td><a>atan(x)</a>
+                </td>
+                <td>以介于 -PI/2 与 PI/2 弧度之间的数值来返回 x 的反正切值</td>
+            </tr>
+            <tr>
+                <td><a>atan2(y,x)</a>
+                </td>
+                <td>返回从 x 轴到点 (x,y) 的角度（介于 -PI/2 与 PI/2 弧度之间）</td>
+            </tr>
+            <tr>
+                <td><a>ceil(x)</a>
+                </td>
+                <td>对数进行上舍入</td>
+            </tr>
+            <tr>
+                <td><a>cos(x)</a>
+                </td>
+                <td>返回数的余弦</td>
+            </tr>
+            <tr>
+                <td><a>exp(x)</a>
+                </td>
+                <td>返回 E 的 x 次幂
+                </td>
+            </tr>
+            <tr>
+                <td><a>floor(x)</a>
+                </td>
+                <td>对 x 进行下舍入</td>
+            </tr>
+            <tr>
+                <td><a>log(x)</a>
+                </td>
+                <td>返回数的自然对数（底为e）</td>
+            </tr>
+            <tr>
+                <td><a>max(x,y,z,...,n)</a>
+                </td>
+                <td>返回 x,y,z,...,n 中的最高值</td>
+            </tr>
+            <tr>
+                <td><a>min(x,y,z,...,n)</a>
+                </td>
+                <td>返回 x,y,z,...,n中的最低值</td>
+            </tr>
+            <tr>
+                <td><a>pow(x,y)</a>
+                </td>
+                <td>返回 x 的 y 次幂</td>
+            </tr>
+            <tr>
+                <td><a>random()</a>
+                </td>
+                <td>返回 0 ~ 1 之间的随机数</td>
+            </tr>
+            <tr>
+                <td><a>round(x)</a>
+                </td>
+                <td>四舍五入</td>
+            </tr>
+            <tr>
+                <td><a>sin(x)</a>
+                </td>
+                <td>返回数的正弦</td>
+            </tr>
+            <tr>
+                <td><a>sqrt(x)</a>
+                </td>
+                <td>返回数的平方根</td>
+            </tr>
+            <tr>
+                <td><a>tan(x)</a>
+                </td>
+                <td>返回角的正切</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
+<script src="math.min.js"></script>
 <script type="text/javascript">
-dd = 0.2;
+    dd = 0.2;
 
-cfa = document.getElementById("father");
-canv = document.getElementById("gc");
-ctx = canv.getContext("2d");
-canv2 = document.getElementById("gc2");
-ctx2 = canv2.getContext("2d");
-ined = document.getElementById("ed");
-bu = document.getElementById("bu");
-mes = document.getElementById("mes");
-x=2;y=2;
-size = Math.min(window.innerWidth, window.innerHeight)*0.65;
-cfa.style.width = size+"px";
-cfa.style.height = size+"px";
-canv.width = size;
-canv.height = size;
-canv2.width = size;
-canv2.height = size;
+    cfa = document.getElementById("father");
+    canv = document.getElementById("gc");
+    ctx = canv.getContext("2d");
+    canv2 = document.getElementById("gc2");
+    ctx2 = canv2.getContext("2d");
+    ined = document.getElementById("ed");
+    bu = document.getElementById("bu");
+    mes = document.getElementById("mes");
+    x = 0.1;y = 0.1;
+    size = Math.min(window.innerWidth, window.innerHeight) * 0.65;
+    cfa.style.width = size + "px";
+    cfa.style.height = size + "px";
+    canv.width = size;
+    canv.height = size;
+    canv2.width = size;
+    canv2.height = size;
 
-levels = ["x", "x*x", "0.1/x", "abs(x)", "abs(x*x*x)", "sin(PI*x)", "exp(E*x)",
-            "sqrt(0.5-x*x)", "x*x+x", "ceil(x*10)/10", "x*x*x+0.3*x*x-0.5*x-0.3","tan(x*x*3.8)", "ceil(x*10)/10+floor(x*10)/10", "if(x<0.305) {sin(10*x)} else {x*x}"];
-ses = [[-2000,2000], [-2000,2000], [-100,100], [-2000,2000], [-2000,2000], [100,4100], [-2000,2000],
-            [-800,800], [-4000,0], [2001, 6001], [-2000,2000], [-2000,2000], [-3001, 1001], [0,4000]];
-lvn = 0;
-score = 0;
-R=Infinity;
+    levels = ["x", "x^2", "0.1/x", "abs(x)", "abs(x^3)", "sin(PI*x)", "exp(E*x)",
+        "sqrt(0.5-x^2)", "x^2+x", "ceil(x*10)/10", "x^3+0.3*x^2-0.5*x-0.3", "tan(x^2*3.8)", "ceil(x*10)/10+floor(x*10)/10", "min(x^2-x,x)",
+        "sin(10x+0.5random())", "log(E*x)", "gamma(10x)/10", "(10x)%2/10", "x^x", "pow(x^3,x)", "abs(sin(x))",
+        "abs(sin(x^2*5))", "max((10x)%2/10,sin(10*PI*x))"
+    ];
+    ses = [
+        [-2000, 2000],[-2000, 2000],[-100, 100],[-2000, 2000],[-2000, 2000],[100, 4100],[-2000, 2000],
+        [-800, 800],[-4000, 0],[2001, 6001],[-2000, 2000],[-2000, 2000],[-3001, 1001],[0, 4000],
+        [-2000,2000], [-100,4100], [-1000,1000], [-2000,2000], [0,4000], [0,4000], [-2000,2000],
+        [-2000,2000], [-2000,2000]
+    ];
 
-reCanvas2();
-reCanvas();
-nextLevel();
-//ined.value = "pow((pow((2*x),2)+pow((2*y),2)-1),3)<pow((2*x),2)*pow((2*y),3)";//
-//plot(ined.value, "black");//
-function format(s){
-    str = s.replace(/abs\(/g, "Math.abs\(")
-            .replace(/acos\(/g, "Math.acos\(")
-            .replace(/asin\(/g, "Math.asin\(")
-            .replace(/atan\(/g, "Math.atan\(")
-            .replace(/atan2\(/g, "Math.atan2\(")
-            .replace(/ceil\(/g, "Math.ceil\(")
-            .replace(/cos\(/g, "Math.cos\(")
-            .replace(/exp\(/g, "Math.exp\(")
-            .replace(/floor\(/g, "Math.floor\(")
-            .replace(/log\(/g, "Math.log\(")
-            .replace(/max\(/g, "Math.max\(")
-            .replace(/min\(/g, "Math.min\(")
-            .replace(/pow\(/g, "Math.pow\(")
-            .replace(/random\(/g, "Math.random\(")
-            .replace(/round\(/g, "Math.round\(")
-            .replace(/sin\(/g, "Math.sin\(")
-            .replace(/sqrt\(/g, "Math.sqrt\(")
-            .replace(/tan\(/g, "Math.tan\(")//
-            .replace(/E/g, "Math.E")
-            .replace(/LN2/g, "Math.LN2")
-            .replace(/LN10/g, "Math.LN10")
-            .replace(/PI/g, "Math.PI")
-            .replace(/SQRT2/g, "Math.SQRT2");
-    return str;
-}
+    lvn = 0;
+    score = 0;
+    R = Infinity;
 
-function reMes(){
-  mes.innerHTML = "关卡："+lvn+"；得分："+score+"；当前残差："+R;
-}
-
-function nextLevel(){
-  lvn += 1;
-  if(R!=Infinity){
-    score += Math.trunc(100000*(dd-R));
-  }
-  reCanvas2();
-  reCanvas();
-  plot2(levels[lvn-1])
-  reMes();
-  ined.value = "";
-  if (lvn>levels.length){
-    alert("游戏开发中...");
-    return;
-  }
-}
-
-function buOnClick(){
-  nextLevel();
-  bu.disabled=true;
-  bu.style.border="1px solid red";
-}
-
-function reCanvas(){
-    canv.width = canv.width;
-    bu.disabled=true;
-    bu.style.border="1px solid red";
-}
-
-function reCanvas2(){
-  canv2.width = canv2.width;
-  ctx2.strokeStyle = 'gray';
-  ctx2.moveTo(size/2, 0);
-  ctx2.lineTo(size/2, size);
-  ctx2.moveTo(0, size/2);
-  ctx2.lineTo(size, size/2);
-  ctx2.stroke();
-}
-
-function plot(str, color){
-    ex = format(str);
-    try {
-        outeval = eval(ex);
-    }
-    catch(err) {
-        return;
-    }
+    reCanvas2();
     reCanvas();
-    ctx.fillStyle = color;
-    if(typeof outeval == "boolean") {
-      jd = size/200;
-      for(var i=0;i<=size;i+=jd) {
-        for(var j=0;j<=size;j+=jd) {
-          x = (2*i-size)/size;
-          y = -(2*j-size)/size;
-          if(eval(ex) == true){
-            ctx.fillRect(i,j,jd/2,jd/2);
-          }
-        }
-      }
-    } else if(typeof outeval == "number") {
-      for(var i=-2000;i<=2000;i++){
-        x = i/2000; //[-1,1]
-        y = eval(ex);
-        y = (1-y)*size*0.5;
-        x = (x+1)*0.5*size
-        ctx.fillRect(x-1,y-1,2,2);
-      }
-      R = calR(str, levels[lvn-1]);
-      judge(R);
+    nextLevel();
+    //ined.value = "pow((pow((2*x),2)+pow((2*y),2)-1),3)<pow((2*x),2)*pow((2*y),3)";//
+    //plot(ined.value, "black");//
+
+    function reMes() {
+        mes.innerHTML = "关卡：" + lvn + "；得分：" + score + "；当前残差：" + R;
     }
-}
 
-function judge(R){
-  reMes();
-  if(R<dd){
-        bu.disabled=false;
-        bu.style.border="1px solid green";
-  }
-  else{
-    bu.disabled=true;
-    bu.style.border="1px solid red";
-  }
-}
-
-function calR(ex, ex2){
-  r = 0;
-  start = ses[lvn-1][0];
-  end = ses[lvn-1][1];
-  for(var i=start;i<=end;i++){
-        x = i/2000;
-        y1 = eval(format(ex));
-        y2 = eval(format(ex2));
-        if(y2==-Infinity || y2==Infinity){
-          continue;
+    function nextLevel() {
+        lvn += 1;
+        x = 0.1;y = 0.1;
+        if (R != Infinity) {
+            score += Math.trunc(1e5 * (dd - R));
         }
-        r += Math.abs(y1-y2);
-  }
-  return r/4000;
-}
-
-function plot2(str){
-    ex = format(str);
-    outeval = eval(ex);
-    ctx2.fillStyle = "gray";
-    if(typeof outeval == "boolean") {
-      jd = size/200;
-      for(var i=0;i<=size;i+=jd) {
-        for(var j=0;j<=size;j+=jd) {
-          x = (2*i-size)/size;
-          y = -(2*j-size)/size;
-          if(eval(ex) == true){
-            ctx2.fillRect(i,j,jd/2,jd/2);
-          }
+        ined.value = "";
+        reMes();
+        if (lvn > levels.length) {
+            alert("游戏开发中...");
+            return;
         }
-      }
-    } else if(typeof outeval == "number") {
-      for(var i=-2000;i<=2000;i++){
-        x = i/2000; //[-1,1]
-        y = eval(ex);
-        y = (1-y)*size*0.5;
-        x = (x+1)*0.5*size
-        ctx2.fillRect(x-1,y-1,2,2);
-      }
-    }
-}
-
-function inChange(){
-    if(ined.value==""){
+        reCanvas2();
         reCanvas();
-        return;
+        plot2(levels[lvn - 1])
     }
-    plot(ined.value, "blue");
-}
+
+    function buOnClick() {
+        nextLevel();
+        bu.disabled = true;
+        bu.style.border = "1px solid red";
+    }
+
+    function reCanvas() {
+        canv.width = canv.width;
+        bu.disabled = true;
+        bu.style.border = "1px solid red";
+    }
+
+    function reCanvas2() {
+        canv2.width = canv2.width;
+        ctx2.strokeStyle = 'gray';
+        ctx2.moveTo(size / 2, 0);
+        ctx2.lineTo(size / 2, size);
+        ctx2.moveTo(0, size / 2);
+        ctx2.lineTo(size, size / 2);
+        ctx2.stroke();
+    }
+
+    function plot(ex, color) {
+        try {
+            comp = math.compile(ex);
+            outeval = comp.evaluate({
+                x: x,
+                y: y
+            });
+        } catch (err) {
+            return;
+        }
+        reCanvas();
+        ctx.fillStyle = color;
+        if (typeof outeval == "boolean") {
+            jd = size / 200;
+            for (var i = 0; i <= size; i += jd) {
+                for (var j = 0; j <= size; j += jd) {
+                    x = (2 * i - size) / size;
+                    y = -(2 * j - size) / size;
+                    ans = comp.evaluate({
+                        x: x,
+                        y: y
+                    });
+                    if (ans == true) {
+                        ctx.fillRect(i, j, jd / 2, jd / 2);
+                    }
+                }
+            }
+        } else if (typeof outeval == "number") {
+            for (var i = -10*size; i <= 10*size; i++) {
+                x = i / (10*size); //[-1,1]
+                y = comp.evaluate({
+                    x: x,
+                    y: y
+                });
+                if (typeof y != "number" || y > 1 || y < -1) {
+                    continue;
+                }
+                y = (1 - y) * size * 0.5;
+                x = (x + 1) * 0.5 * size
+                ctx.fillRect(x - 1, y - 1, 2, 2);
+            }
+            R = parseFloat(calR(ex, levels[lvn - 1]).toFixed(6));
+            judge(R);
+        }
+    }
+
+    function judge(R) {
+        reMes();
+        if (R < dd) {
+            bu.disabled = false;
+            bu.style.border = "1px solid green";
+        } else {
+            bu.disabled = true;
+            bu.style.border = "1px solid red";
+        }
+    }
+
+    function calR(ex, ex2) {
+        r = 0;
+        comp = math.compile(ex);
+        comp2 = math.compile(ex2);
+        start = ses[lvn - 1][0];
+        end = ses[lvn - 1][1];
+        for (var i = start; i <= end; i++) {
+            x = i / 2000;
+            y1 = comp.evaluate({
+                x: x,
+                y: y
+            });
+            y2 = comp2.evaluate({
+                x: x,
+                y: y
+            });
+            if (typeof y2 != "number") {
+                continue;
+            }
+            if (y2 == -Infinity || y2 == Infinity) {
+                continue;
+            }
+            r += Math.abs(y1 - y2);
+        }
+        return r / (end - start);
+    }
+
+    function plot2(ex) {
+        comp = math.compile(ex);
+        outeval = comp.evaluate({
+            x: x,
+            y: y
+        });
+        ctx2.fillStyle = "gray";
+        if (typeof outeval == "boolean") {
+            jd = size / 200;
+            for (var i = 0; i <= size; i += jd) {
+                for (var j = 0; j <= size; j += jd) {
+                    x = (2 * i - size) / size;
+                    y = -(2 * j - size) / size;
+                    if (comp.evaluate({
+                        x: x,
+                        y: y
+                    }) == true) {
+                        ctx2.fillRect(i, j, jd / 2, jd / 2);
+                    }
+                }
+            }
+        } else if (typeof outeval == "number") {
+            for (var i = -10*size; i <= 10*size; i++) {
+                x = i / (10*size); //[-1,1]
+                y = comp.evaluate({
+                    x: x,
+                    y: y
+                });
+                if (typeof y != "number" || y > 1 || y < -1) {
+                    continue;
+                }
+                y = (1 - y) * size * 0.5;
+                x = (x + 1) * 0.5 * size
+                ctx2.fillRect(x - 1, y - 1, 2, 2);
+            }
+        }
+    }
+
+    function inChange() {
+        if (ined.value == "") {
+            reCanvas();
+            return;
+        }
+        plot(ined.value, "blue");
+    }
 </script>
 
 </html>
