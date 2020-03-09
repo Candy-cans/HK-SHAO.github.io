@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>函数大冒险（开发中v1.3）</title>
+<title>函数大冒险（开发中v1.32）</title>
 <style type="text/css">
 #father{
     position:relative;
@@ -42,14 +42,14 @@
 原因在于你看到的灰色线条是“训练集”样本，在区间[-1,1]之间，<br>
 而计算残差的“测试集”样本不一定与“训练集”样本相同。<br>
   <br><br>
-游戏正在开发中...目前还处于不完善状态，游戏开发者：烧风<br>
+游戏正在开发中，目前还处于极度不完善状态，很多bug，为保证游戏性请不要卡bug过关。开发者：烧风<br>
 图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果<br>
 绘制图像可以直接输入函数绘制曲线，例如 y=sin(x)或者 sin(x)<br>
 可以绘制分段函数，需要用到程序语句，例如 if(x&lt0) {x} else {x*x}<br>
 也可以输入不等式绘制平面区域，例如 sin(x)&lt;y&&y&lt;-0.2 （&&与，||或）<br>
 你每改变一次输入框里的内容就会执行一次javascript的eval函数<br>
 所以理论上你可以在输入框输入并运行javascript代码（调用Math库的不用Math.）<br>
-表达式只要返回的是number或者boolean就可以绘制图像，所以玩法有很多，就等待着你自己探索了<br>
+表达式只要返回的是number或者boolean就可以绘制图像，所以玩法很多很自由，就等待着你自己探索了<br>
 下面是Math库的函数说明
 </div>
 </p>
@@ -230,10 +230,6 @@ function reMes(){
 
 function nextLevel(){
   lvn += 1;
-  if (lvn>levels.length){
-    alert("游戏开发中...");
-    return;
-  }
   if(R!=Infinity){
     score += Math.trunc(100000*(dd-R));
   }
@@ -242,6 +238,10 @@ function nextLevel(){
   plot2(levels[lvn-1])
   reMes();
   ined.value = "";
+  if (lvn>levels.length){
+    alert("游戏开发中...");
+    return;
+  }
 }
 
 function buOnClick(){
