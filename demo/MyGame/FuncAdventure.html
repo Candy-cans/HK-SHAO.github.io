@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数大冒险（开发中v1.43）</title>
+    <title>函数大冒险（开发中v1.44）</title>
     <style type="text/css">
         #father {
             position: relative;
@@ -38,7 +38,7 @@
     <br>
     <h3 id="mes"></h3>
     <br>
-    <h3>游戏说明（每关满分20000分，目前有38个关卡）</h3>
+    <h3>游戏说明（每关满分20000分，目前有39个关卡）</h3>
     <div>
         过关条件：输入函数表达式，并尽可能高的拟合灰色线条，使残差降到0.2以下
         <br>如果你过关了，你还可以尝试挑战将残差降低到0，残差越低得分越高。
@@ -58,7 +58,7 @@
         <br>下面是math库的部分函数说明（实际上支持非常多的函数比如gamma函数，请参考math.js）
     </div>
     </p>
-    <h3>部分常量（更多参考https://mathjs.org/docs/reference/constants.html）</h3>
+    <h3>部分常量（参考https://mathjs.org/docs/reference/constants.html）</h3>
     <table class="reference">
         <tbody>
             <tr>
@@ -93,7 +93,7 @@
             </tr>
         </tbody>
     </table>
-    <h3>部分函数（更多参考https://mathjs.org/docs/reference/functions.html）</h3>
+    <h3>部分函数（参考https://mathjs.org/docs/reference/functions.html）</h3>
     <table class="reference">
         <tbody>
             <tr>
@@ -229,9 +229,9 @@
     levels = ["x", "x^2", "0.1/x", "abs(x)", "abs(x^3)", "sin(PI*x)", "exp(E*x)",
         "sqrt(0.5-x^2)", "x^2+x", "ceil(x*10)/10", "x^3+0.3*x^2-0.5*x-0.3", "tan(x^2*3.8)", "ceil(x*10)/10+floor(x*10)/10", "min(x^2-x,x)",
         "sin(10x+0.3sin(1000x))", "log(E*x)", "gamma(10x)/10", "(10x)%2/10", "x^x", "pow(x^3,x)", "abs(sin(x))",
-        "abs(sin(x^2*5))", "max((10x)%2/10,sin(10*PI*x))", "gamma(abs(x)*10)/10", "max(sin(x*10)/10,cos(x*10)/10)", "log(abs(x*5)-0.1)/5", "x%(0.2)+sin(x*10)/10",
+        "abs(sin(x^2*5))", "max(x%0.2,sin(10*PI*x))", "gamma(abs(x)*10)/10", "max(sin(x*10)/10,cos(x*10)/10)", "log(abs(x*5)-0.1)/5", "x%(0.2)+sin(x*10)/10",
         "max(0,x)", "max(0.1x,x)", "sign(sin(x*10))/10", "atan(x*1.5)", "tanh(x*1.5)", "1/(1+e^(-x*10))", "sign(sin(x*1000))/2",
-        "sin(10x)%1-0.5", "norm(cos(i*10x))/10", "gcd(6,ceil(10*x))/10", "sin(PI*(x+sin(x*1000)))"
+        "sin(10x)%1-0.5", "0.2*isPrime(ceil(x*20))", "norm(cos(i*10x))/10", "gcd(6,ceil(10*x))/10", "sin(PI*(x+sin(x*1000)))"
     ];
     ses = [
         [-2000, 2000],[-2000, 2000],[-100, 100],[-2000, 2000],[-2000, 2000],[100, 4100],[-2000, 2000],
@@ -239,7 +239,7 @@
         [-2000,2000], [-100,4100], [-1000,1000], [-2000,2000], [0,4000], [0,4000], [-2000,2000],
         [-2000,2000], [-2000,2000], [-300,-200], [-2000,2000], [2000,6000], [-2000,2000],
         [-2000,2000], [-2000,2000], [-2000,2000], [-2000,2000], [-2000,2000], [-2000,2000], [-2000,2000],
-        [-2000,2000], [-500,500], [-2000,2000], [-2000,2000]
+        [-2000,2000], [0, 2000], [-500,500], [-2000,2000], [-2000,2000]
     ];
 
     lvn = 0;
