@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数大冒险（开发中v1.51）</title>
+    <title>函数大冒险（开发中v1.53）</title>
     <style type="text/css">
         #father {
             position: relative;
@@ -49,7 +49,7 @@
         <br>
         <br>
         <br>游戏正在开发中，目前还处于极度不完善状态，很多bug，为保证游戏性请不要卡bug过关。开发者：烧风
-        <br>偷偷告诉你：跳关输入 0/0 或者 NaN ，请适度使用，否则会破坏游戏性
+        <br>悄悄告诉你：跳关输入 0/0 或者 NaN ，请适度使用，否则会破坏游戏性
         <br>图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果
         <br>绘制图像可以直接输入函数绘制曲线，例如 sin(x) x^x gamma(x) E^x
         <br>也可以输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2
@@ -261,6 +261,7 @@
         if (R != Infinity) {
             score += Math.trunc(1e5 * (dd - R));
         }
+        R = Infinity;
         ined.value = "";
         reMes();
         if (lvn > levels.length) {
@@ -325,12 +326,10 @@
                 R = Infinity;
             } else {
                 R = parseFloat((Math.tan(0.5*Math.PI*(1-qab/(qa+qb-qab)))/2).toFixed(6));
-                if (R > 1e8) {
-                    R = Infinity;
-                }
+                if (R > 1e8) {R = Infinity;}
                 qab = 0;qb = 0;
             }
-            judge(R);
+            judge();
         } else if (typeof outeval == "number") {
             for (var i = -10*size; i <= 10*size; i++) {
                 x = i / (10*size); //[-1,1]
@@ -347,11 +346,11 @@
             } else {
                 R = parseFloat(calR(ex, levels[lvn - 1]).toFixed(6));
             }
-            judge(R);
+            judge();
         }
     }
 
-    function judge(R) {
+    function judge() {
         reMes();
         if (R < dd) {
             bu.disabled = false;
@@ -421,7 +420,20 @@
         }
         x = 0.1;y = 0.1;
         plot(ined.value, "blue");
+        if (ined.value=="0/0" || ined.value=="NaN"){
+            R = 0;
+            judge();
+            return;
+        }
     }
+
+    ined.addEventListener('keydown',function(e) {
+            if(e.keyCode==13){
+                bu.click();
+                event.preventDefault();
+            }
+            return;
+        });
 </script>
 
 </html>
