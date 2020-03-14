@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>函数绘图（开发中v1.0）</title>
+    <style type="text/css">
+        #father {
+            position: relative;
+            margin: 0px auto;
+            border: dotted;
+        }
+
+        #father #gc {
+            position: absolute;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        #father #gc2 {
+            position: absolute;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .left {
+            width: 50%;
+        }
+
+        .right {
+            width: 50%;
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div id="father" style="position:fixed;top: 50%;transform: translateY(-50%)">
+                <canvas id="gc"></canvas>
+                <canvas id="gc2"></canvas>
+            </div>
+        </div>
+        <div class="right">
+            <div style="text-align: center;width: 100%;">
+                <h2>脚本</h2>
+                <textarea id="ed2" oninput="inChange2()" rows="6" cols="50" style="font-size:20px;font-weight:bold">
+o_n /*初始值*/= 0.001;
+pcolor /*绘图颜色*/= "blue";
+p_b /*点精度*/= 200;
+p_n /*线精度*/= 10;
+ls /*线条粗细*/= 2;</textarea>
+                <br>
+                <br>
+                <h2>表达式</h2>
+                <textarea id="ed" oninput="inChange()" rows="6" cols="50"
+                    style="font-size:20px;font-weight:bold"></textarea>
+                <br>
+                <br>
+            </div>
+            <div style="position:fixed; bottom:0px; right:20px">
+                <h3 id="outm"></h3>
+            </div>
+            <h3>简要说明</h3>
+            <div>
+                支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
+                <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
+                <br>本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
+                <br>图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果
+                <br>● 支持直接输入函数绘制曲线，例如 sin(x) x^x gamma(x) E^x isPrime(x) x%0.5 等
+                <br>● 支持分段函数，请使用三元运算符 x&lt;0?x:x^2-x 或者 min() max() 等
+                <br>● 支持参数方程（参数为k，从0到1）绘制曲线，例如 [k,k] [k,k^2]/2-0.25 等
+                <br>● 支持输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2 等
+                <br>● 支持极坐标绘制曲线或者平面区域（使用 ρ 和 θ ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
+                <br>● 支持 time 变量，time 会返回当前时间戳，如 1584170659608 ，一般的使用方法是 sin(time/1000)
+                <br>你每改变一次输入框里的内容就会执行math.js的evaluate函数（参考文档：https://mathjs.org/）
+                <br>表达式只要返回的是number或者boolean就可以绘制图像，所以可绘制的图像种类很多
+                <br>欢迎挑战游戏《函数大冒险》https://hk-shao.github.io/demo/MyGame/FuncAdventure.html
+            </div>
+            </p>
+            <div>
+                <h3>更新记录</h3>
+                v1.0说明
+                <br>从函数大冒险整理去除了大部分冗余代码，增加了实时刷新，最高支持1000帧每秒（以你的性能为定）
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.0.0/math.min.js"></script>
+<script type="text/javascript">
+    cfa = document.getElementById("father");
+    canv = document.getElementById("gc");
+    ctx = canv.getContext("2d");
+    canv2 = document.getElementById("gc2");
+    ctx2 = canv2.getContext("2d");
+    ined = document.getElementById("ed");
+    ined2 = document.getElementById("ed2");
+    outm = document.getElementById("outm");
+
+    size = Math.min(window.innerWidth * 0.5, window.innerHeight * 0.95);
+    cfa.style.width = size + "px";
+    cfa.style.height = size + "px";
+    canv.width = size;
+    canv.height = size;
+    canv2.width = size;
+    canv2.height = size;
+
+    inChange2();
+    x = o_n;
+    y = o_n;
+
+    reCanvas2();
+    reCanvas();
+    ined.value = "((2x)^2+(2y)^2-1)^3<(2x)^2(2y)^3";
+
+    function reCanvas() {
+        canv.width = canv.width;
+    }
+
+    function reCanvas2() {
+        canv2.width = canv2.width;
+        ctx2.strokeStyle = 'gray';
+        ctx2.moveTo(size / 2, 0);
+        ctx2.lineTo(size / 2, size);
+        ctx2.moveTo(0, size / 2);
+        ctx2.lineTo(size, size / 2);
+        ctx2.stroke();
+    }
+
+    function plot(ex, color, type) {
+        comp = math.compile(ex);
+        reCanvas();
+        ctx.fillStyle = color;
+        if (type == "boolean") {
+            jd = size / p_b;
+            for (var i = 0; i <= size; i += jd) {
+                for (var j = 0; j <= size; j += jd) {
+                    x = (2 * i - size) / size;
+                    y = -(2 * j - size) / size;
+                    ans = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
+                    if (ans == true) {
+                        ctx.fillRect(i, j, jd / 2, jd / 2);
+                    }
+                }
+            }
+        } else if (type == "number") {
+            for (var i = -p_n * size; i <= p_n * size; i++) {
+                x = i / (p_n * size);
+                y = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
+                if (y > 1 || y < -1) {
+                    continue;
+                }
+                ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
+            }
+        } else if (type == "object") {
+            t = o_n;
+            ob = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: new Date().getTime() });
+            if (ob._data == undefined || ob._data.length != 2 || typeof ob._data[0] != "number" || typeof ob._data[1] != "number") {
+                return;
+            }
+            for (var i = 0; i <= 2 * p_n * size; i++) {
+                t = i / (2 * p_n * size);
+                ob = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: new Date().getTime() });
+                x = ob._data[0];
+                y = ob._data[1];
+                if (y > 1 || y < -1 || x > 1 || x < -1) {
+                    continue;
+                }
+                ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
+            }
+        }
+    }
+
+    function inChange() {
+        if (ined.value == "0/0" || ined.value == "NaN") {
+            reCanvas();
+            outm.innerHTML = "NaN";
+            return;
+        }
+        if (ined.value == "") {
+            reCanvas();
+            outm.innerHTML = "";
+            return;
+        }
+        x = o_n;
+        y = o_n;
+        try {
+            outeval = math.evaluate(ined.value, { time: new Date().getTime() });
+            type = typeof outeval;
+            if (type != "function") {
+                outm.innerHTML = outeval;
+            } else {
+                outm.innerHTML = "function";
+            }
+        } catch (err) {
+            outm.innerHTML = "";
+            try {
+                outeval = math.evaluate(ined.value, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: o_n, time: new Date().getTime() });
+            } catch (err) {
+                outeval = NaN;
+                outm.innerHTML = "NaN";
+            }
+            type = typeof outeval;
+        }
+        if (!((isNaN(outeval) || Math.abs(outeval) == Infinity) && type != "object")) {
+            plot(ined.value, pcolor, type);
+        }
+    }
+
+    function inChange2() {
+        eval(ined2.value);
+    }
+
+    ined.addEventListener('keydown', function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+        }
+        return;
+    });
+    setInterval("inChange()", 1);
+</script>
+
+</html>
