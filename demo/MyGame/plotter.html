@@ -79,7 +79,6 @@ sin(10x+time/100)/10</textarea>
                 <br> ● 支持极坐标绘制曲线或者平面区域（使用 ρ 和 θ ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
                 <br> ● 使用 time 返回当前时间戳，一般的使用方法是 sin(time/1000)
                 <br> ● 支持绘制多个函数图像，回车换行输入，支持自定义函数，例如 f(x,y)=x^y
-                <br> ● 使用 rgb(r,g,b) 命令改变绘制的颜色，例如 rgb(0,255,0)
                 <br>你每改变一次输入框里的内容就会执行math.js的evaluate函数（参考文档：https://mathjs.org/）
                 <br>表达式只要返回的是number或者boolean就可以绘制图像，所以可绘制的图像种类很多
                 <br>欢迎挑战游戏《函数大冒险》https://hk-shao.github.io/demo/MyGame/FuncAdventure.html
@@ -124,7 +123,7 @@ sin(10x+time/100)/10</textarea>
     excs = [];
     mg = {};
     col = color[0];
-    Object.assign(def, { rgb: function (r, g, b) { col = "rgb(" + r + "," + g + "," + b + ")"; } });
+    Object.assign(def, { hkshao: function () { return "恭喜你发现这个彩蛋！" } });
 
     reCanvas2();
     reCanvas();
@@ -221,13 +220,13 @@ sin(10x+time/100)/10</textarea>
 
             exc = excs[i];
             ined.style.border = "dashed green";
-            col = color[ci++];
             try {
                 outeval = exc.evaluate(mg);
                 type = typeof outeval;
                 if (type != "function") {
                     omes += outeval + "<br>";
                     if (!((Math.abs(outeval) == Infinity) && type != "object")) {
+                        col = color[ci++];
                         plot(exc, type);
                     }
                 } else {
