@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.2）</title>
+    <title>函数绘图（开发中v1.3）</title>
     <style type="text/css">
         #father {
             position: relative;
@@ -31,7 +31,10 @@
         }
 
         .right {
-            width: 50%;
+            width: 37%;
+        }
+
+        .out {
             flex: 1;
         }
     </style>
@@ -48,23 +51,21 @@
         <div class="right">
             <div style="width: 100%;">
                 <h2>脚本</h2>
-                <textarea id="ed2" oninput="inChange2()" rows="8" cols="50" style="font-size:20px;font-weight:bold">
+                <textarea id="ed2" oninput="inChange2()" rows="7" style="font-size:20px;font-weight:bold;width:70%;">
 Hz /*帧率*/= 60;
-k /*初始值*/= 0.001;
-pcolor /*绘图颜色*/= "blue";
+color /*颜色*/= ["blue"];
 p_b /*点精度*/= 200;
 p_n /*线精度*/= 1;
-ls /*线条粗细*/= 2;
-ps /*点的大小*/= 0.5;
+ls /*线粗细*/= 2;
+ps /*点大小*/= 0.5;
 def /*定义*/= {love: 520, you: 1314/520};</textarea>
                 <h2>表达式</h2>
-                <textarea id="ed" oninput="inChange()" rows="6" cols="50" style="font-size:20px;font-weight:bold">
+                <textarea id="ed" oninput="inChange()" rows="6" style="font-size:20px;font-weight:bold;width:70%;">
 sin(10x+time/100)/10</textarea>
                 <img id="img" />
             </div>
-            <h2>输出</h2>
-            <h3 id="outm"></h3>
             <h3 id="fpsm" style="position:fixed; top:0px; right:20px"></h3>
+
             <h3>简要说明</h3>
             <div>
                 本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
@@ -73,16 +74,21 @@ sin(10x+time/100)/10</textarea>
                 <br>图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果
                 <br> ● 支持直接输入函数绘制曲线，例如 sin(x) x^x gamma(x) E^x isPrime(x) x%0.5 等
                 <br> ● 支持分段函数，请使用三元运算符 x&lt;0?x:x^2-x 或者 min() max() 等
-                <br> ● 支持参数方程（参数为k，从0到1）绘制曲线，例如 [k,k] [k,k^2]/2-0.25 等
+                <br> ● 支持参数方程（参数为k，从0到1）绘制曲线，例如 k+k*i [k,k^2]/2-0.25 等
                 <br> ● 支持输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2 等
                 <br> ● 支持极坐标绘制曲线或者平面区域（使用 ρ 和 θ ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
                 <br> ● 使用 time 返回当前时间戳，一般的使用方法是 sin(time/1000)
-                <br> ● 支持绘制多个函数图像，回车换行输入新的函数
+                <br> ● 支持绘制多个函数图像，回车换行输入，支持自定义函数，例如 f(x,y)=x^y
+                <br> ● 使用 rgb(r,g,b) 命令改变绘制的颜色，例如 rgb(0,255,0)
                 <br>你每改变一次输入框里的内容就会执行math.js的evaluate函数（参考文档：https://mathjs.org/）
                 <br>表达式只要返回的是number或者boolean就可以绘制图像，所以可绘制的图像种类很多
                 <br>欢迎挑战游戏《函数大冒险》https://hk-shao.github.io/demo/MyGame/FuncAdventure.html
             </div>
             </p>
+        </div>
+        <div class="out">
+            <h2>输出</h2>
+            <h3 id="outm"></h3>
         </div>
     </div>
 </body>
@@ -110,8 +116,15 @@ sin(10x+time/100)/10</textarea>
 
     interval = 0;
     inChange2();
-    x = k;
-    y = k;
+    x = NaN;
+    y = NaN;
+    k = NaN;
+    t1 = new Date().getTime();
+    intmp = ""
+    excs = [];
+    mg = {};
+    col = color[0];
+    Object.assign(def, { rgb: function (r, g, b) { col = "rgb(" + r + "," + g + "," + b + ")"; } });
 
     reCanvas2();
     reCanvas();
@@ -130,9 +143,8 @@ sin(10x+time/100)/10</textarea>
         ctx2.stroke();
     }
 
-    function plot(ex, color, type) {
-        comp = math.compile(ex);
-        ctx.fillStyle = color;
+    function plot(exc, type) {
+        ctx.fillStyle = col;
         time = new Date().getTime();
         if (type == "boolean") {
             jd = size / p_b;
@@ -140,8 +152,8 @@ sin(10x+time/100)/10</textarea>
                 for (var j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    mg = mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
-                    ans = comp.evaluate(mg);
+                    Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time });
+                    ans = exc.evaluate(mg);
                     if (ans == true) {
                         ctx.fillRect(i, j, jd * ps, jd * ps);
                     }
@@ -150,29 +162,33 @@ sin(10x+time/100)/10</textarea>
         } else if (type == "number") {
             for (var i = -p_n * size; i <= p_n * size; i++) {
                 x = i / (p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
-                y = comp.evaluate(mg);
+                Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time });
+                y = exc.evaluate(mg);
                 if (y > 1 || y < -1 || isNaN(y)) {
                     continue;
                 }
                 ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
             }
         } else if (type == "object") {
-            mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
-            ob = comp.evaluate(mg);
-            if (ob._data == undefined || ob._data.length != 2 || typeof ob._data[0] != "number" || typeof ob._data[1] != "number") {
-                return;
-            }
-            for (var i = 0; i <= 2 * p_n * size; i++) {
-                t = i / (2 * p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time }, def);
-                ob = comp.evaluate(mg);
-                x = ob._data[0];
-                y = ob._data[1];
-                if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
-                    continue;
+            Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time });
+            ob = exc.evaluate(mg);
+            if (ob.im != undefined || (ob._data.length == 2 && typeof ob._data[0] == "number" && typeof ob._data[1] == "number")) {
+                for (var i = 0; i <= 2 * p_n * size; i++) {
+                    t = i / (2 * p_n * size);
+                    Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time });
+                    ob = exc.evaluate(mg);
+                    if (ob.im != undefined) {
+                        x = ob.re;
+                        y = ob.im;
+                    } else {
+                        x = ob._data[0];
+                        y = ob._data[1];
+                    }
+                    if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
+                        continue;
+                    }
+                    ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
                 }
-                ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
             }
         }
     }
@@ -185,34 +201,41 @@ sin(10x+time/100)/10</textarea>
 
     function splot(exs) {
         omes = "";
-        for (var i = 0; i < exs.length; i++) {
-            ex = exs[i];
-            x = k;
-            y = k;
-            ined.style.border = "dotted green";
-            time = new Date().getTime();
+        mg = {};
+        if (excs.length == 0) {
+            for (var i = 0; i < exs.length; i++) {
+                try {
+                    excs.push(math.compile(exs[i]));
+                } catch (err) {
+                    omes += "Error: Line " + (i + 1) + "<br>";
+                    ined.style.border = "dashed red";
+                    continue;
+                }
+            }
+        }
+        ci = 0;
+        time = new Date().getTime();
+        Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
+        for (var i = 0; i < excs.length; i++) {
+            Object.assign(mg, { x: NaN, y: NaN, ρ: NaN, θ: NaN });
+
+            exc = excs[i];
+            ined.style.border = "dashed green";
+            col = color[ci++];
             try {
-                mg = Object.assign({ time: time }, def);
-                outeval = math.evaluate(ex, mg);
+                outeval = exc.evaluate(mg);
                 type = typeof outeval;
                 if (type != "function") {
                     omes += outeval + "<br>";
-                    plot(ex, pcolor, type);
+                    if (!((Math.abs(outeval) == Infinity) && type != "object")) {
+                        plot(exc, type);
+                    }
                 } else {
                     omes += "function" + "<br>";
                 }
             } catch (err) {
-                try {
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
-                    outeval = math.evaluate(ex, mg);
-                    type = typeof outeval;
-                    if (!((Math.abs(outeval) == Infinity) && type != "object")) {
-                        plot(ex, pcolor, type);
-                    }
-                } catch (err) {
-                    omes += "NaN" + "<br>";
-                    ined.style.border = "dotted red";
-                }
+                omes += "Error: Line " + (i + 1) + "<br>";
+                ined.style.border = "dashed red";
             }
         }
         return omes;
@@ -225,27 +248,32 @@ sin(10x+time/100)/10</textarea>
         }
     }
 
-    t1 = new Date().getTime();
     function inChange() {
-        reCanvas();
-        if (ined.value != "") {
-            try {
-                showLaTex(math.parse(ined.value).toTex());
-            } catch (err) {
+        if (ined.value != intmp || ined.value.indexOf("time") != -1 || excs.length == 0) {
+            reCanvas();
+            if (ined.value != "") {
+                try {
+                    showLaTex(math.parse(ined.value).toTex());
+                } catch (err) {
+                    showLaTex("");
+                }
+                if (ined.value == "0/0" || ined.value == "NaN") {
+                    changeOm("NaN");
+                }
+                else {
+                    if (ined.value != intmp) {
+                        excs = [];
+                    }
+                    exs = ined.value.split("\n");
+                    omes = splot(exs);
+                    changeOm(omes);
+                }
+            } else {
+                ined.style.border = "dashed red";
                 showLaTex("");
+                changeOm("Undefined");
             }
-            if (ined.value == "0/0" || ined.value == "NaN") {
-                changeOm("NaN");
-            }
-            else {
-                exs = ined.value.split("\n");
-                omes = splot(exs);
-                changeOm(omes);
-            }
-        } else {
-            ined.style.border = "dotted red";
-            showLaTex("");
-            changeOm("Undefined");
+            intmp = ined.value;
         }
         t2 = new Date().getTime();
         if (t2 % 500 < 10) {
@@ -255,11 +283,12 @@ sin(10x+time/100)/10</textarea>
     }
 
     function inChange2() {
-        ined2.style.border = "dotted green";
+        ined2.style.border = "dashed green";
         try {
             eval(ined2.value);
+            excs = [];
         } catch (err) {
-            ined2.style.border = "dotted red";
+            ined2.style.border = "dashed red";
         }
         window.clearInterval(interval);
         if (Hz != 0) {
