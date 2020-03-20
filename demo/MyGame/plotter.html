@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.3）</title>
+    <title>函数绘图（开发中v1.4）</title>
     <style type="text/css">
         #father {
             position: relative;
@@ -44,7 +44,7 @@
     <div class="container">
         <div class="left">
             <div id="father" style="position:fixed;top: 50%;transform: translateY(-50%)">
-                <canvas id="gc"></canvas>
+                <canvas id="gc" onmouseout="reCanvas2()"></canvas>
                 <canvas id="gc2"></canvas>
             </div>
         </div>
@@ -64,7 +64,7 @@ def /*定义*/= {love: 520, you: 1314/520};</textarea>
 sin(10x+time/100)/10</textarea>
                 <img id="img" />
             </div>
-            <h3 id="fpsm" style="position:fixed; top:0px; right:20px"></h3>
+            <h3 id="fpsm" style="position:fixed; bottom:0px; right:20px"></h3>
 
             <h3>简要说明</h3>
             <div>
@@ -113,6 +113,27 @@ sin(10x+time/100)/10</textarea>
     canv2.width = size;
     canv2.height = size;
 
+    canv.addEventListener("mousemove", function (e) {
+        cRect = canv2.getBoundingClientRect();
+        mx = Math.round(e.clientX - cRect.left);
+        my = Math.round(e.clientY - cRect.top);
+        canv2.width = canv2.width;
+        ctx2.strokeStyle = 'gray';
+        ctx2.setLineDash([size / 201, size / 201]);
+        ctx2.moveTo(size / 2, 0);
+        ctx2.lineTo(size / 2, size);
+        ctx2.moveTo(0, size / 2);
+        ctx2.lineTo(size, size / 2);
+        ctx2.moveTo(size / 2, my);
+        ctx2.lineTo(mx, my);
+        ctx2.moveTo(mx, size / 2);
+        ctx2.lineTo(mx, my);
+        mxf = (2 * mx / size) - 1;
+        myf = (-2 * my / size) + 1;
+        ctx2.fillText("(" + mxf + ", " + myf + ")", 4, 14);
+        ctx2.stroke();
+    });
+
     interval = 0;
     inChange2();
     x = NaN;
@@ -121,7 +142,6 @@ sin(10x+time/100)/10</textarea>
     t1 = new Date().getTime();
     intmp = ""
     excs = [];
-    mg = {};
     col = color[0];
     Object.assign(def, { hkshao: function () { return "恭喜你发现这个彩蛋！" } });
 
@@ -135,6 +155,7 @@ sin(10x+time/100)/10</textarea>
     function reCanvas2() {
         canv2.width = canv2.width;
         ctx2.strokeStyle = 'gray';
+        ctx2.setLineDash([size / 101, size / 101]);
         ctx2.moveTo(size / 2, 0);
         ctx2.lineTo(size / 2, size);
         ctx2.moveTo(0, size / 2);
@@ -151,7 +172,7 @@ sin(10x+time/100)/10</textarea>
                 for (var j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time });
+                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time }, def);
                     ans = exc.evaluate(mg);
                     if (ans == true) {
                         ctx.fillRect(i, j, jd * ps, jd * ps);
@@ -161,7 +182,7 @@ sin(10x+time/100)/10</textarea>
         } else if (type == "number") {
             for (var i = -p_n * size; i <= p_n * size; i++) {
                 x = i / (p_n * size);
-                Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time });
+                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time }, def);
                 y = exc.evaluate(mg);
                 if (y > 1 || y < -1 || isNaN(y)) {
                     continue;
@@ -169,12 +190,12 @@ sin(10x+time/100)/10</textarea>
                 ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
             }
         } else if (type == "object") {
-            Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time });
+            mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: NaN, time: time }, def);
             ob = exc.evaluate(mg);
             if (ob.im != undefined || (ob._data.length == 2 && typeof ob._data[0] == "number" && typeof ob._data[1] == "number")) {
                 for (var i = 0; i <= 2 * p_n * size; i++) {
                     t = i / (2 * p_n * size);
-                    Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time });
+                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time }, def);
                     ob = exc.evaluate(mg);
                     if (ob.im != undefined) {
                         x = ob.re;
@@ -200,7 +221,6 @@ sin(10x+time/100)/10</textarea>
 
     function splot(exs) {
         omes = "";
-        mg = {};
         if (excs.length == 0) {
             for (var i = 0; i < exs.length; i++) {
                 try {
@@ -214,12 +234,10 @@ sin(10x+time/100)/10</textarea>
         }
         ci = 0;
         time = new Date().getTime();
-        Object.assign(mg, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: k, time: time }, def);
         for (var i = 0; i < excs.length; i++) {
-            Object.assign(mg, { x: NaN, y: NaN, ρ: NaN, θ: NaN });
-
             exc = excs[i];
             ined.style.border = "dashed green";
+            mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: NaN, time: time }, def);
             try {
                 outeval = exc.evaluate(mg);
                 type = typeof outeval;
