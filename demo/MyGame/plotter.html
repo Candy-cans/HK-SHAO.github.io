@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.5）</title>
+    <title>函数绘图（开发中v1.51）</title>
     <style type="text/css">
         #father {
             border: solid;
@@ -64,7 +64,7 @@ sin(10x+time/100)/10</textarea>
             </div>
             <h3 id="fpsm" style="position:fixed; bottom:0px; right:20px"></h3>
             <h3>简要说明</h3>
-            <div>
+            <div style="word-wrap:break-word">
                 本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
                 <br>支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
                 <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
@@ -86,7 +86,7 @@ sin(10x+time/100)/10</textarea>
         </div>
         <div class="out">
             <h2>输出</h2>
-            <h3 id="outm"></h3>
+            <h3 id="outm" style="word-wrap:break-word"></h3>
         </div>
     </div>
 </body>
@@ -149,7 +149,6 @@ sin(10x+time/100)/10</textarea>
     inChange2();
     x = NaN;
     y = NaN;
-    k = NaN;
     t1 = new Date().getTime();
     frame = 0;
     intmp = ""
@@ -243,7 +242,7 @@ sin(10x+time/100)/10</textarea>
                 try {
                     excs.push(math.compile(exs[i]));
                 } catch (err) {
-                    omes += "Error: Line " + (i + 1) + "<br>";
+                    omes += "CompileError: Line " + (i + 1) + "<br>";
                     ined.style.border = "dashed red";
                     continue;
                 }
@@ -260,7 +259,7 @@ sin(10x+time/100)/10</textarea>
                 type = typeof outeval;
                 if (type != "function") {
                     omes += outeval + "<br>";
-                    if (!((Math.abs(outeval) == Infinity) && type != "object")) {
+                    if (Math.abs(outeval) != Infinity) {
                         col = color[ci++];
                         plot(exc, type);
                     }
@@ -268,7 +267,7 @@ sin(10x+time/100)/10</textarea>
                     omes += "function" + "<br>";
                 }
             } catch (err) {
-                omes += "Error: Line " + (i + 1) + "<br>";
+                omes += "PlotError: Line " + (i + 1) + "<br>";
                 ined.style.border = "dashed red";
             }
         }
