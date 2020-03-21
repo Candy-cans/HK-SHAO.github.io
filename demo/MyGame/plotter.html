@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.4）</title>
+    <title>函数绘图（开发中v1.5）</title>
     <style type="text/css">
         #father {
-            position: relative;
-            margin: 0px auto;
-            border: dotted;
+            border: solid;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%)
         }
 
         #father #gc {
@@ -26,10 +27,6 @@
             display: flex;
         }
 
-        .left {
-            width: 50%;
-        }
-
         .right {
             width: 37%;
         }
@@ -42,8 +39,8 @@
 
 <body>
     <div class="container">
-        <div class="left">
-            <div id="father" style="position:fixed;top: 50%;transform: translateY(-50%)">
+        <div class="left" id="lft">
+            <div id="father">
                 <canvas id="gc" onmouseout="reCanvas2()"></canvas>
                 <canvas id="gc2"></canvas>
             </div>
@@ -65,23 +62,24 @@ sin(10x+time/100)/10</textarea>
                 <img id="img" />
             </div>
             <h3 id="fpsm" style="position:fixed; bottom:0px; right:20px"></h3>
-
             <h3>简要说明</h3>
             <div>
                 本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
                 <br>支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
                 <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
-                <br>图像的绘制范围固定在区间[-1,1]中，你可通过图像的平移和缩放得到你想要的效果
+                <br>图像的绘制范围固定在区间[-1,1]中，可通过函数的平移和缩放得到你想要的效果
+                <br>表达式只要返回数字、布尔值、复数、二维矩阵就可以绘制图像
+                <br>在脚本里可以写javascript脚本，修改color数组可以修改绘制的色彩
+                <br>回车换行输入可绘制多个函数图像
+                <br>
                 <br> ● 支持直接输入函数绘制曲线，例如 sin(x) x^x gamma(x) E^x isPrime(x) x%0.5 等
                 <br> ● 支持分段函数，请使用三元运算符 x&lt;0?x:x^2-x 或者 min() max() 等
                 <br> ● 支持参数方程（参数为k，从0到1）绘制曲线，例如 k+k*i [k,k^2]/2-0.25 等
                 <br> ● 支持输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2 等
                 <br> ● 支持极坐标绘制曲线或者平面区域（使用 ρ 和 θ ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
+                <br> ● 支持自定义变量和函数，例如 [n=2,f(x,y)=x^y,f(x,n)][3]
                 <br> ● 使用 time 返回当前时间戳，一般的使用方法是 sin(time/1000)
-                <br> ● 支持绘制多个函数图像，回车换行输入，支持自定义函数，例如 f(x,y)=x^y
-                <br>你每改变一次输入框里的内容就会执行math.js的evaluate函数（参考文档：https://mathjs.org/）
-                <br>表达式只要返回的是number或者boolean就可以绘制图像，所以可绘制的图像种类很多
-                <br>欢迎挑战游戏《函数大冒险》https://hk-shao.github.io/demo/MyGame/FuncAdventure.html
+                <br> ● 使用 frame 返回帧数。使用 mp 返回当前光标的位置，例如 (x-mp[1])^2+mp[2]
             </div>
             </p>
         </div>
@@ -104,15 +102,24 @@ sin(10x+time/100)/10</textarea>
     outm = document.getElementById("outm");
     fpsm = document.getElementById("fpsm");
     img = document.getElementById("img");
+    lft = document.getElementById("lft");
 
-    size = Math.min(window.innerWidth * 0.5, window.innerHeight * 0.95);
-    cfa.style.width = size + "px";
-    cfa.style.height = size + "px";
-    canv.width = size;
-    canv.height = size;
-    canv2.width = size;
-    canv2.height = size;
+    window.onresize = function () {
+        size = Math.min(window.innerWidth * 0.5, window.innerHeight * 0.95);
+        lft.style.width = size + 16 + "px";
+        cfa.style.width = size + "px";
+        cfa.style.height = size + "px";
+        canv.width = size;
+        canv.height = size;
+        canv2.width = size;
+        canv2.height = size;
+        reCanvas2();
+    }
 
+    window.onresize();
+
+    mxf = 0;
+    myf = 0;
     canv.addEventListener("mousemove", function (e) {
         cRect = canv2.getBoundingClientRect();
         mx = Math.round(e.clientX - cRect.left);
@@ -132,6 +139,9 @@ sin(10x+time/100)/10</textarea>
         myf = (-2 * my / size) + 1;
         ctx2.fillText("(" + mxf + ", " + myf + ")", 4, 14);
         ctx2.stroke();
+        if (ined.value.indexOf("mp") != -1) {
+            inChange(true);
+        }
     });
 
     interval = 0;
@@ -140,16 +150,19 @@ sin(10x+time/100)/10</textarea>
     y = NaN;
     k = NaN;
     t1 = new Date().getTime();
+    frame = 0;
     intmp = ""
     excs = [];
     col = color[0];
-    Object.assign(def, { hkshao: function () { return "恭喜你发现这个彩蛋！" } });
-
-    reCanvas2();
-    reCanvas();
+    Object.assign(def,
+        {
+            hkshao: function () {
+                return "恭喜你发现这个彩蛋！"
+            }
+        });
 
     function reCanvas() {
-        canv.width = canv.width;
+        ctx.clearRect(0, 0, size, size);
     }
 
     function reCanvas2() {
@@ -165,6 +178,7 @@ sin(10x+time/100)/10</textarea>
 
     function plot(exc, type) {
         ctx.fillStyle = col;
+        frame += 1;
         time = new Date().getTime();
         if (type == "boolean") {
             jd = size / p_b;
@@ -172,7 +186,7 @@ sin(10x+time/100)/10</textarea>
                 for (var j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time }, def);
+                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
                     ans = exc.evaluate(mg);
                     if (ans == true) {
                         ctx.fillRect(i, j, jd * ps, jd * ps);
@@ -182,7 +196,7 @@ sin(10x+time/100)/10</textarea>
         } else if (type == "number") {
             for (var i = -p_n * size; i <= p_n * size; i++) {
                 x = i / (p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time }, def);
+                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
                 y = exc.evaluate(mg);
                 if (y > 1 || y < -1 || isNaN(y)) {
                     continue;
@@ -190,12 +204,12 @@ sin(10x+time/100)/10</textarea>
                 ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
             }
         } else if (type == "object") {
-            mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: NaN, time: time }, def);
+            mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: NaN, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
             ob = exc.evaluate(mg);
             if (ob.im != undefined || (ob._data.length == 2 && typeof ob._data[0] == "number" && typeof ob._data[1] == "number")) {
                 for (var i = 0; i <= 2 * p_n * size; i++) {
                     t = i / (2 * p_n * size);
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time }, def);
+                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
                     ob = exc.evaluate(mg);
                     if (ob.im != undefined) {
                         x = ob.re;
@@ -210,6 +224,8 @@ sin(10x+time/100)/10</textarea>
                     ctx.fillRect((x + 1) * 0.5 * size - 1, (1 - y) * size * 0.5 - 1, ls, ls);
                 }
             }
+        } else {
+            frame -= 1;
         }
     }
 
@@ -237,7 +253,7 @@ sin(10x+time/100)/10</textarea>
         for (var i = 0; i < excs.length; i++) {
             exc = excs[i];
             ined.style.border = "dashed green";
-            mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: NaN, time: time }, def);
+            mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: NaN, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
             try {
                 outeval = exc.evaluate(mg);
                 type = typeof outeval;
@@ -265,8 +281,8 @@ sin(10x+time/100)/10</textarea>
         }
     }
 
-    function inChange() {
-        if (ined.value != intmp || ined.value.indexOf("time") != -1 || excs.length == 0) {
+    function inChange(isD = false) {
+        if (ined.value != intmp || ined.value.indexOf("time") != -1 || ined.value.indexOf("frame") != -1 || isD || excs.length == 0) {
             reCanvas();
             if (ined.value != "") {
                 try {
@@ -280,6 +296,7 @@ sin(10x+time/100)/10</textarea>
                 else {
                     if (ined.value != intmp) {
                         excs = [];
+                        frame = 0;
                     }
                     exs = ined.value.split("\n");
                     omes = splot(exs);
