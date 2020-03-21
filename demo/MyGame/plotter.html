@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.51）</title>
+    <title>函数绘图（开发中v1.52）</title>
     <style type="text/css">
         #father {
             border: solid;
@@ -283,6 +283,11 @@ sin(10x+time/100)/10</textarea>
 
     function inChange(isD = false) {
         if (ined.value != intmp || ined.value.indexOf("time") != -1 || ined.value.indexOf("frame") != -1 || isD || excs.length == 0) {
+            if (ined.value != intmp) {
+                excs = [];
+                frame = 0;
+            }
+            intmp = ined.value;
             reCanvas();
             if (ined.value != "") {
                 try {
@@ -292,22 +297,16 @@ sin(10x+time/100)/10</textarea>
                 }
                 if (ined.value == "0/0" || ined.value == "NaN") {
                     changeOm("NaN");
+                    return;
                 }
-                else {
-                    if (ined.value != intmp) {
-                        excs = [];
-                        frame = 0;
-                    }
-                    exs = ined.value.split("\n");
-                    omes = splot(exs);
-                    changeOm(omes);
-                }
+                exs = ined.value.split("\n");
+                omes = splot(exs);
+                changeOm(omes);
             } else {
                 ined.style.border = "dashed red";
                 showLaTex("");
                 changeOm("Undefined");
             }
-            intmp = ined.value;
         }
         t2 = new Date().getTime();
         if (t2 % 500 < 10) {
