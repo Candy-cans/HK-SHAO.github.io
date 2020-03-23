@@ -230,7 +230,6 @@ sin(10x+time/100)/10</textarea>
             ined.selectionStart = ined.selectionEnd = cursorPos;
         }
         ined.focus();
-        ined.blur();
     }
     function insertText(str) {
         if (document.selection) {
@@ -248,7 +247,6 @@ sin(10x+time/100)/10</textarea>
             ined.value += str;
         }
         ined.focus();
-        ined.blur();
     }
     function csqr(z) {
         return [z[0] * z[0] - z[1] * z[1], 2 * z[0] * z[1]];
