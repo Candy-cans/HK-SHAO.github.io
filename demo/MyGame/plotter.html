@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.7）</title>
+    <title>函数绘图（开发中v1.70）</title>
     <style type="text/css">
         button {
             font-family: Consolas;
             font-size: 26px;
-            width: 6.2%;
+            width: 6.55%;
         }
 
         #father {
@@ -221,7 +221,7 @@ sin(10x+time/100)/10</textarea>
 <script type="text/javascript">
     function delText() {
         if (typeof ined.selectionStart === 'number' && typeof ined.selectionEnd === 'number' && ined.value.length > 0) {
-            var startPos = ined.selectionStart,
+            let startPos = ined.selectionStart,
                 endPos = ined.selectionEnd,
                 cursorPos = startPos,
                 tmpStr = ined.value;
@@ -230,13 +230,14 @@ sin(10x+time/100)/10</textarea>
             ined.selectionStart = ined.selectionEnd = cursorPos;
         }
         ined.focus();
+        ined.blur();
     }
     function insertText(str) {
         if (document.selection) {
-            var sel = document.selection.createRange();
+            let sel = document.selection.createRange();
             sel.text = str;
         } else if (typeof ined.selectionStart === 'number' && typeof ined.selectionEnd === 'number') {
-            var startPos = ined.selectionStart,
+            let startPos = ined.selectionStart,
                 endPos = ined.selectionEnd,
                 cursorPos = startPos,
                 tmpStr = ined.value;
@@ -247,6 +248,7 @@ sin(10x+time/100)/10</textarea>
             ined.value += str;
         }
         ined.focus();
+        ined.blur();
     }
     function csqr(z) {
         return [z[0] * z[0] - z[1] * z[1], 2 * z[0] * z[1]];
@@ -260,7 +262,7 @@ sin(10x+time/100)/10</textarea>
         for (let i = 0; i < n; i++) {
             z = cadd(csqr(z), c);
         }
-        abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
         return abs < 2;
     }
     function Julia(x, y, a, b, n) {
@@ -269,7 +271,7 @@ sin(10x+time/100)/10</textarea>
         for (let i = 0; i < n; i++) {
             z = cadd(csqr(z), c);
         }
-        abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
         return abs < 2;
     }
     function Logistic(u, x0, n) {
