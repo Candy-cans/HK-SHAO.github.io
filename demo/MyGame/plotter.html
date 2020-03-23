@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.70）</title>
+    <title>函数绘图（开发中v1.7B）</title>
     <style type="text/css">
         button {
             font-family: Consolas;
@@ -160,17 +160,13 @@ sin(10x+time/100)/10</textarea>
 <br>二阶贝塞尔曲线
 <br>[k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
 <br>
-<br>Logistic映射
+<br>Logistic映射（有三种实现方式）
+<br>2x*y*(1-y)+0.1
+<br>Logistic(4x,0.1,100)
 <br>[μ=5x,a=0.1,f(a)=μ*a*(1-a),g(n)=n==1?f(a):f(g(n-1)),g(10)][5]
 <br>
-<br>累加求和
-<br>[f(n)=n,Σ(a,b)=a==b?f(a):f(a)+Σ(a+1,b),Σ(1,100)]
-<br>
-<br>累乘求积
-<br>[f(n)=n,Π(a,b)=a==b?f(a):f(a)*Π(a+1,b),Π(1,6)]
-<br>
-<br>累乘求π
-<br>[f(n)=n%2==0?n/(n+1):(n+1)/n,Π(a,b)=a==b?f(a):f(a)*Π(a+1,b),2*Π(1,1000)]
+<br>累乘求π（tip：只需要计算数值而不需绘图，把线精度设置为0，提升效率）
+<br>2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
 <br>
 <br>时钟
 <br>fps /*帧率*/= 60;
@@ -564,9 +560,7 @@ sin(10x+time/100)/10</textarea>
         if (img.alt != str) {
             img.alt = str;
             let s = str.replace(/\\;\\;/g, "\\\\")
-                .replace(/\\textasciicircum{}/g, "^")
-                .replace(/\\mathtt{"/g, "")
-                .replace(/"}/g, "");
+                .replace(/\\textasciicircum{}/g, "^");
             img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(s);
         }
     }
@@ -582,7 +576,10 @@ sin(10x+time/100)/10</textarea>
             reCanvas();
             if (ined.value != "") {
                 try {
-                    showLaTex(math.parse(ined.value).toTex());
+                    let str = ined.value.replace(/\('/g, "(").replace(/\("/g, "(")
+                        .replace(/'\)/g, "(").replace(/"\)/g, "(")
+                        .replace(/',/g, ",").replace(/",/g, ",");
+                    showLaTex(math.parse(str).toTex());
                 } catch (err) {
                     showLaTex("");
                 }
