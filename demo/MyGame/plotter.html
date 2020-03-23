@@ -3,8 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.6beta5）</title>
+    <title>函数绘图（开发中v1.7）</title>
     <style type="text/css">
+        button {
+            font-family: Consolas;
+            font-size: 26px;
+            width: 6.2%;
+        }
+
         #father {
             position: fixed;
             top: 50%;
@@ -61,31 +67,148 @@ def /*定义*/= {love: 520, you: 1314/520};</textarea>
                 <textarea id="ed" oninput="inChange()" rows="6"
                     style="font-size:24px;font-weight:bold;width:70%;font-family:'Times New Roman', Times, serif">
 sin(10x+time/100)/10</textarea>
-                <img id="img" style="max-width: 100%;height: auto;margin-top: 10px" />
+                <div>
+                    <button type="button" onclick="insertText('0')">0</button>
+                    <button type="button" onclick="insertText('1')">1</button>
+                    <button type="button" onclick="insertText('2')">2</button>
+                    <button type="button" onclick="insertText('3')">3</button>
+                    <button type="button" onclick="insertText('4')">4</button>
+                    <button type="button" onclick="insertText('5')">5</button>
+                    <button type="button" onclick="insertText('6')">6</button>
+                    <button type="button" onclick="insertText('7')">7</button>
+                    <button type="button" onclick="insertText('8')">8</button>
+                    <button type="button" onclick="insertText('9')">9</button>
+                    <br>
+                    <button type="button" onclick="insertText('+')">+</button>
+                    <button type="button" onclick="insertText('-')">-</button>
+                    <button type="button" onclick="insertText('*')">×</button>
+                    <button type="button" onclick="insertText('/')">÷</button>
+                    <button type="button" onclick="insertText('^')">^</button>
+                    <button type="button" onclick="insertText('sqrt()')">√</button>
+                    <button type="button" onclick="insertText('\'')">'</button>
+                    <button type="button" onclick="insertText('(')">(</button>
+                    <button type="button" onclick="insertText(',')">,</button>
+                    <button type="button" onclick="insertText(')')">)</button>
+                    <br>
+                    <button type="button" onclick="insertText('.')">.</button>
+                    <button type="button" onclick="insertText(' and ')">&</button>
+                    <button type="button" onclick="insertText(' or ')">|</button>
+                    <button type="button" onclick="insertText('not ')">¬</button>
+                    <button type="button" onclick="insertText('<')">&lt;</button>
+                    <button type="button" onclick="insertText('==')">=</button>
+                    <button type="button" onclick="insertText('>')">&gt;</button>
+                    <button type="button" onclick="insertText('[')">[</button>
+                    <button type="button" onclick="insertText(':')">:</button>
+                    <button type="button" onclick="insertText(']')">]</button>
+                    <br>
+                    <button type="button" onclick="insertText('i')">i</button>
+                    <button type="button" onclick="insertText('Infinity')">∞</button>
+                    <button type="button" onclick="insertText(' mod ')">%</button>
+                    <button type="button" onclick="insertText('!=')">≠</button>
+                    <button type="button" onclick="insertText('<=')">≤</button>
+                    <button type="button" onclick="insertText('=')">=</button>
+                    <button type="button" onclick="insertText('>=')">≥</button>
+                    <button type="button" onclick="insertText('{')">{</button>
+                    <button type="button" onclick="insertText(';')">;</button>
+                    <button type="button" onclick="insertText('}')">}</button>
+                    <br>
+                    <button type="button" onclick="insertText('e')">e</button>
+                    <button type="button" onclick="insertText('π')">π</button>
+                    <button type="button" onclick="insertText('ρ')">ρ</button>
+                    <button type="button" onclick="insertText('θ')">θ</button>
+                    <button type="button" onclick="insertText('Σ()')">Σ</button>
+                    <button type="button" onclick="insertText('Π()')">Π</button>
+                    <button type="button" onclick="insertText('Γ()')">Γ</button>
+                    <button type="button" onclick="insertText('<<')">←</button>
+                    <button type="button" onclick="insertText('>>')">→</button>
+                    <button type="button" onclick="delText()">D</button>
+                    <br>
+                    <button type="button" onclick="insertText('x')">x</button>
+                    <button type="button" onclick="insertText('y')">y</button>
+                    <button type="button" onclick="insertText('k')">k</button>
+                </div>
+                <img id="img" style="max-width: 100%;height: auto;margin-top: 10px;margin-bottom: 10px" />
             </div>
             <h3 id="fpsm" style="position:fixed; bottom:0px; right:20px"></h3>
-            <h3>简要说明</h3>
-            <div style="word-wrap:break-word">
-                本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
-                <br>支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
-                <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
-                <br>图像的绘制范围固定在区间[-1,1]中，可通过函数的平移和缩放得到你想要的效果
-                <br>表达式只要返回数字、布尔值、复数、二维矩阵，三维矩阵就可以绘制图像
-                <br>在脚本里可以写javascript脚本，修改color数组可以修改绘制的色彩
-                <br>回车换行输入可绘制多个函数图像
-                <br>
-                <br> ● 支持绘制多种函数曲线，例如 sin(x) x^x e^x gamma(x) x%0.5 等
-                <br> ★ 特点：支持这些绘图 isPrime(x) x=sin(pi*y) ρ=cos(2θ) θ=ρ^ρ 等
-                <br> ● 支持分段函数，请使用三元运算符 x&lt;0?x:x^2-x 或者 min() max() 等
-                <br> ● 支持参数方程（参数从0到1），例如 k+k*i [k,k^2]/2-0.25 ρθ(k,k) xy(k,k)等
-                <br> ● 支持输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2 等
-                <br> ● 支持极坐标绘制曲线或者平面区域（使用ρ和θ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
-                <br> ● 支持三维矩阵进行着色（建议将点大小改为1.5以上），例如 [x,y^2,x*y]
-                <br> ● 支持自定义变量和函数，例如 [n=2,f(x,y)=x^y,f(x,n)][3]
-                <br> ● 使用 time 返回当前时间戳，一般的使用方法是 sin(time/1000)
-                <br> ● 使用 frame 返回帧数。使用 mp 返回当前光标的位置，例如 (x-mp[1])^2+mp[2]
-            </div>
-            </p>
+            <details style="word-wrap:break-word">
+                <summary style="font-size:20px;font-weight:bold">简要说明</summary>
+                <p>本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
+                    <br>支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
+                    <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
+                    <br>图像的绘制范围固定在区间[-1,1]中，可通过函数的平移和缩放得到你想要的效果
+                    <br>表达式只要返回数字、布尔值、复数、二维矩阵，三维矩阵就可以绘制图像
+                    <br>在脚本里可以写javascript脚本，修改color数组可以修改绘制的色彩
+                    <br>回车换行输入可绘制多个函数图像
+                    <br>
+                    <br> ● 支持绘制多种函数曲线，例如 sin(x) x^x e^x Γ(10x)/10 x%0.5 等
+                    <br> ★ 特点：支持这些绘图 isPrime(x) x=sin(pi*y) ρ=cos(2θ) θ=ρ^ρ 等
+                    <br> ● 支持分段函数，请使用三元运算符 x&lt;0?x:x^2-x 或者 min() max() 等
+                    <br> ● 支持参数方程（参数从0到1），例如 k+k*i [k,k^2]/2-0.25 ρθ(k,k) xy(k,k)等
+                    <br> ● 支持输入不等式绘制平面区域（支持与或运算），例如 sin(x)&lt;y and y&lt;-0.2 等
+                    <br> ● 支持极坐标绘制曲线或者平面区域（使用ρ和θ），例如 ρ&lt;0.5 ρ&lt;θ ρ-0.1 等
+                    <br> ● 支持三维矩阵进行着色（建议将点大小改为1.5以上），例如 [x,y^2,x*y]
+                    <br> ● 支持自定义变量和函数，例如 [n=2,f(x,y)=x^y,f(x,n)][3]
+                    <br> ● 支持累乘和累加，例如 Π('n',1:6) Σ('n',1:100) Σ('(n+1)/2',[1,3,5,7,9])
+                    <br> ● 使用 time 返回当前时间戳，一般的使用方法是 sin(time/1000)
+                    <br> ● 使用 frame 返回帧数。使用 mp 返回当前光标的位置，例如 (x-mp[1])^2+mp[2]
+                    <br> ★ 绘制分形 Logistic(4x,0.1,100) Mandelbrot(2x,2y,100) Julia(2x,2y,mp[1],mp[2],6)
+                </p>
+            </details>
+            <details style="word-wrap:break-word">
+                <summary style="font-size:20px;font-weight:bold">一些实例</summary>
+                <code style="font-family: Consolas;font-size: 16px;">
+<br>二阶贝塞尔曲线
+<br>[k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
+<br>
+<br>Logistic映射
+<br>[μ=5x,a=0.1,f(a)=μ*a*(1-a),g(n)=n==1?f(a):f(g(n-1)),g(10)][5]
+<br>
+<br>累加求和
+<br>[f(n)=n,Σ(a,b)=a==b?f(a):f(a)+Σ(a+1,b),Σ(1,100)]
+<br>
+<br>累乘求积
+<br>[f(n)=n,Π(a,b)=a==b?f(a):f(a)*Π(a+1,b),Π(1,6)]
+<br>
+<br>累乘求π
+<br>[f(n)=n%2==0?n/(n+1):(n+1)/n,Π(a,b)=a==b?f(a):f(a)*Π(a+1,b),2*Π(1,1000)]
+<br>
+<br>时钟
+<br>fps /*帧率*/= 60;
+<br>color /*颜色*/= ["black","blue","black", "green","red"];
+<br>p_b /*点精度*/= 200;
+<br>ps /*点大小*/= 0.5;
+<br>p_n /*线精度*/= 0.1;
+<br>ls /*线粗细*/= 2;
+<br>def /*定义*/= {love: 520, you: 1314/520};
+<br>
+<br>ρ=0.8
+<br>[0.8sin(2pi*time/1000+0.1k),0.8cos(2pi*time/1000+0.1k)]
+<br>[0.7sin(2pi*time/60000)*k,0.7cos(2pi*time/60000)*k]
+<br>[0.5sin(2pi*time/3600000)*k,0.5cos(2pi*time/3600000)*k]
+<br>[0.4sin(2pi*time/86400000)*k,0.4cos(2pi*time/86400000)*k]
+<br>
+<br>螺旋线
+<br>ρθ(2k,20*sin(time/1000)k)/4
+<br>
+<br>万花筒
+<br>θ=frame*ρ
+<br>
+<br>选色器
+<br>fps /*帧率*/= 60;
+<br>color /*颜色*/= ["blue"];
+<br>p_b /*点精度*/= 50;
+<br>ps /*点大小*/= 1.5;
+<br>p_n /*线精度*/= 1;
+<br>ls /*线粗细*/= 1;
+<br>def /*定义*/= {love: 520, you: 1314/520};
+<br>
+<br>(x>0 and y>0)?[x,y,0]:[0,0,0]
+<br>(x&lt;0 and y&lt;0)?[mp[1],mp[2],0]:[NaN,0,0]
+<br>
+<br>光环
+<br>[(sin(frame*ρ)+1)/2,0,0]
+                </code>
+            </details>
         </div>
         <div class="out">
             <h2>输出</h2>
@@ -96,6 +219,66 @@ sin(10x+time/100)/10</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.6.1/math.min.js"></script>
 <script type="text/javascript">
+    function delText() {
+        if (typeof ined.selectionStart === 'number' && typeof ined.selectionEnd === 'number' && ined.value.length > 0) {
+            var startPos = ined.selectionStart,
+                endPos = ined.selectionEnd,
+                cursorPos = startPos,
+                tmpStr = ined.value;
+            ined.value = tmpStr.substring(0, startPos - 1) + tmpStr.substring(endPos, tmpStr.length);
+            cursorPos -= 1;
+            ined.selectionStart = ined.selectionEnd = cursorPos;
+        }
+        ined.focus();
+    }
+    function insertText(str) {
+        if (document.selection) {
+            var sel = document.selection.createRange();
+            sel.text = str;
+        } else if (typeof ined.selectionStart === 'number' && typeof ined.selectionEnd === 'number') {
+            var startPos = ined.selectionStart,
+                endPos = ined.selectionEnd,
+                cursorPos = startPos,
+                tmpStr = ined.value;
+            ined.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+            cursorPos += str.length;
+            ined.selectionStart = ined.selectionEnd = cursorPos;
+        } else {
+            ined.value += str;
+        }
+        ined.focus();
+    }
+    function csqr(z) {
+        return [z[0] * z[0] - z[1] * z[1], 2 * z[0] * z[1]];
+    }
+    function cadd(z1, z2) {
+        return [z1[0] + z2[0], z1[1] + z2[1]];
+    }
+    function Mandelbrot(x, y, n) {
+        let c = [x, y];
+        let z = [0, 0];
+        for (let i = 0; i < n; i++) {
+            z = cadd(csqr(z), c);
+        }
+        abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        return abs < 2;
+    }
+    function Julia(x, y, a, b, n) {
+        let z = [x, y];
+        let c = [a, b];
+        for (let i = 0; i < n; i++) {
+            z = cadd(csqr(z), c);
+        }
+        abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        return abs < 2;
+    }
+    function Logistic(u, x0, n) {
+        let x = x0;
+        for (let i = 0; i < n; i++) {
+            x *= u * (1 - x);
+        }
+        return x;
+    }
     const cfa = document.getElementById("father");
     const canv = document.getElementById("gc");
     const ctx = canv.getContext("2d");
@@ -130,6 +313,32 @@ sin(10x+time/100)/10</textarea>
                 },
                 ρθ: function (ρ, θ) {
                     return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
+                },
+                Julia: Julia,
+                Mandelbrot: Mandelbrot,
+                Logistic: Logistic,
+                Γ: math.gamma,
+                Σ: function (ex, m) {
+                    let s = 0;
+                    let md = m._data;
+                    let exc = math.compile(ex);
+                    for (let i = 0; i < md.length; i++) {
+                        let mg = Object.assign({ n: md[i], time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                        let ans = exc.evaluate(mg);
+                        s += ans;
+                    }
+                    return s;
+                },
+                Π: function (ex, m) {
+                    let s = 1;
+                    let md = m._data;
+                    let exc = math.compile(ex);
+                    for (let i = 0; i < md.length; i++) {
+                        let mg = Object.assign({ n: md[i], time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                        let ans = exc.evaluate(mg);
+                        s *= ans;
+                    }
+                    return s;
                 }
             });
         window.onresize();
@@ -168,7 +377,7 @@ sin(10x+time/100)/10</textarea>
         myf = (-2 * my / size) + 1;
         ctx2.stroke();
         ctx2.fillText("(" + mxf.toFixed(8) + ", " + myf.toFixed(8) + ")", 4, 14);
-        if (ined.value.indexOf("mp") != -1) {
+        if (ined.value.search(/\bmp\b/g) != -1) {
             inChange(true);
         }
     }
@@ -191,7 +400,6 @@ sin(10x+time/100)/10</textarea>
     function plot(ex, exc, outeval) {
         ctx.fillStyle = col;
         frame += 1;
-        let time = new Date().getTime();
         let ins2 = ex.substring(0, 2);
         if (ins2 == "x=") {
             for (let i = -p_n * size; i <= p_n * size; i++) {
@@ -327,7 +535,7 @@ sin(10x+time/100)/10</textarea>
             }
         }
         let ci = 0;
-        let time = new Date().getTime();
+        time = new Date().getTime();
         for (let i = 0; i < excs.length; i++) {
             let exc = excs[i];
             ined.style.border = "dashed green";
@@ -354,15 +562,19 @@ sin(10x+time/100)/10</textarea>
 
     function showLaTex(str) {
         if (img.alt != str) {
-            img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(str.replace(/\\;\\;/g, "\\\\"));
             img.alt = str;
+            let s = str.replace(/\\;\\;/g, "\\\\")
+                .replace(/\\textasciicircum{}/g, "^")
+                .replace(/\\mathtt{"/g, "")
+                .replace(/"}/g, "");
+            img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(s);
         }
     }
 
     function inChange(isD = false) {
-        if (ined.value != intmp || ined.value.indexOf("time") != -1 || ined.value.indexOf("frame") != -1 || isD || excs.length == 0) {
+        if (ined.value != intmp || ined.value.search(/\btime\b/g) != -1 || ined.value.search(/\bframe\b/g) != -1 || isD || excs.length == 0) {
             if (ined.value != intmp) {
-                t1 = new Date().getTime();
+                let t1 = new Date().getTime();
                 excs = [];
                 frame = 0;
             }
