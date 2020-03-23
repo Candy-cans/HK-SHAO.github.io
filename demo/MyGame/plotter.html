@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.6beta3）</title>
+    <title>函数绘图（开发中v1.6beta4）</title>
     <style type="text/css">
         #father {
             position: fixed;
@@ -96,17 +96,45 @@ sin(10x+time/100)/10</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.6.1/math.min.js"></script>
 <script type="text/javascript">
-    cfa = document.getElementById("father");
-    canv = document.getElementById("gc");
-    ctx = canv.getContext("2d");
-    canv2 = document.getElementById("gc2");
-    ctx2 = canv2.getContext("2d");
-    ined = document.getElementById("ed");
-    ined2 = document.getElementById("ed2");
-    outm = document.getElementById("outm");
-    fpsm = document.getElementById("fpsm");
-    img = document.getElementById("img");
-    lft = document.getElementById("lft");
+    const cfa = document.getElementById("father");
+    const canv = document.getElementById("gc");
+    const ctx = canv.getContext("2d");
+    const canv2 = document.getElementById("gc2");
+    const ctx2 = canv2.getContext("2d");
+    const ined = document.getElementById("ed");
+    const ined2 = document.getElementById("ed2");
+    const outm = document.getElementById("outm");
+    const fpsm = document.getElementById("fpsm");
+    const img = document.getElementById("img");
+    const lft = document.getElementById("lft");
+
+    window.onload = function () {
+        mxf = 0;
+        myf = 0;
+        interval = 0;
+        inChange2();
+        x = NaN;
+        y = NaN;
+        frame = 0;
+        intmp = ""
+        excs = [];
+        col = color[0];
+        math.import(
+            {
+                hkshao: function () {
+                    return "恭喜你发现这个彩蛋！";
+                },
+                π: Math.PI,
+                xy: function (x, y) {
+                    return math.matrix([x, y]);
+                },
+                ρθ: function (ρ, θ) {
+                    return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
+                }
+            });
+        window.onresize();
+        canv.addEventListener("mousemove", mouseMove);
+    }
 
     window.onresize = function () {
         size = Math.min(window.innerWidth / 2, window.innerHeight * 0.95);
@@ -121,12 +149,10 @@ sin(10x+time/100)/10</textarea>
         inChange(true);
     }
 
-    mxf = 0;
-    myf = 0;
-    canv.addEventListener("mousemove", function (e) {
-        cRect = canv2.getBoundingClientRect();
-        mx = Math.round(e.clientX - cRect.left);
-        my = Math.round(e.clientY - cRect.top);
+    function mouseMove(e) {
+        let cRect = canv2.getBoundingClientRect();
+        let mx = Math.round(e.clientX - cRect.left);
+        let my = Math.round(e.clientY - cRect.top);
         canv2.width = canv2.height;
         ctx2.strokeStyle = 'gray';
         ctx2.setLineDash([size / 201, size / 201]);
@@ -145,31 +171,7 @@ sin(10x+time/100)/10</textarea>
         if (ined.value.indexOf("mp") != -1) {
             inChange(true);
         }
-    });
-
-    interval = 0;
-    inChange2();
-    x = NaN;
-    y = NaN;
-    t1 = new Date().getTime();
-    frame = 0;
-    intmp = ""
-    excs = [];
-    col = color[0];
-    math.import(
-        {
-            hkshao: function () {
-                return "恭喜你发现这个彩蛋！";
-            },
-            π: Math.PI,
-            xy: function (x, y) {
-                return math.matrix([x, y]);
-            },
-            ρθ: function (ρ, θ) {
-                return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
-            }
-        });
-    window.onresize();
+    }
 
     function reCanvas() {
         ctx.clearRect(0, 0, size, size);
@@ -189,113 +191,113 @@ sin(10x+time/100)/10</textarea>
     function plot(ex, exc, outeval) {
         ctx.fillStyle = col;
         frame += 1;
-        time = new Date().getTime();
-        ins2 = ex.substring(0, 2);
+        let time = new Date().getTime();
+        let ins2 = ex.substring(0, 2);
         if (ins2 == "x=") {
-            for (var i = -p_n * size; i <= p_n * size; i++) {
+            for (let i = -p_n * size; i <= p_n * size; i++) {
                 y = i / (p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
                 x = exc.evaluate(mg);
                 if (x > 1 || x < -1 || isNaN(x)) {
                     continue;
                 }
-                py = 0.004 * size * ls;
+                let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
         } else if (ins2 == "ρ=") {
-            for (var i = 0; i <= 2 * p_n * size; i++) {
-                θ = Math.PI * i / (p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: θ, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                ρ = exc.evaluate(mg);
+            for (let i = 0; i <= 2 * p_n * size; i++) {
+                let θ = Math.PI * i / (p_n * size);
+                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: θ, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let ρ = exc.evaluate(mg);
                 x = ρ * Math.cos(θ);
                 y = ρ * Math.sin(θ);
                 if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                     continue;
                 }
-                py = 0.004 * size * ls;
+                let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
         } else if (ins2 == "θ=") {
-            for (var i = 0; i <= 2 * p_n * size; i++) {
-                ρ = Math.SQRT2 * i / (2 * p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: ρ, θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                θ = exc.evaluate(mg);
+            for (let i = 0; i <= 2 * p_n * size; i++) {
+                let ρ = Math.SQRT2 * i / (2 * p_n * size);
+                let mg = Object.assign({ x: x, y: y, ρ: ρ, θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let θ = exc.evaluate(mg);
                 x = ρ * Math.cos(θ);
                 y = ρ * Math.sin(θ);
                 if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                     continue;
                 }
-                py = 0.004 * size * ls;
+                let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
         } else if (ins2 == "y=" || typeof outeval == "number") {
-            for (var i = -p_n * size; i <= p_n * size; i++) {
+            for (let i = -p_n * size; i <= p_n * size; i++) {
                 x = i / (p_n * size);
-                mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
                 y = exc.evaluate(mg);
                 if (y > 1 || y < -1 || isNaN(y)) {
                     continue;
                 }
-                py = 0.004 * size * ls;
+                let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
         } else if (typeof outeval == "boolean") {
-            jd = size / p_b;
-            for (var i = 0; i <= size; i += jd) {
-                for (var j = 0; j <= size; j += jd) {
+            let jd = size / p_b;
+            for (let i = 0; i <= size; i += jd) {
+                for (let j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                    ans = exc.evaluate(mg);
+                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let ans = exc.evaluate(mg);
                     if (ans == true) {
-                        py = jd * ps;
+                        let py = jd * ps;
                         ctx.fillRect(i, j, py, py);
                     }
                 }
             }
         } else if (typeof outeval == "object") {
             if (outeval.im != undefined) {
-                for (var i = 0; i <= 2 * p_n * size; i++) {
-                    t = i / (2 * p_n * size);
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                    ob = exc.evaluate(mg);
+                for (let i = 0; i <= 2 * p_n * size; i++) {
+                    let t = i / (2 * p_n * size);
+                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let ob = exc.evaluate(mg);
                     x = ob.re;
                     y = ob.im;
                     if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                         continue;
                     }
-                    py = 0.004 * size * ls;
+                    let py = 0.004 * size * ls;
                     ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
                 }
             } else if (outeval._data.length == 2) {
-                for (var i = 0; i <= 2 * p_n * size; i++) {
-                    t = i / (2 * p_n * size);
-                    mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                    ob = exc.evaluate(mg);
+                for (let i = 0; i <= 2 * p_n * size; i++) {
+                    let t = i / (2 * p_n * size);
+                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let ob = exc.evaluate(mg);
                     x = ob._data[0];
                     y = ob._data[1];
                     if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                         continue;
                     }
-                    py = 0.004 * size * ls;
+                    let py = 0.004 * size * ls;
                     ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
                 }
             } else if (outeval._data.length == 3) {
-                jd = size / p_b;
-                for (var i = 0; i <= size; i += jd) {
-                    for (var j = 0; j <= size; j += jd) {
+                let jd = size / p_b;
+                for (let i = 0; i <= size; i += jd) {
+                    for (let j = 0; j <= size; j += jd) {
                         x = (2 * i - size) / size;
                         y = -(2 * j - size) / size;
-                        mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                        ob = exc.evaluate(mg);
-                        r = ob._data[0] * 255;
-                        g = ob._data[1] * 255;
-                        b = ob._data[2] * 255;
+                        let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                        let ob = exc.evaluate(mg);
+                        let r = ob._data[0] * 255;
+                        let g = ob._data[1] * 255;
+                        let b = ob._data[2] * 255;
                         if (isNaN(r) || isNaN(g) || isNaN(b)) {
                             continue;
                         }
                         ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-                        py = jd * ps;
+                        let py = jd * ps;
                         ctx.fillRect(i, j, py, py);
                     }
                 }
@@ -312,9 +314,9 @@ sin(10x+time/100)/10</textarea>
     }
 
     function splot(exs) {
-        omes = "";
+        let omes = "";
         if (excs.length == 0) {
-            for (var i = 0; i < exs.length; i++) {
+            for (let i = 0; i < exs.length; i++) {
                 try {
                     excs.push(math.compile(exs[i]));
                 } catch (err) {
@@ -324,15 +326,15 @@ sin(10x+time/100)/10</textarea>
                 }
             }
         }
-        ci = 0;
-        time = new Date().getTime();
-        for (var i = 0; i < excs.length; i++) {
-            exc = excs[i];
+        let ci = 0;
+        let time = new Date().getTime();
+        for (let i = 0; i < excs.length; i++) {
+            let exc = excs[i];
             ined.style.border = "dashed green";
-            mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: NaN, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+            let mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: NaN, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
             try {
-                outeval = exc.evaluate(mg);
-                type = typeof outeval;
+                let outeval = exc.evaluate(mg);
+                let type = typeof outeval;
                 if (type != "function") {
                     omes += outeval + "<br>";
                     if (Math.abs(outeval) != Infinity) {
@@ -360,6 +362,7 @@ sin(10x+time/100)/10</textarea>
     function inChange(isD = false) {
         if (ined.value != intmp || ined.value.indexOf("time") != -1 || ined.value.indexOf("frame") != -1 || isD || excs.length == 0) {
             if (ined.value != intmp) {
+                t1 = new Date().getTime();
                 excs = [];
                 frame = 0;
             }
@@ -375,8 +378,8 @@ sin(10x+time/100)/10</textarea>
                     changeOm("NaN");
                     return;
                 }
-                exs = ined.value.split("\n");
-                omes = splot(exs);
+                let exs = ined.value.split("\n");
+                let omes = splot(exs);
                 changeOm(omes);
             } else {
                 ined.style.border = "dashed red";
@@ -384,7 +387,7 @@ sin(10x+time/100)/10</textarea>
                 changeOm("Undefined");
             }
         }
-        t2 = new Date().getTime();
+        let t2 = new Date().getTime();
         if (t2 % 500 < 10) {
             fpsm.innerHTML = Math.round(1000 / (t2 - t1)) + " fps";
         }
