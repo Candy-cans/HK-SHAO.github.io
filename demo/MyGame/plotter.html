@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.7B）</title>
+    <title>函数绘图（开发中v1.7）</title>
     <style type="text/css">
         button {
             font-family: Consolas;
@@ -292,11 +292,8 @@ sin(10x+time/100)/10</textarea>
         myf = 0;
         interval = 0;
         inChange2();
-        x = NaN;
-        y = NaN;
-        frame = 0;
+        reData();
         intmp = ""
-        excs = [];
         col = color[0];
         math.import(
             {
@@ -373,9 +370,16 @@ sin(10x+time/100)/10</textarea>
         myf = (-2 * my / size) + 1;
         ctx2.stroke();
         ctx2.fillText("(" + mxf.toFixed(8) + ", " + myf.toFixed(8) + ")", 4, 14);
-        if (ined.value.search(/\bmp\b/g) != -1) {
+        if (ined.value.search(/(\b|\d)mp\b/g) != -1) {
             inChange(true);
         }
+    }
+
+    function reData() {
+        excs = [];
+        frame = 0;
+        x = NaN;
+        y = NaN;
     }
 
     function reCanvas() {
@@ -526,6 +530,7 @@ sin(10x+time/100)/10</textarea>
                 } catch (err) {
                     omes += "CompileError: Line " + (i + 1) + "<br>";
                     ined.style.border = "dashed red";
+                    //console.log(err);
                     continue;
                 }
             }
@@ -551,6 +556,7 @@ sin(10x+time/100)/10</textarea>
             } catch (err) {
                 omes += "PlotError: Line " + (i + 1) + "<br>";
                 ined.style.border = "dashed red";
+                //console.log(err);
             }
         }
         return omes;
@@ -566,11 +572,10 @@ sin(10x+time/100)/10</textarea>
     }
 
     function inChange(isD = false) {
-        if (ined.value != intmp || ined.value.search(/\btime\b/g) != -1 || ined.value.search(/\bframe\b/g) != -1 || isD || excs.length == 0) {
+        if (ined.value != intmp || ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) != -1 || isD || excs.length == 0) {
             if (ined.value != intmp) {
                 let t1 = new Date().getTime();
-                excs = [];
-                frame = 0;
+                reData();
             }
             intmp = ined.value;
             reCanvas();
@@ -582,6 +587,7 @@ sin(10x+time/100)/10</textarea>
                     showLaTex(math.parse(str).toTex());
                 } catch (err) {
                     showLaTex("");
+                    //console.log(err);
                 }
                 if (ined.value == "0/0" || ined.value == "NaN") {
                     changeOm("NaN");
@@ -612,6 +618,7 @@ sin(10x+time/100)/10</textarea>
             excs = [];
         } catch (err) {
             ined2.style.border = "dashed red";
+            //console.log(err);
         }
         window.clearInterval(interval);
         if (fps != 0) {
