@@ -3,12 +3,18 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.7B2）</title>
+    <title>函数绘图（开发中v1.7B3）</title>
     <style type="text/css">
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
         button {
             font-family: Consolas;
             font-size: 26px;
-            width: 6.55%;
+            width: 7.4%;
+            margin-left: -6px;
+            margin-top: -1px;
         }
 
         #father {
@@ -67,7 +73,7 @@ def /*定义*/= {love: 520, you: 1314/520};</textarea>
                 <textarea id="ed" oninput="inChange()" rows="6"
                     style="font-size:24px;font-weight:bold;width:70%;font-family:'Times New Roman', Times, serif">
 sin(10x+time/100)/10</textarea>
-                <div>
+                <div style="margin-left: 6px;">
                     <button onclick="insertText('0')">0</button>
                     <button onclick="insertText('1')">1</button>
                     <button onclick="insertText('2')">2</button>
@@ -131,7 +137,7 @@ sin(10x+time/100)/10</textarea>
             </div>
             <h3 id="fpsm" style="position:fixed; bottom:0px; right:20px"></h3>
             <details style="word-wrap:break-word">
-                <summary style="font-size:20px;font-weight:bold">简要说明</summary>
+                <summary style="font-size:20px;font-weight:bold;">简要说明</summary>
                 <p>本程序正在开发中，目前还处于极度不完善状态，可能会有很多bug。开发者：烧风
                     <br>支持的所有常量，请参考：https://mathjs.org/docs/reference/constants.html
                     <br>支持的所有函数，请参考：https://mathjs.org/docs/reference/functions.html
@@ -157,52 +163,55 @@ sin(10x+time/100)/10</textarea>
             <details style="word-wrap:break-word">
                 <summary style="font-size:20px;font-weight:bold">一些实例</summary>
                 <code style="font-family: Consolas;font-size: 16px;">
-<br>二阶贝塞尔曲线
-<br>[k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
-<br>
-<br>Logistic映射（有三种实现方式）
-<br>2x*y*(1-y)+0.1
-<br>Logistic(4x,0.1,100)
-<br>[μ=5x,a=0.1,f(a)=μ*a*(1-a),g(n)=n==1?f(a):f(g(n-1)),g(10)][5]
-<br>
-<br>累乘求π（tip：只需要计算数值而不需绘图，把线精度设置为0，提升效率）
-<br>2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
-<br>
-<br>时钟
-<br>fps /*帧率*/= 60;
-<br>color /*颜色*/= ["black","blue","black", "green","red"];
-<br>p_b /*点精度*/= 200;
-<br>ps /*点大小*/= 0.5;
-<br>p_n /*线精度*/= 0.1;
-<br>ls /*线粗细*/= 2;
-<br>def /*定义*/= {love: 520, you: 1314/520};
-<br>
-<br>ρ=0.8
-<br>[0.8sin(2pi*time/1000+0.1k),0.8cos(2pi*time/1000+0.1k)]
-<br>[0.7sin(2pi*time/60000)*k,0.7cos(2pi*time/60000)*k]
-<br>[0.5sin(2pi*time/3600000)*k,0.5cos(2pi*time/3600000)*k]
-<br>[0.4sin(2pi*time/86400000)*k,0.4cos(2pi*time/86400000)*k]
-<br>
-<br>螺旋线
-<br>ρθ(2k,20*sin(time/1000)k)/4
-<br>
-<br>万花筒
-<br>θ=frame*ρ
-<br>
-<br>选色器
-<br>fps /*帧率*/= 60;
-<br>color /*颜色*/= ["blue"];
-<br>p_b /*点精度*/= 50;
-<br>ps /*点大小*/= 1.5;
-<br>p_n /*线精度*/= 1;
-<br>ls /*线粗细*/= 1;
-<br>def /*定义*/= {love: 520, you: 1314/520};
-<br>
-<br>(x>0 and y>0)?[x,y,0]:[0,0,0]
-<br>(x&lt;0 and y&lt;0)?[mp[1],mp[2],0]:[NaN,0,0]
-<br>
-<br>光环
-<br>[(sin(frame*ρ)+1)/2,0,0]
+                    <br>二阶贝塞尔曲线
+                    <br>[k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
+                    <br>
+                    <br>Logistic映射（有三种实现方式）
+                    <br>2x*y*(1-y)+0.1
+                    <br>Logistic(4x,0.1,100)
+                    <br>[μ=5x,a=0.1,f(a)=μ*a*(1-a),g(n)=n==1?f(a):f(g(n-1)),g(10)][5]
+                    <br>
+                    <br>累乘求π（tip：只需要计算数值而不需绘图，把线精度设置为0，提升效率）
+                    <br>2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
+                    <br>
+                    <br>时钟
+                    <br>fps /*帧率*/= 60;
+                    <br>color /*颜色*/= ["black","blue","black", "green","red"];
+                    <br>p_b /*点精度*/= 200;
+                    <br>ps /*点大小*/= 0.5;
+                    <br>p_n /*线精度*/= 0.1;
+                    <br>ls /*线粗细*/= 2;
+                    <br>def /*定义*/= {love: 520, you: 1314/520};
+                    <br>
+                    <br>ρ=0.8
+                    <br>[0.8sin(2pi*time/1000+0.1k),0.8cos(2pi*time/1000+0.1k)]
+                    <br>[0.7sin(2pi*time/60000)*k,0.7cos(2pi*time/60000)*k]
+                    <br>[0.5sin(2pi*time/3600000)*k,0.5cos(2pi*time/3600000)*k]
+                    <br>[0.4sin(2pi*time/86400000)*k,0.4cos(2pi*time/86400000)*k]
+                    <br>
+                    <br>螺旋线
+                    <br>ρθ(2k,20*sin(time/1000)k)/4
+                    <br>
+                    <br>万花筒
+                    <br>θ=frame*ρ
+                    <br>
+                    <br>选色器
+                    <br>fps /*帧率*/= 60;
+                    <br>color /*颜色*/= ["blue"];
+                    <br>p_b /*点精度*/= 50;
+                    <br>ps /*点大小*/= 1.5;
+                    <br>p_n /*线精度*/= 1;
+                    <br>ls /*线粗细*/= 1;
+                    <br>def /*定义*/= {love: 520, you: 1314/520};
+                    <br>
+                    <br>(x>0 and y>0)?[x,y,0]:[0,0,0]
+                    <br>(x&lt;0 and y&lt;0)?[mp[1],mp[2],0]:[NaN,0,0]
+                    <br>
+                    <br>光环
+                    <br>[(sin(frame*ρ)+1)/2,0,0]
+                    <br>
+                    <br>复数幂迭代（相当于 i^i^i^i^i^...）
+                    <br>[f(z,n)=n&lt;1?z:z^f(z,n-1),f(i,100k)][2]
                 </code>
             </details>
         </div>
@@ -227,6 +236,7 @@ sin(10x+time/100)/10</textarea>
         }
         ined.focus();
     }
+
     function insertText(str) {
         if (document.selection) {
             let sel = document.selection.createRange();
@@ -244,12 +254,15 @@ sin(10x+time/100)/10</textarea>
         }
         ined.focus();
     }
+
     function csqr(z) {
         return [z[0] * z[0] - z[1] * z[1], 2 * z[0] * z[1]];
     }
+
     function cadd(z1, z2) {
         return [z1[0] + z2[0], z1[1] + z2[1]];
     }
+
     function Mandelbrot(x, y, n) {
         let c = [x, y];
         let z = [0, 0];
@@ -259,6 +272,7 @@ sin(10x+time/100)/10</textarea>
         let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
         return abs < 2;
     }
+
     function Julia(x, y, a, b, n) {
         let z = [x, y];
         let c = [a, b];
@@ -268,6 +282,7 @@ sin(10x+time/100)/10</textarea>
         let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
         return abs < 2;
     }
+
     function Logistic(u, x0, n) {
         let x = x0;
         for (let i = 0; i < n; i++) {
@@ -295,45 +310,54 @@ sin(10x+time/100)/10</textarea>
         reData();
         intmp = ""
         col = color[0];
-        math.import(
-            {
-                hkshao: function () {
-                    return "恭喜你发现这个彩蛋！";
-                },
-                π: Math.PI,
-                xy: function (x, y) {
-                    return math.matrix([x, y]);
-                },
-                ρθ: function (ρ, θ) {
-                    return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
-                },
-                Julia: Julia,
-                Mandelbrot: Mandelbrot,
-                Logistic: Logistic,
-                Γ: math.gamma,
-                Σ: function (ex, m) {
-                    let s = 0;
-                    let md = m._data;
-                    let exc = math.compile(ex);
-                    for (let i = 0; i < md.length; i++) {
-                        let mg = Object.assign({ n: md[i], time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                        let ans = exc.evaluate(mg);
-                        s += ans;
-                    }
-                    return s;
-                },
-                Π: function (ex, m) {
-                    let s = 1;
-                    let md = m._data;
-                    let exc = math.compile(ex);
-                    for (let i = 0; i < md.length; i++) {
-                        let mg = Object.assign({ n: md[i], time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
-                        let ans = exc.evaluate(mg);
-                        s *= ans;
-                    }
-                    return s;
+        math.import({
+            hkshao: function () {
+                return "恭喜你发现这个彩蛋！";
+            },
+            π: Math.PI,
+            xy: function (x, y) {
+                return math.matrix([x, y]);
+            },
+            ρθ: function (ρ, θ) {
+                return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
+            },
+            Julia: Julia,
+            Mandelbrot: Mandelbrot,
+            Logistic: Logistic,
+            Γ: math.gamma,
+            Σ: function (ex, m) {
+                let s = 0;
+                let md = m._data;
+                let exc = math.compile(ex);
+                for (let i = 0; i < md.length; i++) {
+                    let mg = Object.assign({
+                        n: md[i],
+                        time: time,
+                        frame: frame,
+                        mp: math.matrix([mxf, myf])
+                    }, def);
+                    let ans = exc.evaluate(mg);
+                    s += ans;
                 }
-            });
+                return s;
+            },
+            Π: function (ex, m) {
+                let s = 1;
+                let md = m._data;
+                let exc = math.compile(ex);
+                for (let i = 0; i < md.length; i++) {
+                    let mg = Object.assign({
+                        n: md[i],
+                        time: time,
+                        frame: frame,
+                        mp: math.matrix([mxf, myf])
+                    }, def);
+                    let ans = exc.evaluate(mg);
+                    s *= ans;
+                }
+                return s;
+            }
+        });
         window.onresize();
         canv.addEventListener("mousemove", mouseMove);
     }
@@ -404,7 +428,15 @@ sin(10x+time/100)/10</textarea>
         if (ins2 == "x=") {
             for (let i = -p_n * size; i <= p_n * size; i++) {
                 y = i / (p_n * size);
-                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    time: time,
+                    frame: frame,
+                    mp: math.matrix([mxf, myf])
+                }, def);
                 x = exc.evaluate(mg);
                 if (x > 1 || x < -1 || isNaN(x)) {
                     continue;
@@ -415,7 +447,15 @@ sin(10x+time/100)/10</textarea>
         } else if (ins2 == "ρ=") {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let θ = Math.PI * i / (p_n * size);
-                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: θ, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: θ,
+                    time: time,
+                    frame: frame,
+                    mp: math.matrix([mxf, myf])
+                }, def);
                 let ρ = exc.evaluate(mg);
                 x = ρ * Math.cos(θ);
                 y = ρ * Math.sin(θ);
@@ -428,7 +468,15 @@ sin(10x+time/100)/10</textarea>
         } else if (ins2 == "θ=") {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let ρ = Math.SQRT2 * i / (2 * p_n * size);
-                let mg = Object.assign({ x: x, y: y, ρ: ρ, θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({
+                    x: x,
+                    y: y,
+                    ρ: ρ,
+                    θ: Math.atan2(y, x),
+                    time: time,
+                    frame: frame,
+                    mp: math.matrix([mxf, myf])
+                }, def);
                 let θ = exc.evaluate(mg);
                 x = ρ * Math.cos(θ);
                 y = ρ * Math.sin(θ);
@@ -441,7 +489,15 @@ sin(10x+time/100)/10</textarea>
         } else if (ins2 == "y=" || typeof outeval == "number") {
             for (let i = -p_n * size; i <= p_n * size; i++) {
                 x = i / (p_n * size);
-                let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                let mg = Object.assign({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    time: time,
+                    frame: frame,
+                    mp: math.matrix([mxf, myf])
+                }, def);
                 y = exc.evaluate(mg);
                 if (y > 1 || y < -1 || isNaN(y)) {
                     continue;
@@ -455,7 +511,15 @@ sin(10x+time/100)/10</textarea>
                 for (let j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let mg = Object.assign({
+                        x: x,
+                        y: y,
+                        ρ: Math.sqrt(x * x + y * y),
+                        θ: Math.atan2(y, x),
+                        time: time,
+                        frame: frame,
+                        mp: math.matrix([mxf, myf])
+                    }, def);
                     let ans = exc.evaluate(mg);
                     if (ans == true) {
                         let py = jd * ps;
@@ -467,7 +531,16 @@ sin(10x+time/100)/10</textarea>
             if (outeval.im != undefined) {
                 for (let i = 0; i <= 2 * p_n * size; i++) {
                     let t = i / (2 * p_n * size);
-                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let mg = Object.assign({
+                        x: x,
+                        y: y,
+                        ρ: Math.sqrt(x * x + y * y),
+                        θ: Math.atan2(y, x),
+                        k: t,
+                        time: time,
+                        frame: frame,
+                        mp: math.matrix([mxf, myf])
+                    }, def);
                     let ob = exc.evaluate(mg);
                     x = ob.re;
                     y = ob.im;
@@ -480,7 +553,16 @@ sin(10x+time/100)/10</textarea>
             } else if (outeval._data.length == 2) {
                 for (let i = 0; i <= 2 * p_n * size; i++) {
                     let t = i / (2 * p_n * size);
-                    let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                    let mg = Object.assign({
+                        x: x,
+                        y: y,
+                        ρ: Math.sqrt(x * x + y * y),
+                        θ: Math.atan2(y, x),
+                        k: t,
+                        time: time,
+                        frame: frame,
+                        mp: math.matrix([mxf, myf])
+                    }, def);
                     let ob = exc.evaluate(mg);
                     x = ob._data[0];
                     y = ob._data[1];
@@ -496,7 +578,15 @@ sin(10x+time/100)/10</textarea>
                     for (let j = 0; j <= size; j += jd) {
                         x = (2 * i - size) / size;
                         y = -(2 * j - size) / size;
-                        let mg = Object.assign({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+                        let mg = Object.assign({
+                            x: x,
+                            y: y,
+                            ρ: Math.sqrt(x * x + y * y),
+                            θ: Math.atan2(y, x),
+                            time: time,
+                            frame: frame,
+                            mp: math.matrix([mxf, myf])
+                        }, def);
                         let ob = exc.evaluate(mg);
                         let r = ob._data[0] * 255;
                         let g = ob._data[1] * 255;
@@ -540,7 +630,16 @@ sin(10x+time/100)/10</textarea>
         for (let i = 0; i < excs.length; i++) {
             let exc = excs[i];
             ined.style.border = "dashed green";
-            let mg = Object.assign({ x: NaN, y: NaN, ρ: NaN, θ: NaN, k: 0, time: time, frame: frame, mp: math.matrix([mxf, myf]) }, def);
+            let mg = Object.assign({
+                x: NaN,
+                y: NaN,
+                ρ: NaN,
+                θ: NaN,
+                k: 0,
+                time: time,
+                frame: frame,
+                mp: math.matrix([mxf, myf])
+            }, def);
             try {
                 let outeval = exc.evaluate(mg);
                 let type = typeof outeval;
@@ -572,7 +671,8 @@ sin(10x+time/100)/10</textarea>
     }
 
     function inChange(isD = false) {
-        if (ined.value != intmp || ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) != -1 || isD || excs.length == 0) {
+        if (ined.value != intmp || ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) !=
+            -1 || isD || excs.length == 0) {
             if (ined.value != intmp) {
                 let t1 = new Date().getTime();
                 reData();
@@ -594,7 +694,7 @@ sin(10x+time/100)/10</textarea>
                     return;
                 }
                 let exs = ined.value.split("\n");
-                ined.rows = exs.length > 4 ? exs.length : 5;
+                ined.rows = exs.length;
                 let omes = splot(exs);
                 changeOm(omes);
             } else {
