@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数绘图（开发中v1.7B3）</title>
+    <title>绘图计算器（开发中v1.7B4）</title>
     <style type="text/css">
         ::-webkit-scrollbar {
             display: none;
@@ -61,7 +61,8 @@
         <div class="right">
             <div style="width: 100%;">
                 <h2>脚本</h2>
-                <textarea id="ed2" oninput="inChange2()" rows="7" style="font-size:20px;font-weight:bold;width:70%;">
+                <textarea id="ed2" oninput="inChange2()"
+                    style="font-size:20px;font-weight:bold;width:70%;resize:vertical">
 fps /*帧率*/= 60;
 color /*颜色*/= ["blue"];
 p_b /*点精度*/= 200;
@@ -70,8 +71,8 @@ p_n /*线精度*/= 1;
 ls /*线粗细*/= 1;
 def /*定义*/= {love: 520, you: 1314/520};</textarea>
                 <h2>表达式</h2>
-                <textarea id="ed" oninput="inChange()" rows="6"
-                    style="font-size:24px;font-weight:bold;width:70%;font-family:'Times New Roman', Times, serif">
+                <textarea id="ed" oninput="inChange()"
+                    style="font-size:24px;font-weight:bold;width:70%;resize:vertical;font-family:'Times New Roman', Times, serif">
 sin(10x+time/100)/10</textarea>
                 <div style="margin-left: 6px;">
                     <button onclick="insertText('0')">0</button>
@@ -90,7 +91,7 @@ sin(10x+time/100)/10</textarea>
                     <button onclick="insertText('*')">×</button>
                     <button onclick="insertText('/')">÷</button>
                     <button onclick="insertText('^')">^</button>
-                    <button onclick="insertText('sqrt()')">√</button>
+                    <button onclick="insertText('sqrt(')">√</button>
                     <button onclick="insertText('\'')">'</button>
                     <button onclick="insertText('(')">(</button>
                     <button onclick="insertText(',')">,</button>
@@ -122,16 +123,16 @@ sin(10x+time/100)/10</textarea>
                     <button onclick="insertText('π')">π</button>
                     <button onclick="insertText('ρ')">ρ</button>
                     <button onclick="insertText('θ')">θ</button>
-                    <button onclick="insertText('Σ()')">Σ</button>
-                    <button onclick="insertText('Π()')">Π</button>
-                    <button onclick="insertText('Γ()')">Γ</button>
+                    <button onclick="insertText('Σ(')">Σ</button>
+                    <button onclick="insertText('Π(')">Π</button>
+                    <button onclick="insertText('Γ(')">Γ</button>
                     <button onclick="insertText('<<')">←</button>
                     <button onclick="insertText('>>')">→</button>
-                    <button onclick="delText()">D</button>
+                    <button onclick="deleteText()">D</button>
                     <br>
+                    <button onclick="insertText('k')">k</button>
                     <button onclick="insertText('x')">x</button>
                     <button onclick="insertText('y')">y</button>
-                    <button onclick="insertText('k')">k</button>
                 </div>
                 <img id="img" style="max-width: 100%;height: auto;margin-top: 10px;margin-bottom: 10px" />
             </div>
@@ -163,19 +164,35 @@ sin(10x+time/100)/10</textarea>
             <details style="word-wrap:break-word">
                 <summary style="font-size:20px;font-weight:bold">一些实例</summary>
                 <code style="font-family: Consolas;font-size: 16px;">
-                    <br>二阶贝塞尔曲线
-                    <br>[k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
+                    <h4>二阶贝塞尔曲线</h4>
+                    [k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
                     <br>
-                    <br>Logistic映射（有三种实现方式）
-                    <br>2x*y*(1-y)+0.1
+                    <h4>Logistic映射（有多种实现方式）</h4>
+                    2x*y*(1-y)+0.1
                     <br>Logistic(4x,0.1,100)
                     <br>[μ=5x,a=0.1,f(a)=μ*a*(1-a),g(n)=n==1?f(a):f(g(n-1)),g(10)][5]
                     <br>
-                    <br>累乘求π（tip：只需要计算数值而不需绘图，把线精度设置为0，提升效率）
-                    <br>2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
+                    <h4>分叉图</h4>
+                    p_n /*线精度*/= 400;
+                    <br>ls /*线粗细*/= 0.2;
                     <br>
-                    <br>时钟
-                    <br>fps /*帧率*/= 60;
+                    <br>sin((x-1.7)*(y+0.4))+0.4
+                    <br>erf((x-2)*(y+0.5)*(1-y))+0.3
+                    <br>这是“隐式”迭代，其中的y是绘图过程中上一个点对应的y值。
+                    <br>
+                    <h4>茱莉亚集、曼德勃罗集（请调整点精度和点大小获得更好的显示效果）</h4>
+                    Mandelbrot(2x,2y,100) Julia(2x,2y,mp[1],mp[2],6)
+                    <br>彩色渲染：MandelbrotC(2x,2y,100) JuliaC(2x,2y,mp[1],mp[2],6)
+                    <h4>谢尔宾斯基三角形</h4>
+                    p_n /*线精度*/= 100;
+                    <br>ls /*线粗细*/= 0.3;
+                    <br>[k,(floor(66000k)&(floor(66000k) >> 8))/290]
+                    <br>(floor(66000x)&(floor(66000x) >> 8))/290
+                    <h4>累乘求π（tip：把线精度设置为0，只计算数值而绘图，提升效率）</h4>
+                    2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
+                    <br>
+                    <h4>时钟（没有校准时间）</h4>
+                    fps /*帧率*/= 60;
                     <br>color /*颜色*/= ["black","blue","black", "green","red"];
                     <br>p_b /*点精度*/= 200;
                     <br>ps /*点大小*/= 0.5;
@@ -189,14 +206,14 @@ sin(10x+time/100)/10</textarea>
                     <br>[0.5sin(2pi*time/3600000)*k,0.5cos(2pi*time/3600000)*k]
                     <br>[0.4sin(2pi*time/86400000)*k,0.4cos(2pi*time/86400000)*k]
                     <br>
-                    <br>螺旋线
-                    <br>ρθ(2k,20*sin(time/1000)k)/4
+                    <h4>螺旋线</h4>
+                    ρθ(2k,20*sin(time/1000)k)/4
                     <br>
-                    <br>万花筒
-                    <br>θ=frame*ρ
+                    <h4>万花筒</h4>
+                    θ=frame*ρ
                     <br>
-                    <br>选色器
-                    <br>fps /*帧率*/= 60;
+                    <h4>选色器</h4>
+                    fps /*帧率*/= 60;
                     <br>color /*颜色*/= ["blue"];
                     <br>p_b /*点精度*/= 50;
                     <br>ps /*点大小*/= 1.5;
@@ -207,11 +224,11 @@ sin(10x+time/100)/10</textarea>
                     <br>(x>0 and y>0)?[x,y,0]:[0,0,0]
                     <br>(x&lt;0 and y&lt;0)?[mp[1],mp[2],0]:[NaN,0,0]
                     <br>
-                    <br>光环
-                    <br>[(sin(frame*ρ)+1)/2,0,0]
+                    <h4>光环</h4>
+                    [(sin(frame*ρ)+1)/2,0,0]
                     <br>
-                    <br>复数幂迭代（相当于 i^i^i^i^i^...）
-                    <br>[f(z,n)=n&lt;1?z:z^f(z,n-1),f(i,100k)][2]
+                    <h4>复数幂迭代（相当于 i^i^i^i^i^...）</h4>
+                    [f(z,n)=n&lt;1?z:z^f(z,n-1),f(i,100k)][2]
                 </code>
             </details>
         </div>
@@ -224,7 +241,7 @@ sin(10x+time/100)/10</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.6.1/math.min.js"></script>
 <script type="text/javascript">
-    function delText() {
+    function deleteText() {
         if (typeof ined.selectionStart === 'number' && typeof ined.selectionEnd === 'number' && ined.value.length > 0) {
             let startPos = ined.selectionStart,
                 endPos = ined.selectionEnd,
@@ -273,6 +290,16 @@ sin(10x+time/100)/10</textarea>
         return abs < 2;
     }
 
+    function MandelbrotC(x, y, n) {
+        let c = [x, y];
+        let z = [0, 0];
+        for (let i = 0; i < n; i++) {
+            z = cadd(csqr(z), c);
+        }
+        let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        return math.matrix([z[0], z[1], abs]);
+    }
+
     function Julia(x, y, a, b, n) {
         let z = [x, y];
         let c = [a, b];
@@ -281,6 +308,16 @@ sin(10x+time/100)/10</textarea>
         }
         let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
         return abs < 2;
+    }
+
+    function JuliaC(x, y, a, b, n) {
+        let z = [x, y];
+        let c = [a, b];
+        for (let i = 0; i < n; i++) {
+            z = cadd(csqr(z), c);
+        }
+        let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
+        return math.matrix([z[0], z[1], abs]);
     }
 
     function Logistic(u, x0, n) {
@@ -323,6 +360,8 @@ sin(10x+time/100)/10</textarea>
             },
             Julia: Julia,
             Mandelbrot: Mandelbrot,
+            JuliaC: JuliaC,
+            MandelbrotC: MandelbrotC,
             Logistic: Logistic,
             Γ: math.gamma,
             Σ: function (ex, m) {
@@ -631,10 +670,10 @@ sin(10x+time/100)/10</textarea>
             let exc = excs[i];
             ined.style.border = "dashed green";
             let mg = Object.assign({
-                x: NaN,
-                y: NaN,
-                ρ: NaN,
-                θ: NaN,
+                x: 0,
+                y: 0,
+                ρ: 0,
+                θ: 0,
                 k: 0,
                 time: time,
                 frame: frame,
