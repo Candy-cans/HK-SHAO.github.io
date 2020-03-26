@@ -206,28 +206,68 @@ function plot(ex, exc, outeval) {
     frame += 1;
     let ins2 = ex.substring(0, 2);
     if (ins2 == "x=") {
-        for (let i = -p_n * size; i <= p_n="" *="" size;="" i++)="" {="" y="i" (p_n="" size);="" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" x="" +="" y),="" θ:="" math.atan2(y,="" x)="" });="" if="" (x=""> 1 || x < -1 || isNaN(x)) {
+        for (let i = -p_n * size; i <= p_n * size; i++) {
+            y = i / (p_n * size);
+            Object.assign(mg, {
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: Math.atan2(y, x)
+            });
+            x = exc.evaluate(mg);
+            if (x > 1 || x < -1 || isNaN(x)) {
                 continue;
             }
             let py = 0.004 * size * ls;
             ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
         }
     } else if (ins2 == "ρ=") {
-        for (let i = 0; i <= 2="" *="" p_n="" size;="" i++)="" {="" let="" θ="Math.PI" i="" (p_n="" size);="" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" x="" +="" y="" y),="" θ:="" });="" ρ="exc.evaluate(mg);" math.cos(θ);="" math.sin(θ);="" if="" (y=""> 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
+        for (let i = 0; i <= 2 * p_n * size; i++) {
+            let θ = Math.PI * i / (p_n * size);
+            Object.assign(mg, {
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: θ
+            });
+            let ρ = exc.evaluate(mg);
+            x = ρ * Math.cos(θ);
+            y = ρ * Math.sin(θ);
+            if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                 continue;
             }
             let py = 0.004 * size * ls;
             ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
         }
     } else if (ins2 == "θ=") {
-        for (let i = 0; i <= 2="" *="" p_n="" size;="" i++)="" {="" let="" ρ="Math.SQRT2" i="" (2="" size);="" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" ρ,="" θ:="" math.atan2(y,="" x)="" });="" θ="exc.evaluate(mg);" x="ρ" math.cos(θ);="" y="ρ" math.sin(θ);="" if="" (y=""> 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
+        for (let i = 0; i <= 2 * p_n * size; i++) {
+            let ρ = Math.SQRT2 * i / (2 * p_n * size);
+            Object.assign(mg, {
+                x: x,
+                y: y,
+                ρ: ρ,
+                θ: Math.atan2(y, x)
+            });
+            let θ = exc.evaluate(mg);
+            x = ρ * Math.cos(θ);
+            y = ρ * Math.sin(θ);
+            if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                 continue;
             }
             let py = 0.004 * size * ls;
             ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
         }
     } else if (ins2 == "y=" || typeof outeval == "number") {
-        for (let i = -p_n * size; i <= p_n="" *="" size;="" i++)="" {="" x="i" (p_n="" size);="" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" +="" y="" y),="" θ:="" math.atan2(y,="" x)="" });="" if="" (y=""> 1 || y < -1 || isNaN(y)) {
+        for (let i = -p_n * size; i <= p_n * size; i++) {
+            x = i / (p_n * size);
+            Object.assign(mg, {
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: Math.atan2(y, x)
+            });
+            y = exc.evaluate(mg);
+            if (y > 1 || y < -1 || isNaN(y)) {
                 continue;
             }
             let py = 0.004 * size * ls;
@@ -235,14 +275,57 @@ function plot(ex, exc, outeval) {
         }
     } else if (typeof outeval == "boolean") {
         let jd = size / p_b;
-        for (let i = 0; i <= size;="" i="" +="jd)" {="" for="" (let="" j="0;" <="size;" x="(2" *="" -="" size)="" y="-(2" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" y),="" θ:="" math.atan2(y,="" x)="" });="" let="" ans="exc.evaluate(mg);" if="" (ans="=" true)="" py="jd" ps;="" ctx.fillrect(i,="" j,="" py,="" py);="" }="" else="" (typeof="" outeval="=" "object")="" (outeval.im="" !="undefined)" p_n="" i++)="" t="i" (2="" size);="" x),="" k:="" ob="exc.evaluate(mg);" (y=""> 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
+        for (let i = 0; i <= size; i += jd) {
+            for (let j = 0; j <= size; j += jd) {
+                x = (2 * i - size) / size;
+                y = -(2 * j - size) / size;
+                Object.assign(mg, {
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x)
+                });
+                let ans = exc.evaluate(mg);
+                if (ans == true) {
+                    let py = jd * ps;
+                    ctx.fillRect(i, j, py, py);
+                }
+            }
+        }
+    } else if (typeof outeval == "object") {
+        if (outeval.im != undefined) {
+            for (let i = 0; i <= 2 * p_n * size; i++) {
+                let t = i / (2 * p_n * size);
+                Object.assign(mg, {
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    k: t
+                });
+                let ob = exc.evaluate(mg);
+                x = ob.re;
+                y = ob.im;
+                if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                     continue;
                 }
                 let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
         } else if (outeval._data.length == 2) {
-            for (let i = 0; i <= 2="" *="" p_n="" size;="" i++)="" {="" let="" t="i" (2="" size);="" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" x="" +="" y="" y),="" θ:="" math.atan2(y,="" x),="" k:="" });="" ob="exc.evaluate(mg);" if="" (y=""> 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
+            for (let i = 0; i <= 2 * p_n * size; i++) {
+                let t = i / (2 * p_n * size);
+                Object.assign(mg, {
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    k: t
+                });
+                let ob = exc.evaluate(mg);
+                x = ob._data[0];
+                y = ob._data[1];
+                if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
                     continue;
                 }
                 let py = 0.004 * size * ls;
@@ -250,7 +333,48 @@ function plot(ex, exc, outeval) {
             }
         } else if (outeval._data.length == 3) {
             let jd = size / p_b;
-            for (let i = 0; i <= size;="" i="" +="jd)" {="" for="" (let="" j="0;" <="size;" x="(2" *="" -="" size)="" y="-(2" object.assign(mg,="" x:="" x,="" y:="" y,="" ρ:="" math.sqrt(x="" y),="" θ:="" math.atan2(y,="" x)="" });="" let="" ob="exc.evaluate(mg);" r="ob._data[0]" 255;="" g="ob._data[1]" b="ob._data[2]" if="" (isnan(r)="" ||="" isnan(g)="" isnan(b))="" continue;="" }="" ctx.fillstyle="rgb(" ","="" ")";="" py="jd" ps;="" ctx.fillrect(i,="" j,="" py,="" py);="" else="" frame="" function="" changeom(str)="" (str="" !="outm.innerHTML)" outm.innerhtml="str;" splot(exs)="" omes="" ;="" (excs.length="=" 0)="" exs.length;="" i++)="" try="" excs.push(math.compile(exs[i]));="" catch="" (err)="" (i="" 1)="" "<br="">";
+            for (let i = 0; i <= size; i += jd) {
+                for (let j = 0; j <= size; j += jd) {
+                    x = (2 * i - size) / size;
+                    y = -(2 * j - size) / size;
+                    Object.assign(mg, {
+                        x: x,
+                        y: y,
+                        ρ: Math.sqrt(x * x + y * y),
+                        θ: Math.atan2(y, x)
+                    });
+                    let ob = exc.evaluate(mg);
+                    let r = ob._data[0] * 255;
+                    let g = ob._data[1] * 255;
+                    let b = ob._data[2] * 255;
+                    if (isNaN(r) || isNaN(g) || isNaN(b)) {
+                        continue;
+                    }
+                    ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                    let py = jd * ps;
+                    ctx.fillRect(i, j, py, py);
+                }
+            }
+        }
+    } else {
+        frame -= 1;
+    }
+}
+
+function changeOm(str) {
+    if (str != outm.innerHTML) {
+        outm.innerHTML = str;
+    }
+}
+
+function splot(exs) {
+    let omes = "";
+    if (excs.length == 0) {
+        for (let i = 0; i < exs.length; i++) {
+            try {
+                excs.push(math.compile(exs[i]));
+            } catch (err) {
+                omes += "CompileError: Line " + (i + 1) + "<br>";
                 ined.style.border = "dashed red";
                 //console.log(err);
                 continue;
@@ -358,4 +482,4 @@ function inChange2() {
     } else {
         fpsm.innerHTML = "0 fps";
     }
-}</=></=></=></=></=></=></=>
+}
