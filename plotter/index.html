@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>绘图计算器（开发中v1.821）</title>
+    <title>绘图计算器（开发中v1.822）</title>
     <style type="text/css">
         ::-webkit-scrollbar {
             display: none;
@@ -204,7 +204,7 @@ sin(10x+time/100)/10</textarea>
                     <br>或者 (floor(66000x)&(floor(66000x) >> 8))/290
                     <h4>累乘求π（tip：在行头使用>，只计算而不绘图，提升效率）</h4>
                     >2*Π('n%2==0?n/(n+1):(n+1)/n',1:10000)
-                    <h4>时钟（没有校准时间）</h4>
+                    <h4>时钟（北京时间）</h4>
                     fps /*帧率*/= 60;
                     <br>color /*颜色*/= ["black","blue","black", "green","red"];
                     <br>p_b /*点精度*/= 200;
@@ -214,14 +214,13 @@ sin(10x+time/100)/10</textarea>
                     <br>def /*定义*/= {love: 520, you: 1314/520};
                     <br>
                     <br>ρ=0.8
-                    <br>[0.8sin(2pi*time/1000+0.1k),0.8cos(2pi*time/1000+0.1k)]
-                    <br>[0.7sin(2pi*time/60000)*k,0.7cos(2pi*time/60000)*k]
-                    <br>[0.5sin(2pi*time/3600000)*k,0.5cos(2pi*time/3600000)*k]
-                    <br>[0.4sin(2pi*time/86400000)*k,0.4cos(2pi*time/86400000)*k]
+                    <br>[0.8sin(2pi*time/1e3+0.1k),0.8cos(2pi*time/1e3+0.1k)]
+                    <br>[0.7sin(2pi*time/6e4)*k,0.7cos(2pi*time/6e4)*k]
+                    <br>[0.5sin(2pi*time/36e5)*k,0.5cos(2pi*time/36e5)*k]
+                    <br>[0.4sin(2pi*(time+288e5)/432e5)*k,0.4cos(2pi*(time+288e5)/432e5)*k]
                     <h4>螺旋线</h4>
                     ρθ(2k,20*sin(time/1000)k)/4
-                    <h4>万花筒</h4>
-                    θ=frame*ρ
+                    <br>θ=frame*ρ
                     <h4>选色器</h4>
                     p_b /*点精度*/= 50;
                     <br>ps /*点大小*/= 2;
@@ -236,6 +235,28 @@ sin(10x+time/100)/10</textarea>
                     <br>也可以写成两行：
                     <br>f(z,n)=n&lt;1?z:z^f(z,n-1)
                     <br>f(i,100k)
+                    <h4>万花筒</h4>
+                    fps/*帧率*/=60;
+                    <br>color/*颜色*/=["blue"];
+                    <br>p_b/*点精度*/=100;
+                    <br>ps/*点大小*/=1;
+                    <br>p_n/*线精度*/=1;
+                    <br>ls/*线粗细*/=1;
+                    <br>def/*定义*/={love: 520, you: 1314/520,Q};
+                    <br>function Q(x, y, t) {
+                    <br>let uv = [x, y];
+                    <br>let rot = [Math.sin(t / 100), Math.cos(t / 100)];
+                    <br>let l = 0;
+                    <br>for (let i = 0; i &lt; 2000; i++) {
+                    <br>uv = [1.1*(uv[0]*rot[0]-uv[1]*rot[1]),1.1*(uv[0]*rot[1]+uv[1]*rot[0])];
+                    <br>if (uv[1] > 10) { break; }
+                    <br>l++;
+                    <br>}
+                    <br>let c = l % 2;
+                    <br>return math.matrix([c, c, c]);
+                    <br>}
+                    <br>
+                    <br>Q(x,y,frame)
                 </code>
             </details>
         </div>

@@ -89,11 +89,11 @@ math.import({
         let b = m2._data;
         return math.matrix([a[0] + k * (b[0] - a[0]), a[1] + k * (b[1] - a[1])]);
     },
-    Julia: Julia,
-    Mandelbrot: Mandelbrot,
-    JuliaC: JuliaC,
-    MandelbrotC: MandelbrotC,
-    Logistic: Logistic,
+    Julia,
+    Mandelbrot,
+    JuliaC,
+    MandelbrotC,
+    Logistic,
     Γ: math.gamma,
     φ: math.phi,
     Σ: function (ex, m) {
@@ -215,8 +215,8 @@ function plot(ex, exc, outeval) {
         for (let i = -p_n * size; i <= p_n * size; i++) {
             y = i / (p_n * size);
             Object.assign(mg, {
-                x: x,
-                y: y,
+                x,
+                y,
                 ρ: Math.sqrt(x * x + y * y),
                 θ: Math.atan2(y, x)
             });
@@ -231,10 +231,10 @@ function plot(ex, exc, outeval) {
         for (let i = 0; i <= 2 * p_n * size; i++) {
             let θ = Math.PI * i / (p_n * size);
             Object.assign(mg, {
-                x: x,
-                y: y,
+                x,
+                y,
                 ρ: Math.sqrt(x * x + y * y),
-                θ: θ
+                θ
             });
             let ρ = exc.evaluate(mg);
             x = ρ * Math.cos(θ);
@@ -249,9 +249,9 @@ function plot(ex, exc, outeval) {
         for (let i = 0; i <= 2 * p_n * size; i++) {
             let ρ = Math.SQRT2 * i / (2 * p_n * size);
             Object.assign(mg, {
-                x: x,
-                y: y,
-                ρ: ρ,
+                x,
+                y,
+                ρ,
                 θ: Math.atan2(y, x)
             });
             let θ = exc.evaluate(mg);
@@ -267,8 +267,8 @@ function plot(ex, exc, outeval) {
         for (let i = -p_n * size; i <= p_n * size; i++) {
             x = i / (p_n * size);
             Object.assign(mg, {
-                x: x,
-                y: y,
+                x,
+                y,
                 ρ: Math.sqrt(x * x + y * y),
                 θ: Math.atan2(y, x)
             });
@@ -286,8 +286,8 @@ function plot(ex, exc, outeval) {
                 x = (2 * i - size) / size;
                 y = -(2 * j - size) / size;
                 Object.assign(mg, {
-                    x: x,
-                    y: y,
+                    x,
+                    y,
                     ρ: Math.sqrt(x * x + y * y),
                     θ: Math.atan2(y, x)
                 });
@@ -303,8 +303,8 @@ function plot(ex, exc, outeval) {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let t = i / (2 * p_n * size);
                 Object.assign(mg, {
-                    x: x,
-                    y: y,
+                    x,
+                    y,
                     ρ: Math.sqrt(x * x + y * y),
                     θ: Math.atan2(y, x),
                     k: t
@@ -362,8 +362,8 @@ function plot(ex, exc, outeval) {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let t = i / (2 * p_n * size);
                 Object.assign(mg, {
-                    x: x,
-                    y: y,
+                    x,
+                    y,
                     ρ: Math.sqrt(x * x + y * y),
                     θ: Math.atan2(y, x),
                     k: t
@@ -384,8 +384,8 @@ function plot(ex, exc, outeval) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
                     Object.assign(mg, {
-                        x: x,
-                        y: y,
+                        x,
+                        y,
                         ρ: Math.sqrt(x * x + y * y),
                         θ: Math.atan2(y, x)
                     });
@@ -433,8 +433,8 @@ function splot(exs) {
     frame += 1;
     time = new Date().getTime();
     mg = Object.assign({
-        time: time,
-        frame: frame,
+        time,
+        frame,
         mp: math.matrix([mxf, myf])
     }, def);
     for (let i = 0; i < excs.length; i++) {
