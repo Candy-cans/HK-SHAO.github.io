@@ -203,7 +203,6 @@ function reCanvas2() {
 
 function plot(ex, exc, outeval) {
     ctx.fillStyle = col;
-    frame += 1;
     let ins2 = ex.substring(0, 2);
     if (ins2 == "x=") {
         for (let i = -p_n * size; i <= p_n * size; i++) {
@@ -288,7 +287,7 @@ function plot(ex, exc, outeval) {
                 let ans = exc.evaluate(mg);
                 if (ans == true) {
                     let py = jd * ps;
-                    ctx.fillRect(i, j, py, py);
+                    ctx.fillRect(i, j, py + 1, py + 1);
                 }
             }
         }
@@ -312,7 +311,47 @@ function plot(ex, exc, outeval) {
                 let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
-        } else if (outeval._data.length == 2) {
+        } else if ((outeval._data.length == 1 || outeval._data.length > 3) && outeval._data[0].length == undefined) {
+            for (let i = 0; i < outeval._data.length; i++) {
+                let px = size / outeval._data.length;
+                let m = i * px;
+                let n = (1 - outeval._data[i]) * size / 2
+                let py = 0.004 * size * ls;
+                ctx.fillRect(m, n, px, py);
+            }
+        } else if (outeval._data[0].length != undefined && outeval._data[0][0].length == 3) {
+            for (let i = 0; i < outeval._data.length; i++) {
+                for (let j = 0; j < outeval._data[0].length; j++) {
+                    let px = size / outeval._data[0].length;
+                    let py = size / outeval._data.length;
+                    let m = px * j;
+                    let n = py * i;
+                    let r = outeval._data[i][j][0] * 255;
+                    let g = outeval._data[i][j][1] * 255;
+                    let b = outeval._data[i][j][2] * 255;
+                    if (isNaN(r) || isNaN(g) || isNaN(b)) {
+                        continue;
+                    }
+                    ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                    ctx.fillRect(m, n, px + 1, py + 1);
+                }
+            }
+        } else if (outeval._data[0].length != undefined && outeval._data[0][0].length == undefined) {
+            for (let i = 0; i < outeval._data.length; i++) {
+                for (let j = 0; j < outeval._data[0].length; j++) {
+                    let px = size / outeval._data[0].length;
+                    let py = size / outeval._data.length;
+                    let m = px * j;
+                    let n = py * i;
+                    let c = outeval._data[i][j] * 255;
+                    if (isNaN(c)) {
+                        continue;
+                    }
+                    ctx.fillStyle = "rgb(" + c + "," + c + "," + c + ")";
+                    ctx.fillRect(m, n, px + 1, py + 1);
+                }
+            }
+        } else if (outeval._data.length == 2 && outeval._data[0].length == undefined) {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let t = i / (2 * p_n * size);
                 Object.assign(mg, {
@@ -331,7 +370,7 @@ function plot(ex, exc, outeval) {
                 let py = 0.004 * size * ls;
                 ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
             }
-        } else if (outeval._data.length == 3) {
+        } else if (outeval._data.length == 3 && outeval._data[0].length == undefined) {
             let jd = size / p_b;
             for (let i = 0; i <= size; i += jd) {
                 for (let j = 0; j <= size; j += jd) {
@@ -352,12 +391,10 @@ function plot(ex, exc, outeval) {
                     }
                     ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
                     let py = jd * ps;
-                    ctx.fillRect(i, j, py, py);
+                    ctx.fillRect(i, j, py + 1, py + 1);
                 }
             }
         }
-    } else {
-        frame -= 1;
     }
 }
 
@@ -382,6 +419,7 @@ function splot(exs) {
         }
     }
     let ci = 0;
+    frame += 1;
     time = new Date().getTime();
     mg = Object.assign({
         time: time,
