@@ -103,6 +103,11 @@ window.onload = function () {
         ρθ: function (ρ, θ) {
             return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
         },
+        line: function (k, m1, m2) {
+            let a = m1._data;
+            let b = m2._data;
+            return math.matrix([a[0] + k * (b[0] - a[0]), a[1] + k * (b[1] - a[1])]);
+        },
         Julia: Julia,
         Mandelbrot: Mandelbrot,
         JuliaC: JuliaC,
@@ -314,10 +319,10 @@ function plot(ex, exc, outeval) {
         } else if ((outeval._data.length == 1 || outeval._data.length > 3) && outeval._data[0].length == undefined) {
             for (let i = 0; i < outeval._data.length; i++) {
                 let px = size / outeval._data.length;
+                let py = outeval._data[i] * size / 2;
                 let m = i * px;
-                let n = (1 - outeval._data[i]) * size / 2
-                let py = 0.004 * size * ls;
-                ctx.fillRect(m, n, px, py);
+                let n = 0.5 * size - py;
+                ctx.fillRect(m, n, px + 1, py + 1);
             }
         } else if (outeval._data[0].length != undefined && outeval._data[0][0].length == 3) {
             for (let i = 0; i < outeval._data.length; i++) {
@@ -409,7 +414,11 @@ function splot(exs) {
     if (excs.length == 0) {
         for (let i = 0; i < exs.length; i++) {
             try {
-                excs.push(math.compile(exs[i]));
+                if (exs[i][0] == '>') {
+                    excs.push(math.compile(exs[i].substring(1)));
+                } else {
+                    excs.push(math.compile(exs[i]));
+                }
             } catch (err) {
                 omes += "CompileError: Line " + (i + 1) + "<br>";
                 ined.style.border = "dashed red";
@@ -441,8 +450,10 @@ function splot(exs) {
             let type = typeof outeval;
             if (type != "function") {
                 omes += outeval + "<br>";
-                col = color[ci++];
-                plot(exs[i], exc, outeval);
+                if (exs[i][0] != '>') {
+                    col = color[ci++];
+                    plot(exs[i], exc, outeval);
+                }
             } else {
                 omes += "function" + "<br>";
             }
@@ -477,7 +488,11 @@ function inChange(isD = false) {
             try {
                 let str = ined.value.replace(/\('/g, "(").replace(/\("/g, "(")
                     .replace(/'\)/g, "(").replace(/"\)/g, "(")
-                    .replace(/',/g, ",").replace(/",/g, ",");
+                    .replace(/',/g, ",").replace(/",/g, ",")
+                    .replace(/\n>/g, '\n');
+                if (str[0] == '>') {
+                    str = str.substring(1);
+                }
                 showLaTex(math.parse(str).toTex());
             } catch (err) {
                 showLaTex("");
