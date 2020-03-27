@@ -71,6 +71,59 @@ function Logistic(u, x0, n) {
     }
     return x;
 }
+
+math.import({
+    hkshao: function () {
+        return "恭喜你发现这个彩蛋！";
+    },
+    π: this.Math.PI,
+    τ: math.tau,
+    xy: function (x, y) {
+        return math.matrix([x, y]);
+    },
+    ρθ: function (ρ, θ) {
+        return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
+    },
+    line: function (k, m1, m2) {
+        let a = m1._data;
+        let b = m2._data;
+        return math.matrix([a[0] + k * (b[0] - a[0]), a[1] + k * (b[1] - a[1])]);
+    },
+    Julia: Julia,
+    Mandelbrot: Mandelbrot,
+    JuliaC: JuliaC,
+    MandelbrotC: MandelbrotC,
+    Logistic: Logistic,
+    Γ: math.gamma,
+    φ: math.phi,
+    Σ: function (ex, m) {
+        let s = 0;
+        let md = m._data;
+        let exc = math.compile(ex);
+        for (let i = 0; i < md.length; i++) {
+            Object.assign(mg, {
+                n: md[i],
+            });
+            let ans = exc.evaluate(mg);
+            s += ans;
+        }
+        return s;
+    },
+    Π: function (ex, m) {
+        let s = 1;
+        let md = m._data;
+        let exc = math.compile(ex);
+        for (let i = 0; i < md.length; i++) {
+            Object.assign(mg, {
+                n: md[i],
+            });
+            let ans = exc.evaluate(mg);
+            s *= ans;
+        }
+        return s;
+    }
+});
+
 const cfa = document.getElementById("father");
 const canv = document.getElementById("gc");
 const ctx = canv.getContext("2d");
@@ -91,57 +144,6 @@ window.onload = function () {
     reData();
     intmp = ""
     col = color[0];
-    math.import({
-        hkshao: function () {
-            return "恭喜你发现这个彩蛋！";
-        },
-        π: this.Math.PI,
-        τ: math.tau,
-        xy: function (x, y) {
-            return math.matrix([x, y]);
-        },
-        ρθ: function (ρ, θ) {
-            return math.matrix([ρ * Math.cos(θ), ρ * Math.sin(θ)]);
-        },
-        line: function (k, m1, m2) {
-            let a = m1._data;
-            let b = m2._data;
-            return math.matrix([a[0] + k * (b[0] - a[0]), a[1] + k * (b[1] - a[1])]);
-        },
-        Julia: Julia,
-        Mandelbrot: Mandelbrot,
-        JuliaC: JuliaC,
-        MandelbrotC: MandelbrotC,
-        Logistic: Logistic,
-        Γ: math.gamma,
-        φ: math.phi,
-        Σ: function (ex, m) {
-            let s = 0;
-            let md = m._data;
-            let exc = math.compile(ex);
-            for (let i = 0; i < md.length; i++) {
-                Object.assign(mg, {
-                    n: md[i],
-                });
-                let ans = exc.evaluate(mg);
-                s += ans;
-            }
-            return s;
-        },
-        Π: function (ex, m) {
-            let s = 1;
-            let md = m._data;
-            let exc = math.compile(ex);
-            for (let i = 0; i < md.length; i++) {
-                Object.assign(mg, {
-                    n: md[i],
-                });
-                let ans = exc.evaluate(mg);
-                s *= ans;
-            }
-            return s;
-        }
-    });
     window.onresize();
     canv.addEventListener("mousemove", mouseMove);
 }
