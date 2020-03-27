@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>绘图计算器（开发中v1.822）</title>
+    <title>绘图计算器（开发中v1.823）</title>
     <style type="text/css">
         ::-webkit-scrollbar {
             display: none;
@@ -230,11 +230,12 @@ sin(10x+time/100)/10</textarea>
                     <br>
                     <h4>光环</h4>
                     [(sin(frame*ρ)+1)/2,0,0]
-                    <h4>复数幂迭代（相当于 i^i^i^i^i^...）</h4>
-                    [f(z,n)=n&lt;1?z:z^f(z,n-1),f(i,100k)][2]
-                    <br>也可以写成两行：
-                    <br>f(z,n)=n&lt;1?z:z^f(z,n-1)
-                    <br>f(i,100k)
+                    <h4>复数幂递归（相当于 i^i^i^i^i^...）</h4>
+                    p_n /*线精度*/= 0.3;
+                    <br>
+                    <br>>f(z,n)=n&lt;1?z:z^f(z,n-1)
+                    <br>>c=complex(mp[1],mp[2])
+                    <br>f(c,300k)
                     <h4>万花筒</h4>
                     fps/*帧率*/=60;
                     <br>color/*颜色*/=["blue"];
