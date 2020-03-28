@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>绘图计算器（开发中v1.823）</title>
+    <title>绘图计算器（开发中v1.824）</title>
     <style type="text/css">
         ::-webkit-scrollbar {
             display: none;
@@ -177,7 +177,10 @@ sin(10x+time/100)/10</textarea>
                 <summary style="font-size:20px;font-weight:bold">一些实例</summary>
                 <code style="font-family: Consolas;font-size: 16px">
                     <h4>二阶贝塞尔曲线</h4>
-                    [k*(-0.5k+mp[1])+0.5,k*(-0.5k+mp[2])+0.5]
+                    >p0=[-0.5,0.5]
+                    <br>>p1=[0.5,0.5]
+                    <br>>p2=mp
+                    <br>(1-k)^2*p0+2k*(1-k)*p1+k^2*p2
                     <h4>Logistic映射（有多种实现方式）</h4>
                     2x*y*(1-y)+0.1
                     <br>Logistic(4x,0.1,100) 这个式子计算更快，等价于下面的式子
