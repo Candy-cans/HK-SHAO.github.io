@@ -266,7 +266,7 @@ function reCanvas2() {
     ctx2.stroke();
 }
 
-function plot(ex, exc, outeval) {
+function plot(ex, exc, outeval, type) {
     ctx.fillStyle = col;
     let ins2 = ex.substring(0, 2);
     if (ins2 == "x=") {
@@ -321,7 +321,7 @@ function plot(ex, exc, outeval) {
             let py = 0.004 * size * ls;
             ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
         }
-    } else if (ins2 == "y=" || typeof outeval == "number") {
+    } else if (ins2 == "y=" || type == "number") {
         for (let i = -p_n * size; i <= p_n * size; i++) {
             x = i / (p_n * size);
             Object.assign(mg, {
@@ -337,7 +337,7 @@ function plot(ex, exc, outeval) {
             let py = 0.004 * size * ls;
             ctx.fillRect((x + 1) / 2 * size - 1, (1 - y) * size / 2 - 1, py, py);
         }
-    } else if (typeof outeval == "boolean") {
+    } else if (type == "boolean") {
         let jd = size / p_b;
         for (let i = 0; i <= size; i += jd) {
             for (let j = 0; j <= size; j += jd) {
@@ -356,7 +356,7 @@ function plot(ex, exc, outeval) {
                 }
             }
         }
-    } else if (typeof outeval == "object") {
+    } else if (type == "object") {
         if (outeval.im != undefined) {
             for (let i = 0; i <= 2 * p_n * size; i++) {
                 let t = i / (2 * p_n * size);
@@ -510,9 +510,9 @@ function splot(exs) {
             let type = typeof outeval;
             if (type != "function") {
                 omes += outeval + "<br>";
-                if (exs[i][0] != '>' && typeof outeval != "string") {
+                if (exs[i][0] != '>' && type != "string") {
                     col = color[ci++];
-                    plot(exs[i], exc, outeval);
+                    plot(exs[i], exc, outeval, type);
                 }
             } else {
                 omes += "function" + "<br>";
