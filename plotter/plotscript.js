@@ -198,6 +198,7 @@ window.onload = function () {
     mxf = 0;
     myf = 0;
     interval = 0;
+    scale = 1;
     inChange2();
     reData();
     intmp = "";
@@ -247,14 +248,15 @@ function mouseMove(e) {
     ctx2.beginPath();
     ctx2.lineWidth = 0.3;
     for (let i = 1; i <= 9; i++) {
-        ctx2.moveTo(size * i / 10, 0);
-        ctx2.lineTo(size * i / 10, size);
-        ctx2.moveTo(0, size * i / 10);
-        ctx2.lineTo(size, size * i / 10);
+        let sid10 = size * i / 10;
+        ctx2.moveTo(sid10, 0);
+        ctx2.lineTo(sid10, size);
+        ctx2.moveTo(0, sid10);
+        ctx2.lineTo(size, sid10);
         if (i != 5) {
-            ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), size / 2 + 2, size * i / 10 - 3);
+            ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), size / 2 + 2, sid10 - 3);
         }
-        ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), size * i / 10 + 3, size / 2 + 12);
+        ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), sid10 + 3, size / 2 + 12);
     }
     ctx2.strokeStyle = 'gray';
     ctx2.stroke();
@@ -292,7 +294,6 @@ function reData() {
     x = 0;
     y = 0;
     mg = {};
-    scale = 1;
     ltime = new Date().getTime();
 }
 
