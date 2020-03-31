@@ -32,6 +32,7 @@ function insertText(str) {
         ined.value += str;
     }
     ined.focus();
+    inChange();
 }
 
 function csqr(z) {
@@ -201,7 +202,6 @@ window.onload = function () {
     scale = 1;
     inChange2();
     reData();
-    intmp = "";
     col = color[0];
     window.onresize();
     cfa.addEventListener("mousemove", mouseMove);
@@ -230,10 +230,11 @@ window.onresize = function () {
 }
 
 function mouseWheel(e) {
+    e.preventDefault();
     if (e.wheelDelta < 0) {
-        scale *= 1.1;
+        scale *= 1.05;
     } else {
-        scale /= 1.1;
+        scale /= 1.05;
     }
     mouseMove(e);
     refresh(true);
@@ -254,9 +255,9 @@ function mouseMove(e) {
         ctx2.moveTo(0, sid10);
         ctx2.lineTo(size, sid10);
         if (i != 5) {
-            ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), size / 2 + 2, sid10 - 3);
+            ctx2.fillText((scale * (1 - i / 5)).toPrecision(2), size / 2 + 2, sid10 - 3);
         }
-        ctx2.fillText((scale * (1 - i / 5)).toPrecision(1), sid10 + 3, size / 2 + 12);
+        ctx2.fillText((scale * (i / 5 - 1)).toPrecision(2), sid10 + 3, size / 2 + 12);
     }
     ctx2.strokeStyle = 'gray';
     ctx2.stroke();
@@ -535,8 +536,11 @@ function splot(exs) {
     if (excs.length === 0) {
         for (let i = 0; i < exs.length; i++) {
             try {
+                let ins2 = exs[i].substring(0, 2);
                 if (exs[i][0] === '>') {
                     excs.push(math.compile(exs[i].substring(1)));
+                } else if (ins2 === "y=" || ins2 === "x=" || ins2 === "ρ=" || ins2 === "θ=") {
+                    excs.push(math.compile(exs[i].substring(2)));
                 } else {
                     excs.push(math.compile(exs[i]));
                 }
@@ -544,13 +548,11 @@ function splot(exs) {
                 omes += "CompileError: Line " + (i + 1) + "<br>";
                 ined.style.border = "dashed red";
                 //console.log(err);
-                continue;
             }
         }
     }
     let ci = 0;
     frame += 1;
-    time = new Date().getTime();
     mg = Object.assign({
         time,
         frame,
@@ -597,9 +599,10 @@ function showLaTex(str) {
 }
 
 function refresh(isD = false) {
-    if (ined.value != intmp || ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) !=
+    time = new Date().getTime();
+    if (ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) !=
         -1 || isD || excs.length === 0) {
-        if (ined.value != "") {
+        if (ined.value.length != 0) {
             try {
                 let str = ined.value.replace(/\('/g, "(").replace(/\("/g, "(")
                     .replace(/'\)/g, "(").replace(/"\)/g, "(")
@@ -613,30 +616,29 @@ function refresh(isD = false) {
                 showLaTex("");
                 //console.log(err);
             }
-            if (ined.value === "0/0" || ined.value === "NaN") {
-                changeOm("NaN");
-            } else {
-                reCanvas();
-                let exs = ined.value.split("\n");
-                let omes = splot(exs);
-                changeOm(omes);
-            }
-        } else {
-            ined.style.border = "dashed red";
-            showLaTex("");
-            changeOm("Undefined");
+            reCanvas();
+            let exs = ined.value.split('\n');
+            let omes = splot(exs);
+            changeOm(omes);
         }
     }
-
     fpsm.innerHTML = Math.round(1000 / (time - ltime)) + " fps";
     ltime = time;
 }
 
 function inChange() {
-    intmp = ined.value;
     ined.style.height = 0;
     ined.style.height = ined.scrollHeight - 2 + "px";
     reData();
+    refresh(true);
+    if (ined.value.length === 0) {
+        {
+            ined.style.border = "dashed red";
+            showLaTex("");
+            changeOm("Undefined");
+            reCanvas();
+        }
+    }
 }
 
 function inChange2() {
@@ -652,7 +654,7 @@ function inChange2() {
     }
     window.clearInterval(interval);
     if (fps != 0) {
-        interval = setInterval("refresh()", 1000 / fps);
+        interval = setInterval(refresh, 1000 / fps);
     } else {
         fpsm.innerHTML = "0 fps";
     }
