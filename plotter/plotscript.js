@@ -209,7 +209,7 @@ window.onload = function () {
 }
 
 window.onresize = function () {
-    if (window.innerWidth >= 900) {
+    if (window.innerWidth >= 700) {
         size = Math.min(window.innerWidth / 2, window.innerHeight * 0.95);
     } else {
         size = Math.min(window.innerWidth - 20, window.innerHeight * 0.95);
@@ -241,6 +241,7 @@ function mouseWheel(e) {
 }
 
 function mouseMove(e) {
+    e.preventDefault();
     let cRect = canv2.getBoundingClientRect();
     let mx = Math.round(e.clientX - cRect.left);
     let my = Math.round(e.clientY - cRect.top);
