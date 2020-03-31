@@ -438,7 +438,7 @@ function plot(ex, exc, outeval, type) {
             if ((outeval._data.length === 1 || outeval._data.length > 3) && outeval._data[0].length === undefined) {
                 for (let i = 0; i < outeval._data.length; i++) {
                     let px = size / outeval._data.length;
-                    let py = outeval._data[i] * size / (2 * nn);
+                    let py = outeval._data[i] * size / (2 * scale);
                     let m = i * px;
                     let n = 0.5 * size - py;
                     ctx.fillRect(m, n, px + 1, py + 1);
