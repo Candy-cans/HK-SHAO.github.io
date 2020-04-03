@@ -48,9 +48,12 @@ function Mandelbrot(x, y, n) {
     let z = [0, 0];
     for (let i = 0; i < n; i++) {
         z = cadd(csqr(z), c);
+        if (Math.abs(z[0]) > 1 && Math.abs(z[1]) > 1) {
+            z = [NaN, NaN];
+            break;
+        }
     }
-    let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
-    return math.matrix([z[0], z[1], abs]);
+    return math.matrix([z[0], z[1], Math.sqrt(z[0] * z[0] + z[1] * z[1])]);
 }
 
 function Julia(x, y, a, b, n) {
@@ -58,9 +61,12 @@ function Julia(x, y, a, b, n) {
     let c = [a, b];
     for (let i = 0; i < n; i++) {
         z = cadd(csqr(z), c);
+        if (Math.abs(z[0]) > 1 && Math.abs(z[1]) > 1) {
+            z = [NaN, NaN];
+            break;
+        }
     }
-    let abs = Math.sqrt(z[0] * z[0] + z[1] * z[1]);
-    return math.matrix([z[0], z[1], abs]);
+    return math.matrix([z[0], z[1], Math.sqrt(z[0] * z[0] + z[1] * z[1])]);
 }
 
 function Logistic(u, x0, n) {
