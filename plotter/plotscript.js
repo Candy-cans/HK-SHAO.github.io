@@ -168,9 +168,9 @@ math.import({
         let md = m._data;
         let exc = math.compile(ex);
         for (let i = md.length - 1; i > -1; i--) {
-            let ans = exc.evaluate(Object.assign({
+            let ans = exc.evaluate({
                 n: md[i]
-            }, mg));
+            });
             s += ans;
         }
         return s;
@@ -180,13 +180,34 @@ math.import({
         let md = m._data;
         let exc = math.compile(ex);
         for (let i = md.length - 1; i > -1; i--) {
-            let ans = exc.evaluate(Object.assign({
+            let ans = exc.evaluate({
                 n: md[i]
-            }, mg));
+            });
             s *= ans;
         }
         return s;
-    }
+    },
+    Diff: function (ex, mx, n = 0.000001) {
+        let exc = math.compile(ex);
+        let a1 = exc.evaluate({
+            x: mx
+        });
+        let a2 = exc.evaluate({
+            x: mx + n
+        });
+        return (a2 - a1) / n;
+    },
+    Integ: function (ex, s, e, n = 100000) {
+        let inc = (e - s) / n;
+        let totalHeight = 0;
+        let exc = math.compile(ex);
+        for (let i = s; i < e; i += inc) {
+            totalHeight += exc.evaluate({
+                x: i
+            });
+        }
+        return totalHeight * inc;
+    },
 });
 
 const cfa = document.getElementById("father");
@@ -615,8 +636,7 @@ function splot(exs) {
 function showLaTex(str) {
     if (img.alt != str) {
         img.alt = str;
-        let s = str.replace(/\\;\\;/g, "\\\\")
-            .replace(/\\textasciicircum{}/g, "^");
+        let s = str.replace(/\\;\\;/g, "\\\\");
         img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(s);
     }
 }
