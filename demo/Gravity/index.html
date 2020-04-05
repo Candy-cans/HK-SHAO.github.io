@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Gravity</title>
+    <style type="text/css">
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        #father #gc {
+            position: absolute;
+            z-index: 2;
+        }
+
+        #father #gc2 {
+            position: absolute;
+            z-index: 1;
+        }
+
+        #father {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%)
+        }
+    </style>
+</head>
+
+<body>
+    <div id="father">
+        <canvas id="gc"></canvas>
+        <canvas id="gc2"></canvas>
+    </div>
+</body>
+
+<script src="gamescript.js"></script>
+
+</html>
