@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>函数大冒险（开发中v1.61）</title>
+    <title>函数大冒险（停止开发v1.61）</title>
     <style type="text/css">
         #father {
             position: relative;
@@ -61,7 +61,7 @@
         <br>支持 time 变量，time 会返回当前时间戳，如 1584170659608 ，一般的使用方法是 sin(time/1000)
         <br>你每改变一次输入框里的内容就会执行一次math.js的evaluate函数（参考文档：https://mathjs.org/）
         <br>表达式只要返回的是number或者boolean就可以绘制图像，所以玩法很多，就等待着你自己探索了
-        <br>欢迎使用绘图工具https://hk-shao.github.io/demo/MyGame/plotter.html
+        <br>欢迎使用绘图工具https://hk-shao.github.io/plotter/
         <br>下面是math库的部分函数说明（实际上支持非常多的函数比如各种操作矩阵的函数，具体请参考math.js）
     </div>
     </p>
@@ -235,7 +235,8 @@
     bu = document.getElementById("bu");
     mes = document.getElementById("mes");
     outm = document.getElementById("outm");
-    x = 0.1; y = 0.1;
+    x = 0.1;
+    y = 0.1;
     size = Math.min(window.innerWidth, window.innerHeight) * 0.65;
     cfa.style.width = size + "px";
     cfa.style.height = size + "px";
@@ -244,19 +245,92 @@
     canv2.width = size;
     canv2.height = size;
 
-    ;eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('r=["x","x^2","x<0","0.1/x","a(x)","a(x^3)","9(b)<s","9(f*x)","t(E*x)","x%0.2>y","u(0.5-x^2)","x^2+x","x^2+y^2<0.5","c(x*7)/7","x^3+0.3*x^2-0.5*x-0.3","x^7+y^7<0.1","g(x^2*3.8)","c(x*7)/7+v(x*7)/7","w(x^2-x,x)","a(ρ-0.5)<0.1","ρ<0.5+0.h(7θ)","a(ρ-0.3θ)<0.z","9(x)^2+9(y)^2<0.5","g(x)^2+g(y)^2<0.5","9(b+0.j(A))","k(E*x)","l(b)/7","x B 0.4","x^x","C(x^3,x)","a(9(x))","((m)^2+(n)^2-1)^3<(m)^2(n)^3","x*y<0","x*y<0.1","x<-0.2 D x>0.2","-0.8<x<0.2","-0.2<x<y<0.2","(a(x)-0.5)^2+y^2<0.1","a(9(x^2*5))","d(x%0.2,9(7*f*x))","l(a(x)*7)/7","d(9(x*7)/7,o(x*7)/7)","k(a(x*5)-0.1)/5","x%(0.2)+9(x*7)/7","d(0,x)","d(0.F,x)","p(9(x*7))/7","G(x*1.5)","H(x*1.5)","1/(1+e^(-x*7))","p(9(x*q))/2","0.h(b)+0.I(J)+0.j(K)+0.L(M)","a(x)+a(y)<0.5","9(b)%1-0.5","0.2*N(c(x*O))","P(o(i*b))/7","Q(6,c(7*x))/7","9(f*(x+9(x*q)))"];',53,53,'|||||||10||sin|abs|10x|ceil|max||PI|tan|1sin||3sin|log|gamma|2x|2y|cos|sign|1000|levels|10y|exp|sqrt|floor|min|||02|1000x|mod|pow|or||1x|atan|tanh|2sin|20x|30x|4sin|40x|isPrime|20|norm|gcd'.split('|'),0,{}));
+    ;
+    eval(function (p, a, c, k, e, r) {
+        e = function (c) {
+            return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c
+                .toString(36))
+        };
+        if (!''.replace(/^/, String)) {
+            while (c--) r[e(c)] = k[c] || e(c);
+            k = [function (e) {
+                return r[e]
+            }];
+            e = function () {
+                return '\\w+'
+            };
+            c = 1
+        };
+        while (c--)
+            if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+        return p
+    }('r=["x","x^2","x<0","0.1/x","a(x)","a(x^3)","9(b)<s","9(f*x)","t(E*x)","x%0.2>y","u(0.5-x^2)","x^2+x","x^2+y^2<0.5","c(x*7)/7","x^3+0.3*x^2-0.5*x-0.3","x^7+y^7<0.1","g(x^2*3.8)","c(x*7)/7+v(x*7)/7","w(x^2-x,x)","a(ρ-0.5)<0.1","ρ<0.5+0.h(7θ)","a(ρ-0.3θ)<0.z","9(x)^2+9(y)^2<0.5","g(x)^2+g(y)^2<0.5","9(b+0.j(A))","k(E*x)","l(b)/7","x B 0.4","x^x","C(x^3,x)","a(9(x))","((m)^2+(n)^2-1)^3<(m)^2(n)^3","x*y<0","x*y<0.1","x<-0.2 D x>0.2","-0.8<x<0.2","-0.2<x<y<0.2","(a(x)-0.5)^2+y^2<0.1","a(9(x^2*5))","d(x%0.2,9(7*f*x))","l(a(x)*7)/7","d(9(x*7)/7,o(x*7)/7)","k(a(x*5)-0.1)/5","x%(0.2)+9(x*7)/7","d(0,x)","d(0.F,x)","p(9(x*7))/7","G(x*1.5)","H(x*1.5)","1/(1+e^(-x*7))","p(9(x*q))/2","0.h(b)+0.I(J)+0.j(K)+0.L(M)","a(x)+a(y)<0.5","9(b)%1-0.5","0.2*N(c(x*O))","P(o(i*b))/7","Q(6,c(7*x))/7","9(f*(x+9(x*q)))"];',
+        53, 53,
+        '|||||||10||sin|abs|10x|ceil|max||PI|tan|1sin||3sin|log|gamma|2x|2y|cos|sign|1000|levels|10y|exp|sqrt|floor|min|||02|1000x|mod|pow|or||1x|atan|tanh|2sin|20x|30x|4sin|40x|isPrime|20|norm|gcd'
+        .split('|'), 0, {}));
     ses = [
-        [-2000, 2000], [-2000, 2000], [], [-100, 100], [-2000, 2000], [-2000, 2000], [], [100, 4100], [-2000, 2000],
-        [], [-800, 800], [-2000, 2000], [], [2001, 6001], [-2000, 2000], [], [-2000, 2000], [-3001, 1001], [-2000, 2000],
-        [], [], [],
-        [], [], [-2000, 2000], [-100, 4100], [-1000, 1000], [-2000, 2000], [0, 4000], [0, 4000], [-2000, 2000],
-        [], [], [], [], [], [], [],
-        [-2000, 2000], [-2000, 2000], [-300, -200], [-2000, 2000], [2000, 6000], [-2000, 2000],
-        [-2000, 2000], [-2000, 2000], [-2000, 2000], [-2000, 2000], [-2000, 2000], [-2000, 2000], [-2000, 2000],
-        [-2000, 2000], [],
-        [-2000, 2000], [0, 4000], [-500, 500], [-2000, 2000], [-2000, 2000]
+        [-2000, 2000],
+        [-2000, 2000],
+        [],
+        [-100, 100],
+        [-2000, 2000],
+        [-2000, 2000],
+        [],
+        [100, 4100],
+        [-2000, 2000],
+        [],
+        [-800, 800],
+        [-2000, 2000],
+        [],
+        [2001, 6001],
+        [-2000, 2000],
+        [],
+        [-2000, 2000],
+        [-3001, 1001],
+        [-2000, 2000],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [-2000, 2000],
+        [-100, 4100],
+        [-1000, 1000],
+        [-2000, 2000],
+        [0, 4000],
+        [0, 4000],
+        [-2000, 2000],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-300, -200],
+        [-2000, 2000],
+        [2000, 6000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [-2000, 2000],
+        [],
+        [-2000, 2000],
+        [0, 4000],
+        [-500, 500],
+        [-2000, 2000],
+        [-2000, 2000]
     ];
-    qab = 0; qa = 0; qb = 0;
+    qab = 0;
+    qa = 0;
+    qb = 0;
 
     ltype = "";
     lvn = 0;
@@ -266,8 +340,8 @@
     reCanvas2();
     reCanvas();
     nextLevel();
-    ined.value = "((2x)^2+(2y)^2-1)^3<(2x)^2(2y)^3";//
-    plot(ined.value, "red", "boolean");//
+    ined.value = "((2x)^2+(2y)^2-1)^3<(2x)^2(2y)^3"; //
+    plot(ined.value, "red", "boolean"); //
 
     function reMes() {
         mes.innerHTML = "关卡：" + lvn + "；得分：" + score + "；当前残差：" + R;
@@ -275,8 +349,11 @@
 
     function nextLevel() {
         lvn += 1;
-        x = 0.1; y = 0.1;
-        qab = 0; qa = 0; qb = 0;
+        x = 0.1;
+        y = 0.1;
+        qab = 0;
+        qa = 0;
+        qb = 0;
         if (R != Infinity && !isNaN(R)) {
             score += Math.trunc(1e5 * (dd - R));
         }
@@ -327,11 +404,23 @@
                 for (var j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    ans = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
+                    ans = comp.evaluate({
+                        x: x,
+                        y: y,
+                        ρ: Math.sqrt(x * x + y * y),
+                        θ: Math.atan2(y, x),
+                        time: new Date().getTime()
+                    });
                     if (ans == true) {
                         ctx.fillRect(i, j, jd / 2, jd / 2);
                         qb += 1;
-                        if (comp2.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() }) == true) {
+                        if (comp2.evaluate({
+                                x: x,
+                                y: y,
+                                ρ: Math.sqrt(x * x + y * y),
+                                θ: Math.atan2(y, x),
+                                time: new Date().getTime()
+                            }) == true) {
                             qab += 1;
                         }
                     }
@@ -341,14 +430,23 @@
                 R = Infinity;
             } else {
                 R = parseFloat((Math.tan(0.5 * Math.PI * (1 - qab / (qa + qb - qab))) / 2).toFixed(6));
-                if (R > 1e8) { R = Infinity; }
-                qab = 0; qb = 0;
+                if (R > 1e8) {
+                    R = Infinity;
+                }
+                qab = 0;
+                qb = 0;
             }
             judge();
         } else if (type == "number") {
             for (var i = -10 * size; i <= 10 * size; i++) {
                 x = i / (10 * size);
-                y = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
+                y = comp.evaluate({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    time: new Date().getTime()
+                });
                 if (typeof y != "number" || y > 1 || y < -1 || isNaN(y)) {
                     continue;
                 }
@@ -362,13 +460,28 @@
             judge();
         } else if (type == "object") {
             t = 0.1;
-            ob = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: new Date().getTime() });
-            if (ob._data == undefined || ob._data.length != 2 || typeof ob._data[0] != "number" || typeof ob._data[1] != "number") {
+            ob = comp.evaluate({
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: Math.atan2(y, x),
+                k: t,
+                time: new Date().getTime()
+            });
+            if (ob._data == undefined || ob._data.length != 2 || typeof ob._data[0] != "number" || typeof ob._data[1] !=
+                "number") {
                 return;
             }
             for (var i = 0; i <= 20 * size; i++) {
                 t = i / (20 * size);
-                ob = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: t, time: new Date().getTime() });
+                ob = comp.evaluate({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    k: t,
+                    time: new Date().getTime()
+                });
                 x = ob._data[0];
                 y = ob._data[1];
                 if (y > 1 || y < -1 || x > 1 || x < -1 || isNaN(x) || isNaN(y)) {
@@ -398,8 +511,20 @@
         end = ses[lvn - 1][1];
         for (var i = start; i <= end; i++) {
             x = i / 2000;
-            y1 = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
-            y2 = comp2.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), time: new Date().getTime() });
+            y1 = comp.evaluate({
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: Math.atan2(y, x),
+                time: new Date().getTime()
+            });
+            y2 = comp2.evaluate({
+                x: x,
+                y: y,
+                ρ: Math.sqrt(x * x + y * y),
+                θ: Math.atan2(y, x),
+                time: new Date().getTime()
+            });
             if (typeof y2 != "number") {
                 continue;
             }
@@ -413,7 +538,12 @@
 
     function plot2(ex) {
         comp = math.compile(ex);
-        outeval = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x) });
+        outeval = comp.evaluate({
+            x: x,
+            y: y,
+            ρ: Math.sqrt(x * x + y * y),
+            θ: Math.atan2(y, x)
+        });
         ltype = typeof outeval;
         ctx2.fillStyle = "gray";
         if (ltype == "boolean") {
@@ -422,7 +552,12 @@
                 for (var j = 0; j <= size; j += jd) {
                     x = (2 * i - size) / size;
                     y = -(2 * j - size) / size;
-                    if (comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x) }) == true) {
+                    if (comp.evaluate({
+                            x: x,
+                            y: y,
+                            ρ: Math.sqrt(x * x + y * y),
+                            θ: Math.atan2(y, x)
+                        }) == true) {
                         ctx2.fillRect(i, j, jd / 2, jd / 2);
                         qa += 1;
                     }
@@ -431,7 +566,12 @@
         } else if (ltype == "number") {
             for (var i = -10 * size; i <= 10 * size; i++) {
                 x = i / (10 * size);
-                y = comp.evaluate({ x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x) });
+                y = comp.evaluate({
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x)
+                });
                 if (typeof y != "number" || y > 1 || y < -1) {
                     continue;
                 }
@@ -448,9 +588,12 @@
             outm.innerHTML = "";
             return;
         }
-        x = 0.1; y = 0.1;
+        x = 0.1;
+        y = 0.1;
         try {
-            outeval = math.evaluate(ined.value, { time: new Date().getTime() });
+            outeval = math.evaluate(ined.value, {
+                time: new Date().getTime()
+            });
             type = typeof outeval;
             if (type != "function") {
                 outm.innerHTML = outeval;
@@ -460,7 +603,14 @@
         } catch (err) {
             outm.innerHTML = "";
             try {
-                outeval = math.evaluate(ined.value, { x: x, y: y, ρ: Math.sqrt(x * x + y * y), θ: Math.atan2(y, x), k: 0.1, time: new Date().getTime() });
+                outeval = math.evaluate(ined.value, {
+                    x: x,
+                    y: y,
+                    ρ: Math.sqrt(x * x + y * y),
+                    θ: Math.atan2(y, x),
+                    k: 0.1,
+                    time: new Date().getTime()
+                });
             } catch (err) {
                 outeval = Infinity;
             }
