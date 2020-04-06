@@ -266,9 +266,6 @@ function zoom(b) {
     } else {
         scale *= 1.05;
     }
-    if (ined.value.search(/(\b|\d)mp\b/g) === -1) {
-        refresh(true);
-    }
 }
 
 function mouseWheel(e) {
