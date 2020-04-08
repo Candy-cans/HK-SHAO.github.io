@@ -4,7 +4,7 @@
 <head>
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
         name="viewport">
-    <title>绘图计算器（开发中v1.861）</title>
+    <title>绘图计算器（开发中v1.862）</title>
     <style type="text/css">
         @font-face {
             font-family: MathFont;
@@ -303,10 +303,10 @@ def /*定义*/= {love: 520, you: 1314/520};
 
 >t=time
 ρ=0.8
-[0.8sin(2pi*t/1e3+0.1k),0.8cos(2pi*t/1e3+0.1k)]
-[0.7sin(2pi*t/6e4)*k,0.7cos(2pi*t/6e4)*k]
-[0.5sin(2pi*t/36e5)*k,0.5cos(2pi*t/36e5)*k]
-[0.4sin(2pi*(t+288e5)/432e5)*k,0.4cos(2pi*(t+288e5)/432e5)*k]
+0.8*[sin(2pi*t/1e3+0.1k),cos(2pi*t/1e3+0.1k)]
+0.7*[sin(2pi*t/6e4),cos(2pi*t/6e4)]*k
+0.5*[sin(2pi*t/36e5),cos(2pi*t/36e5)]*k
+0.4*[sin(2pi*(t+288e5)/432e5),cos(2pi*(t+288e5)/432e5)]*k
 <h4>螺旋线</h4>ρθ(2k,20*sin(time/1000)k)/4
 θ=frame*ρ
 <h4>选色器</h4>p_b /*点精度*/= 100;
@@ -320,6 +320,10 @@ ps /*点大小*/= 1;
 >f(z,n)=n&lt;1?z:z^f(z,n-1)
 >c=complex(mp[1],mp[2])
 f(c,300k)
+<h4>旋转“弹簧”线</h4>Polygon(5k*(sin(time/1000)+1),[0,2k],[2,2k],[1,2k-1],[-1,2k-1])
+
+>n=20(sin(time/1000)+1)
+[2cos(n*k),sin(n*k)+3k]
 <h4>万花筒</h4>fps /*帧率*/= 60;
 color /*颜色*/= ["blue"];
 p_b /*点精度*/= 100;
