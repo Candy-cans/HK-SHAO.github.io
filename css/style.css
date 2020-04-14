@@ -127,7 +127,7 @@ div {
       margin-top: 10px; }
       #sidebar .widget .tagcloud a {
         line-height: 1.5;
-        padding: 5px; }
+        padding: 2px; }
     #sidebar .widget ul {
       list-style: none;
       padding: 0; }
@@ -309,7 +309,6 @@ div {
       margin: 30px 0; }
       .post .post-content .one-tag-list .tag-name .tag-text {
         margin-left: 5px;
-        font-size: 16px;
         font-weight: bold; }
   .post .tags a {
     margin-right: .5em; }
