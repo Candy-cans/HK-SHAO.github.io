@@ -204,7 +204,7 @@ math.import({
         return math.matrix([z.re, z.im]);
     },
     Play: function (f, v, m = 0) {
-        if (typeof audioCtx != "undefined") {
+        if (typeof audioCtx !== "undefined") {
             oscillator.frequency.value = f;
             gainNode.gain.value = v;
             switch (m) {
@@ -379,7 +379,7 @@ function mouseMove(e, isR = true) {
         ctx2.lineTo(sid10, size);
         ctx2.moveTo(0, sid10);
         ctx2.lineTo(size, sid10);
-        if (i != 5) {
+        if (i !== 5) {
             ctx2.fillText((scale * (1 - i / 5)).toPrecision(2), size / 2 + 2, sid10 - 3);
         }
         ctx2.fillText((scale * (i / 5 - 1)).toPrecision(2), sid10 + 3, size / 2 + 12);
@@ -409,7 +409,7 @@ function mouseMove(e, isR = true) {
     mxf = ((2 * mx / size) - 1) * scale;
     myf = ((-2 * my / size) + 1) * scale;
     ctx2.fillText("( " + mxf.toFixed(8) + " , " + myf.toFixed(8) + " )", 4, 14);
-    if (ined.value.search(/(\b|\d)mp\b/g) != -1 && isR) {
+    if (ined.value.search(/(\b|\d)mp\b/g) !== -1 && isR) {
         refresh(true);
     }
 }
@@ -542,7 +542,7 @@ function plot(ex, exc, outeval, type, sc) {
             }
         }
     } else if (type === "object") {
-        if (outeval.im != undefined) {
+        if (outeval.im !== undefined) {
             let pmp = 2 * p_n * size;
             for (let i = 0; i < pmp; i++) {
                 let t = i / pmp;
@@ -564,7 +564,7 @@ function plot(ex, exc, outeval, type, sc) {
                 let py = 0.004 * size * ls;
                 ctx.fillRect((tx + 1) / 2 * size - 1, (1 - ty) * size / 2 - 1, py, py);
             }
-        } else if (outeval._data != undefined) {
+        } else if (outeval._data !== undefined) {
             if ((outeval._data.length === 1 || outeval._data.length > 3) && outeval._data[0].length === undefined) {
                 for (let i = outeval._data.length - 1; i > -1; i--) {
                     let px = size / outeval._data.length;
@@ -573,7 +573,7 @@ function plot(ex, exc, outeval, type, sc) {
                     let n = size / 2 - py;
                     ctx.fillRect(m, n, px + 1, py + 1);
                 }
-            } else if (outeval._data[0].length != undefined && outeval._data[0][0].length === 3) {
+            } else if (outeval._data[0].length !== undefined && outeval._data[0][0].length === 3) {
                 for (let i = outeval._data.length - 1; i > -1; i--) {
                     for (let j = outeval._data[0].length - 1; j > -1; j--) {
                         let px = size / outeval._data[0].length;
@@ -590,7 +590,7 @@ function plot(ex, exc, outeval, type, sc) {
                         ctx.fillRect(m, n, px + 1, py + 1);
                     }
                 }
-            } else if (outeval._data[0].length != undefined && outeval._data[0][0].length === undefined) {
+            } else if (outeval._data[0].length !== undefined && outeval._data[0][0].length === undefined) {
                 for (let i = outeval._data.length - 1; i > -1; i--) {
                     for (let j = outeval._data[0].length - 1; j > -1; j--) {
                         let px = size / outeval._data[0].length;
@@ -657,7 +657,7 @@ function plot(ex, exc, outeval, type, sc) {
 }
 
 function changeOm(str) {
-    if (str != outm.innerText) {
+    if (str !== outm.innerText) {
         outm.innerText = str;
     }
 }
@@ -704,9 +704,9 @@ function splot(exs) {
         try {
             let outeval = exc.evaluate(mg);
             let type = typeof outeval;
-            if (type != "function") {
+            if (type !== "function") {
                 omes += outeval + "\n";
-                if (exs[i][0] != '>' && type != "string") {
+                if (exs[i][0] !== '>' && type !== "string") {
                     col = color[ci++ % color.length];
                     plot(exs[i], exc, outeval, type, scale);
                 }
@@ -722,7 +722,7 @@ function splot(exs) {
 }
 
 function showLaTeX(str) {
-    if (img.alt != str) {
+    if (img.alt !== str) {
         img.alt = str;
         let s = str.replace(/\\;\\;/g, "\\\\");
         img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(s);
@@ -730,16 +730,16 @@ function showLaTeX(str) {
 }
 
 function changefm(str) {
-    if (str != fpsm.innerText) {
+    if (str !== fpsm.innerText) {
         fpsm.innerText = str;
     }
 }
 
 function refresh(isD = false) {
     time = new Date().getTime();
-    if (ined.value.search(/(\b|\d)time\b/g) != -1 || ined.value.search(/(\b|\d)frame\b/g) !=
+    if (ined.value.search(/(\b|\d)time\b/g) !== -1 || ined.value.search(/(\b|\d)frame\b/g) !=
         -1 || isD || excs.length === 0) {
-        if (ined.value.length != 0) {
+        if (ined.value.length !== 0) {
             reCanvas();
             let exs = ined.value.split('\n');
             changeOm(splot(exs));
@@ -792,7 +792,7 @@ function inChange2() {
         ined2.style.border = "dashed red";
     }
     window.clearInterval(interval);
-    if (fps != 0) {
+    if (fps !== 0) {
         interval = window.setInterval(refresh, 1000 / fps);
     } else {
         fpsm.innerText = "0 fps";
