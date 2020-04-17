@@ -764,9 +764,13 @@ function reLaTeX() {
     }
 }
 
+function refreshEd(o) {
+    o.style.height = o.scrollHeight - 4 + "px";
+}
+
 function inChange() {
     ined.style.height = 0;
-    ined.style.height = ined.scrollHeight - 2 + "px";
+    ined.style.height = ined.scrollHeight - 4 + "px";
     reData();
     refresh(true);
     if (ined.value.length === 0) {
@@ -783,7 +787,7 @@ function inChange() {
 
 function inChange2() {
     ined2.style.height = 0;
-    ined2.style.height = ined2.scrollHeight - 2 + "px";
+    ined2.style.height = ined2.scrollHeight - 4 + "px";
     try {
         eval(ined2.value);
         excs = [];

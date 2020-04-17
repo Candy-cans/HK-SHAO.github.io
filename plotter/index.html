@@ -4,7 +4,7 @@
 <head>
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
         name="viewport">
-    <title>Plotter v1.871</title>
+    <title>Plotter v1.872</title>
     <style type="text/css">
         @font-face {
             font-family: MathFont;
@@ -117,7 +117,8 @@
         <div class="right">
             <div style="width: 100%;">
                 <details open>
-                    <summary style="font-size:24px;font-weight:bold;margin-top: 20px;">脚本</summary>
+                    <summary style="font-size:24px;font-weight:bold;margin-top: 20px;" onclick="refreshEd(ined2);">脚本
+                    </summary>
                     <br>
                     <textarea id="ed2" oninput="inChange2()">
 fps /*帧率*/= 60;
@@ -129,7 +130,7 @@ ls /*线粗细*/= 1;
 def /*定义*/= {love: 520, you: 1314/520};</textarea>
                 </details>
                 <details open>
-                    <summary style="font-size:24px;font-weight:bold;">表达式</summary>
+                    <summary style="font-size:24px;font-weight:bold;" onclick="refreshEd(ined);">表达式</summary>
                     <br>
                     <textarea id="ed" oninput="inChange()">
 sin(10x+time/100)/10</textarea>
