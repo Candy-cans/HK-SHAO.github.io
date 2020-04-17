@@ -724,7 +724,7 @@ function splot(exs) {
 function showLaTeX(str) {
     if (img.alt !== str) {
         img.alt = str;
-        let s = str.replace(/\\;\\;/g, "\\\\");
+        let s = str.replace(/\\;\\;/g, "\\\\").replace(/\\cdot/g, '\\times');
         img.src = "https://www.zhihu.com/equation?tex=" + encodeURIComponent(s);
     }
 }
@@ -771,6 +771,7 @@ function refreshEd(o) {
 function inChange() {
     ined.style.height = 0;
     ined.style.height = ined.scrollHeight - 4 + "px";
+    ined.value = ined.value.replace(/³/g, "^3").replace(/²/g, "^2").replace(/×/g, "*");
     reData();
     refresh(true);
     if (ined.value.length === 0) {
