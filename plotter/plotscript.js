@@ -96,8 +96,7 @@ function Mandelbrot(x, y, n = 100) {
     for (let i = 0; i < n; i++) {
         z = cadd(csqr(z), c);
         if (Math.abs(z[0]) > 1 && Math.abs(z[1]) > 1) {
-            z = [NaN, NaN];
-            break;
+            return math.matrix([NaN, NaN, NaN]);
         }
     }
     return math.matrix([z[0], z[1], Math.sqrt(z[0] * z[0] + z[1] * z[1])]);
@@ -109,8 +108,7 @@ function Julia(x, y, a, b, n = 100) {
     for (let i = 0; i < n; i++) {
         z = cadd(csqr(z), c);
         if (Math.abs(z[0]) > 1 && Math.abs(z[1]) > 1) {
-            z = [NaN, NaN];
-            break;
+            return math.matrix([NaN, NaN, NaN]);
         }
     }
     return math.matrix([z[0], z[1], Math.sqrt(z[0] * z[0] + z[1] * z[1])]);
