@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hk-shao.github.io/"/>
-  <updated>2020-04-18T11:27:01.962Z</updated>
+  <updated>2020-04-18T11:37:28.163Z</updated>
   <id>https://hk-shao.github.io/</id>
   
   <author>
@@ -21,13 +21,14 @@
     <link href="https://hk-shao.github.io/post/d276a83c.html"/>
     <id>https://hk-shao.github.io/post/d276a83c.html</id>
     <published>2020-04-18T11:21:07.000Z</published>
-    <updated>2020-04-18T11:27:01.962Z</updated>
+    <updated>2020-04-18T11:37:28.163Z</updated>
     
-    <content type="html"><![CDATA[<p>这是一个很有特点的绘图计算器，使用math.js和html的canvas</p><a id="more"></a><head><meta http-equiv="refresh" content="0;url=https://hk-shao.github.io/plotter/"><meta name="generator" content="Hexo 4.2.0"></head>]]></content>
+    <content type="html"><![CDATA[<p>这是一个很有特点的绘图计算器，使用math.js和html的canvas</p><img src="/images/blog/53.png" style="zoom: 40%;" /><a id="more"></a><head><meta http-equiv="refresh" content="0;url=https://hk-shao.github.io/plotter/"><meta name="generator" content="Hexo 4.2.0"></head>]]></content>
     
     <summary type="html">
     
       &lt;p&gt;这是一个很有特点的绘图计算器，使用math.js和html的canvas&lt;/p&gt;
+&lt;img src=&quot;/images/blog/53.png&quot; style=&quot;zoom: 40%;&quot; /&gt;
     
     </summary>
     
