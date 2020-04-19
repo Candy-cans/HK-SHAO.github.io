@@ -29,7 +29,7 @@ function cadd(z1, z2) {
     return [z1[0] + z2[0], z1[1] + z2[1]];
 }
 
-function Julia(x, y, a = -0.056, b = 0.68, n = 40) {
+function Julia(x, y, a = -0.056, b = 0.68, n = 400) {
     let z = [x, y];
     let c = [a, b];
     for (let i = 0; i < n; i++) {
@@ -61,7 +61,7 @@ window.onload = function () {
     ctx2.arc(400, 740, 60, 0, Math.PI);
     ctx2.stroke();
 
-    let jd = size / 1000;
+    let jd = size / 2000;
     for (let i = 0; i < size; i += jd) {
         for (let j = 0; j < size; j += jd) {
             x = 2 * (2 * i - size) / size;
