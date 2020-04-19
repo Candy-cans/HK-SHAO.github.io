@@ -2,7 +2,7 @@ function exportCanvas() {
     let MIME_TYPE = "image/png";
     let imgURL = canv.toDataURL(MIME_TYPE);
     let a = document.createElement('a');
-    a.download = "Plotter_Image";
+    a.download = "Plotter_Image.png";
     a.href = imgURL;
     a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
     a.style.display = 'none';
@@ -24,7 +24,7 @@ function createRecord() {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(new Blob(chunks, { 'type': 'video/webm' }));
         chunks = [];
-        a.download = 'Plotter_Record';
+        a.download = 'Plotter_Record.webm';
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
