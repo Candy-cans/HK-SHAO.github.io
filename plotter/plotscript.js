@@ -23,7 +23,7 @@ function createRecord() {
     }
     mediaRecord.onstop = function () {
         download("Plotter_Record.webm", window.URL.createObjectURL(new Blob(chunks, { 'type': 'video/webm' })));
-        chunks = [];
+        delete chunks;
     }
 }
 
